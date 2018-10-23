@@ -1,0 +1,8 @@
+LIBRARY "awpflowtracker"
+EXPORTS
+	awpflowCreate		@1
+	awpflowTrack		@2
+	awpflowRelease		@3
+	awpmflowCreate		@4
+	awpmflowTrack		@5
+	awpmflowRelease		@6

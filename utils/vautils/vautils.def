@@ -1,0 +1,29 @@
+LIBRARY VAUTILS
+
+EXPORTS
+
+SaveInitParams @1
+LoadInitParams @2
+FreeParams	@3
+Camera_to_aw @4
+Camera_to_ah @5
+Camera_to_d0 @6
+Y_to_d @7
+d_to_Y @8
+XY_to_x @9
+XY_to_xh @10
+XY_to_d @11
+Yh1_to_d @12
+WH_to_w @13
+WH_to_h @14
+WHh1_to_w @15
+Scene_To_ImagePoint @17
+Image_To_ScenePoint @18
+IsPointInZone @19
+ApplyZonesToImage @20
+AddZone @21
+DeleteZone @22
+MakeMaskImage @23
+CopyParams @24
+
+

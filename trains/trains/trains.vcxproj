@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5C337302-8D1D-4F40-A973-F27FED93ABDB}</ProjectGuid>
+    <RootNamespace>trains</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml);$(Tess)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;TRAINS_EXPORTS;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>..\..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Tess)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml);$(Tess)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;TRAINS_EXPORTS;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)d$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Tess)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml);$(Tess)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;TRAINS_EXPORTS;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;D_SCL_SECURE_NO_WARNINGS;NDEBUG;</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>..\..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Tess)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml);$(Tess)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;TRAINS_EXPORTS;LOAD_FROM_STREAM;_CRT_SECURE_NO_WARNINGS;D_SCL_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Tess)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\common\awpFlowTracker\algorithm.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\alloc.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\arithm.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\array.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\awpFlowTracker.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\BB.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\BBPredict.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\color.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\convert.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\copy.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\datastructs.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\drawing.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\dxt.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\FBTrack.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\filter.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\geometry.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\gl_core_3_1.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\gpumat.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\imgwarp.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\lapack.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\Lk.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\lkpyramid.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\mathfuncs.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\matmul.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\matop.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\matrix.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\Median.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\MedianFlowTracker.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\opengl_interop.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\opengl_interop_deprecated.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\parallel.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\persistence.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\pyramids.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\rand.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\samplers.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\shapedescr.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\stat.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\sumpixels.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\system.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\tables.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\templmatch.cpp" />
+    <ClCompile Include="..\..\common\awpFlowTracker\utils.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="LFTrainsModule.cpp" />
+    <ClCompile Include="target.cpp" />
+    <ClCompile Include="trains.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\trains.h" />
+    <ClInclude Include="LFTrainsModule.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="trains.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="trains.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
+      <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
+      <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
+      <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\utils\vautils\vautils.vcxproj">
+      <Project>{f2e95c39-34dd-4dd5-b383-62386b97452d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

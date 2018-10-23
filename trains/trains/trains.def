@@ -1,0 +1,14 @@
+LIBRARY TRAINS
+
+EXPORTS
+	trainsInit		@1
+	trainsProcess	@2
+	trainsClose		@3
+	trainsTargetInit 	 @4
+	trainsTargetCreate   @5
+	trainsTargetProcess  @6
+	trainsTargetClose    @7
+	trainsTargetHasModel	@8
+	trainsTargetClearModel @9
+
+

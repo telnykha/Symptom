@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.808,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\groupedItems.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.597,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\groupedItems.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.894,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\itemDetail.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.777,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\AppletModule1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.579,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.434,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.708,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\splitItemDetail.cpp</Transaction>
+    <Transaction>2018.10.23 16:15:21.846,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>2018.10.23 16:15:25.324,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.cpp</Transaction>
+    <Transaction>2018.10.23 16:15:50.673,C:\_alt\_proj\va_project\demo\track\mainUnit.cpp=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.cpp</Transaction>
+    <Transaction>2018.10.23 16:15:50.673,C:\_alt\_proj\va_project\demo\track\mainUnit.dfm=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.dfm</Transaction>
+    <Transaction>2018.10.23 16:15:50.673,C:\_alt\_proj\va_project\demo\track\mainUnit.h=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.h</Transaction>
+    <Transaction>2018.10.23 16:15:57.381,C:\_alt\_proj\va_project\demo\track\trackPCH1.h=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>2018.10.23 16:16:09.522,C:\_alt\_proj\va_project\demo\track\demo.track.cbproj=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7.cbproj</Transaction>
+    <Transaction>2018.10.23 16:28:26.956,=C:\_alt\_proj\photon\photon41\apps\common\PhMediaSource.cpp</Transaction>
+    <Transaction>2018.10.23 16:28:26.962,=C:\_alt\_proj\photon\photon41\apps\common\PhVideo.cpp</Transaction>
+    <Transaction>2018.10.23 16:28:26.970,=C:\_alt\_proj\photon\photon41\apps\common\PhVideoThread.cpp</Transaction>
+    <Transaction>2018.10.23 16:28:26.976,=C:\_alt\_proj\photon\photon41\apps\common\VerInfoUnit.cpp</Transaction>
+    <Transaction>2018.10.23 17:09:31.360,=C:\_alt\_proj\va_project\demo\track\Unit1.cpp</Transaction>
+    <Transaction>2018.10.23 17:09:51.878,C:\_alt\_proj\va_project\demo\track\trackerUtils.h=C:\_alt\_proj\va_project\demo\track\Unit1.h</Transaction>
+    <Transaction>2018.10.23 17:09:51.878,C:\_alt\_proj\va_project\demo\track\trackerUtils.cpp=C:\_alt\_proj\va_project\demo\track\Unit1.cpp</Transaction>
+  </Transactions>
+</BorlandProject>
