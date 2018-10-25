@@ -19,8 +19,6 @@ TLFTrackEngine::TLFTrackEngine(TVAInitParams& params)
 {
 	TLFMotionDetector* d = new TLFMotionDetector();
 
-
-
 	m_minWidth = params.minWidth;
 	m_maxWidth = params.maxWidth;
 	m_minHeight = params.minHeight;

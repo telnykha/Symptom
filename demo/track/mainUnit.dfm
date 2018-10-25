@@ -39,9 +39,6 @@ object mainForm: TmainForm
         Text = #1048#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077':'
         Width = 150
       end>
-    ExplicitLeft = 8
-    ExplicitTop = 446
-    ExplicitWidth = 759
   end
   object Panel1: TPanel
     Left = 0
@@ -51,9 +48,6 @@ object mainForm: TmainForm
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitLeft = -167
-    ExplicitTop = 372
-    ExplicitWidth = 764
     object SpeedButton2: TSpeedButton
       Left = 1
       Top = 1
@@ -87,9 +81,8 @@ object mainForm: TmainForm
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
-      ExplicitLeft = 2
-      ExplicitTop = 3
-      ExplicitHeight = 48
+      ExplicitLeft = 0
+      ExplicitTop = -4
     end
     object SpeedButton3: TSpeedButton
       Left = 65
@@ -268,9 +261,6 @@ object mainForm: TmainForm
     Align = alClient
     ParentColor = False
     OnFrameData = FImage1FrameData
-    ExplicitLeft = -5
-    ExplicitWidth = 764
-    ExplicitHeight = 265
   end
   object PhTrackBar1: TPhTrackBar
     Left = 0
@@ -286,9 +276,6 @@ object mainForm: TmainForm
     OnChange = PhTrackBar1Change
     OnKeyUp = PhTrackBar1KeyUp
     OnMouseUp = PhTrackBar1MouseUp
-    ExplicitLeft = 8
-    ExplicitTop = 286
-    ExplicitWidth = 702
   end
   object ActionList1: TActionList
     Left = 56
@@ -296,6 +283,7 @@ object mainForm: TmainForm
     object CloseAction: TAction
       Category = 'Files'
       Caption = #1042#1099#1093#1086#1076
+      OnExecute = CloseActionExecute
     end
     object ModePaneAction: TAction
       Caption = #1056#1077#1078#1080#1084' '#1087#1088#1086#1089#1084#1086#1090#1088#1072
@@ -320,35 +308,34 @@ object mainForm: TmainForm
       Caption = #1054#1090#1082#1088#1099#1090#1100' '#1074#1080#1076#1077#1086#1092#1072#1081#1083'...'
       OnExecute = OpenVideoActionExecute
     end
-    object SaveImageAction: TAction
-      Category = 'Files'
-      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077'...'
-      Visible = False
-    end
     object CloseVideoAction: TAction
       Category = 'Files'
       Caption = #1047#1072#1082#1088#1099#1090#1100' '#1074#1080#1076#1077#1086#1080#1089#1090#1086#1095#1085#1080#1082
+      OnExecute = CloseVideoActionExecute
     end
     object PlayAction: TAction
       Category = 'Video'
       Caption = #1042#1086#1089#1087#1088#1086#1080#1079#1074#1077#1089#1090#1080
       OnExecute = PlayActionExecute
+      OnUpdate = PlayActionUpdate
     end
     object PrevFrameAction: TAction
       Category = 'Video'
       Caption = #1087#1088#1077#1076#1099#1076#1091#1097'.'
+      OnExecute = PrevFrameActionExecute
+      OnUpdate = PrevFrameActionUpdate
     end
     object NextFrameAction: TAction
       Category = 'Video'
       Caption = #1089#1083#1077#1076#1091#1102#1097'.'
+      OnExecute = NextFrameActionExecute
+      OnUpdate = NextFrameActionUpdate
     end
     object LastFrameAction: TAction
       Category = 'Video'
       Caption = #1074' '#1082#1086#1085#1077#1094
-    end
-    object OptionsAction: TAction
-      Category = 'Tools'
-      Caption = #1055#1077#1088#1077#1093#1086#1076' '#1085#1072' '#1082#1072#1076#1088'...'
+      OnExecute = LastFrameActionExecute
+      OnUpdate = LastFrameActionUpdate
     end
     object logOpenAction: TAction
       Caption = 'logOpenAction'
@@ -373,17 +360,23 @@ object mainForm: TmainForm
     object GotoFrameAction: TAction
       Category = 'Video'
       Caption = #1055#1077#1088#1077#1081#1090#1080' '#1085#1072' '#1082#1072#1076#1088'...'
+      OnExecute = GotoFrameActionExecute
+      OnUpdate = GotoFrameActionUpdate
     end
     object modeAnalysisAction: TAction
       Category = 'Mode'
       Caption = #1053#1072#1073#1083#1102#1076#1077#1085#1080#1077
       GroupIndex = 4
+      OnExecute = modeAnalysisActionExecute
+      OnUpdate = modeAnalysisActionUpdate
     end
     object modeTuningAction: TAction
       Category = 'Mode'
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
       Checked = True
       GroupIndex = 4
+      OnExecute = modeTuningActionExecute
+      OnUpdate = modeTuningActionUpdate
     end
     object viewZonesAction: TAction
       Category = 'View'
@@ -397,7 +390,10 @@ object mainForm: TmainForm
     end
     object FirstFrameAction: TAction
       Category = 'Video'
+      AutoCheck = True
       Caption = #1042' '#1085#1072#1095#1072#1083#1086
+      OnExecute = FirstFrameActionExecute
+      OnUpdate = FirstFrameActionUpdate
     end
   end
   object PhPaneTool1: TPhPaneTool
@@ -443,7 +439,8 @@ object mainForm: TmainForm
         Caption = '-'
       end
       object N20: TMenuItem
-        Action = SaveImageAction
+        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077'...'
+        Visible = False
       end
       object N13: TMenuItem
         Caption = '-'
@@ -464,6 +461,8 @@ object mainForm: TmainForm
     object N25: TMenuItem
       Caption = #1042#1080#1076#1077#1086
       object FirstFrameAction1: TMenuItem
+        Action = FirstFrameAction
+        AutoCheck = True
       end
       object N26: TMenuItem
         Action = PrevFrameAction

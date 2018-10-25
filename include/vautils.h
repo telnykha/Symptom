@@ -16,12 +16,12 @@ typedef void* HANDLE;
 /*
 	сохранение и чтение структуры TVAParams
 */
-VAUTILS_API bool SaveInitParams(const char* lpFileName, TVAInitParams* params);
-VAUTILS_API bool LoadInitParams(const char* lpFileName, TVAInitParams** params);
-VAUTILS_API bool AddZone(TVAInitParams* params, TVAZone* zone);
-VAUTILS_API bool DeleteZone(TVAInitParams* params, int idx);
-VAUTILS_API void FreeParams(TVAInitParams** params);
-VAUTILS_API bool CopyParams(TVAInitParams* src, TVAInitParams** dst);
+extern "C" VAUTILS_API bool SaveInitParams(const char* lpFileName, TVAInitParams* params);
+extern "C" VAUTILS_API bool LoadInitParams(const char* lpFileName, TVAInitParams** params);
+extern "C" VAUTILS_API bool AddZone(TVAInitParams* params, TVAZone* zone);
+extern "C" VAUTILS_API bool DeleteZone(TVAInitParams* params, int idx);
+extern "C" VAUTILS_API void FreeParams(TVAInitParams** params);
+extern "C" VAUTILS_API bool CopyParams(TVAInitParams* src, TVAInitParams** dst);
 
 
 /*===============================================================================

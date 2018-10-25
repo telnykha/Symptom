@@ -102,7 +102,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>..\..\..\bin\x64\$(TargetName)d$(TargetExt)</OutputFile>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(Tess)</AdditionalLibraryDirectories>
     </Link>

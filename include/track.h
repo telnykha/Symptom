@@ -20,12 +20,12 @@ extern "C"
 
 
 // экспортируемые функции
-TRACK_API HANDLE		trackCreate(TVAInitParams* params);
-TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result);
-TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data);
-TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories* trajectories);
-TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPoint& p2,  TVATrajectory* t, bool* result, int* dir);
-TRACK_API HRESULT		trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result);
-TRACK_API HRESULT		trackRelease(HANDLE* hModule);
+extern "C" TRACK_API HANDLE			trackCreate(TVAInitParams* params);
+extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result);
+extern "C" TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data);
+extern "C" TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories* trajectories);
+extern "C" TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPoint& p2, TVATrajectory* t, bool* result, int* dir);
+extern "C" TRACK_API HRESULT		trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result);
+extern "C" TRACK_API HRESULT		trackRelease(HANDLE* hModule);
 
 #endif // _track_h_

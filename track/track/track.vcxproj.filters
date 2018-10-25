@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\track.h">
+    <ClInclude Include="LFTrack.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="LFTrack.h">
+    <ClInclude Include="..\..\include\track.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

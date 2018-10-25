@@ -108,7 +108,7 @@ typedef struct
 	double dMaxLenght;
 }TVACamera;
 /*
-Структура инициализации модулей. 
+	Структура инициализации модулей. 
 */
 typedef struct
 {

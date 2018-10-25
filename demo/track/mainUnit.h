@@ -18,6 +18,7 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.Menus.hpp>
+#include "trackerUtils.h"
 //---------------------------------------------------------------------------
 class TPhMediaSource;
 class TmainForm : public TForm
@@ -31,13 +32,11 @@ __published:	// IDE-managed Components
 	TAction *BestFitAction;
 	TAction *AboutAction;
 	TAction *OpenVideoAction;
-	TAction *SaveImageAction;
 	TAction *CloseVideoAction;
 	TAction *PlayAction;
 	TAction *PrevFrameAction;
 	TAction *NextFrameAction;
 	TAction *LastFrameAction;
-	TAction *OptionsAction;
 	TAction *logOpenAction;
 	TAction *logSaveAction;
 	TAction *logClearAction;
@@ -98,18 +97,48 @@ __published:	// IDE-managed Components
           int X, int Y);
 	void __fastcall PhTrackBar1KeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall FImage1FrameData(TObject *Sender, int w, int h, int c, BYTE *data);
+	void __fastcall CloseActionExecute(TObject *Sender);
+	void __fastcall CloseVideoActionExecute(TObject *Sender);
+	void __fastcall modeAnalysisActionExecute(TObject *Sender);
+	void __fastcall modeAnalysisActionUpdate(TObject *Sender);
+	void __fastcall modeTuningActionExecute(TObject *Sender);
+	void __fastcall modeTuningActionUpdate(TObject *Sender);
+	void __fastcall PlayActionUpdate(TObject *Sender);
+	void __fastcall FirstFrameActionExecute(TObject *Sender);
+	void __fastcall FirstFrameActionUpdate(TObject *Sender);
+	void __fastcall PrevFrameActionExecute(TObject *Sender);
+	void __fastcall PrevFrameActionUpdate(TObject *Sender);
+	void __fastcall NextFrameActionExecute(TObject *Sender);
+	void __fastcall NextFrameActionUpdate(TObject *Sender);
+	void __fastcall LastFrameActionExecute(TObject *Sender);
+	void __fastcall LastFrameActionUpdate(TObject *Sender);
+	void __fastcall GotoFrameActionExecute(TObject *Sender);
+	void __fastcall GotoFrameActionUpdate(TObject *Sender);
 
 
 private:	// User declarations
 
     TPhMediaSource* m_videoSource;
     TAction*        m_modeAction;
+    TTrackAnalysisEngine m_engine;
+
+    awpImage* m_fg;
 
     void __fastcall SetSource(TPhMediaSource* source);
 	void __fastcall SetMode(TAction* action);
-    bool __fastcall InitParams();
+
+    awpImage* __fastcall GetFg();
+    void __fastcall SetFg(awpImage* fg);
+
+    TTrackAnalysisEngine* __fastcall GetEngine();
+
+    void __fastcall RenderFG(awpImage* img);
 public:		// User declarations
 	__fastcall TmainForm(TComponent* Owner);
+
+    __property TTrackAnalysisEngine* engine = {read = GetEngine};
+    __property TAction* Mode = {read = m_modeAction};
+    __property awpImage* Foregroung = {read = GetFg, write = SetFg};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TmainForm *mainForm;

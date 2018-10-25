@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>demo.track.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -45,7 +45,7 @@
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
+        <FinalOutputDir>..\..\..\bin\</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -66,10 +66,15 @@
         <ILINK_LibraryPath>..\..\..\photon\photon41\apps\common\;$(BDS)\lib\Win32\debug\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDSLIB)\$(PLATFORM)\debug;..\common\;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Defines>WIN32;$(Defines)</Defines>
         <Custom_Styles>Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf</Custom_Styles>
+        <PreBuildEvent><![CDATA[implib -a track.lib ..\..\..\bin\win32\track.dll
+implib -a vautils.lib ..\..\..\bin\win32\vautils.dll
+$(PreBuildEvent)]]></PreBuildEvent>
+        <PostBuildEvent><![CDATA[copy  ..\..\..\bin\win32\track.dll  ..\..\..\bin\track.dll
+copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>appanalytics;bcbsmp;bindcomp;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbrtl;dsnap;fmx;fmxase;fmxdae;fmxobj;FMXTee925;FMXTeeDB925;FMXTeeImport925;FMXTeeLanguage925;FMXTeePro925;FmxTeeUI925;FMXTree25;IndyCore;IndyProtocols;IndySystem;photon;photon41;rtl;svn;Tee925;TeeDB925;TeeGL925;TeeImage925;TeeImport925;TeeLanguage925;TeeMaker125;TeePro925;TeeTree2D25Tee9;TeeUI925;TeeWorld925;tethering;user;vcl;vclactnband;vcldb;vcldsnap;vclie;vclimg;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
-        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -96,7 +101,6 @@
         <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
         <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
@@ -106,6 +110,12 @@
         <FinalOutputDir>..\..\..\bin\</FinalOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <PostBuildEvent><![CDATA[copy  ..\..\..\bin\win32\track.dll ..\..\..\bin\track.dll
+copy  ..\..\..\bin\win32\vautils.dll ..\..\..\bin\vautils.dll
+$(PostBuildEvent)]]></PostBuildEvent>
+        <PreBuildEvent><![CDATA[implib -a track.lib ..\..\..\bin\win32\trains.dll
+implib -a vautils.lib ..\..\..\bin\win32\vautils.dll
+$(PreBuildEvent)]]></PreBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -115,6 +125,9 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <BCC_PCHName_Clang>trackPCH1.h</BCC_PCHName_Clang>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;photon41.bpi</LinkPackageImports>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\..\..\photon\photon41\apps\common\PhMediaSource.cpp">
@@ -150,6 +163,10 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="trackProcess.cpp">
+            <DependentOn>trackProcess.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
         <FormResources Include="mainUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -186,4 +203,20 @@
     </ProjectExtensions>
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent>implib -a track.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll&amp;&amp;implib -a track.lib ..\..\..\bin\win32\track.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy  ..\..\..\bin\win32\track.dll ..\..\..\bin\track.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll ..\..\..\bin\vautils.dll&amp;&amp;copy  ..\..\..\bin\win32\track.dll  ..\..\..\bin\track.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
+        <PreBuildEvent>implib -a track.lib ..\..\..\bin\win32\track.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy  ..\..\..\bin\win32\track.dll  ..\..\..\bin\track.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

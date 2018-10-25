@@ -16,7 +16,8 @@ typedef struct
 
 
 // экспортируемые функции
-TRACK_API HANDLE		trackCreate(TVAInitParams* params)
+
+extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 {
 	
 	if (params == NULL)
@@ -41,7 +42,7 @@ TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	s->SetThreshold(params->EventSens);
 	return (HANDLE)track;
 }
-TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result)
+extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
@@ -104,7 +105,7 @@ TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, 
 	return S_OK;
 }
 
-TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data)
+extern "C" TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
@@ -126,7 +127,7 @@ TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsign
 
 }
 
-TRACK_API HRESULT		trackRelease(HANDLE* hModule)
+extern "C" TRACK_API HRESULT		trackRelease(HANDLE* hModule)
 {
 	TheTrack* p = (TheTrack*)(*hModule);
 	if (p->size != sizeof(TheTrack))
@@ -139,7 +140,7 @@ TRACK_API HRESULT		trackRelease(HANDLE* hModule)
 	return S_OK;
 }
 
-TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories* trajectories)
+extern "C" TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories* trajectories)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
@@ -252,7 +253,7 @@ static double awp2DSegmentsAngle(awp2DLineSegment s1, awp2DLineSegment s2)
 	return res;
 }
 
-TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPoint& p2, TVATrajectory* t, bool* result, int* dir)
+extern "C" TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPoint& p2, TVATrajectory* t, bool* result, int* dir)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
@@ -305,7 +306,7 @@ TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPoint& p2, TV
 	return S_OK;
 }
 
-TRACK_API HRESULT		trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result)
+extern "C" TRACK_API HRESULT		trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))

@@ -6,7 +6,7 @@
 #include "awpipl.h"
 #include "vautils.h"
 
-VAUTILS_API bool SaveInitParams(const char* lpFileName, TVAInitParams* params)
+extern "C" VAUTILS_API bool SaveInitParams(const char* lpFileName, TVAInitParams* params)
 {
 	if (lpFileName == NULL || params == NULL)
 		return false;
@@ -75,7 +75,7 @@ VAUTILS_API bool SaveInitParams(const char* lpFileName, TVAInitParams* params)
 	return doc.SaveFile(lpFileName);
 }
 
-VAUTILS_API bool LoadInitParams(const char* lpFileName, TVAInitParams** p)
+extern "C" VAUTILS_API bool LoadInitParams(const char* lpFileName, TVAInitParams** p)
 {
 	if (lpFileName == NULL || p == NULL)
 		return false;
@@ -226,7 +226,7 @@ static bool IsRectInImage(TVASize* size, TVARect* rect)
 	return false;
 }
 
-VAUTILS_API void FreeParams(TVAInitParams** p)
+extern "C" VAUTILS_API void FreeParams(TVAInitParams** p)
 {
 	if (p == NULL)
 		return;
@@ -249,7 +249,7 @@ VAUTILS_API void FreeParams(TVAInitParams** p)
 }
 
 
-VAUTILS_API bool AddZone(TVAInitParams* params, TVAZone* zone)
+extern "C" VAUTILS_API bool AddZone(TVAInitParams* params, TVAZone* zone)
 {
 	if (params == NULL || zone == NULL)
 		return false;
@@ -271,7 +271,7 @@ VAUTILS_API bool AddZone(TVAInitParams* params, TVAZone* zone)
 	}
 	return true;
 }
-VAUTILS_API bool DeleteZone(TVAInitParams* params, int idx)
+extern "C" VAUTILS_API bool DeleteZone(TVAInitParams* params, int idx)
 {
 	if (params == NULL)
 		return false;
@@ -295,7 +295,7 @@ VAUTILS_API bool DeleteZone(TVAInitParams* params, int idx)
 	return true;
 }
 
-VAUTILS_API bool CopyParams(TVAInitParams* src, TVAInitParams** dst)
+extern "C" VAUTILS_API bool CopyParams(TVAInitParams* src, TVAInitParams** dst)
 {
 	
 	if (src == NULL || dst == NULL)
