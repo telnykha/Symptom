@@ -247,7 +247,32 @@ object mainForm: TmainForm
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
-      ExplicitLeft = 254
+      ExplicitLeft = 199
+      ExplicitTop = 49
+    end
+    object GroupBox1: TGroupBox
+      Left = 321
+      Top = 1
+      Width = 185
+      Height = 73
+      Align = alLeft
+      TabOrder = 0
+      ExplicitLeft = 432
+      ExplicitTop = 32
+      ExplicitHeight = 105
+      object Label1: TLabel
+        Left = 6
+        Top = 32
+        Width = 66
+        Height = 39
+        Caption = 'XXX'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGray
+        Font.Height = -32
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
     end
   end
   object FImage1: TPhImage
@@ -387,6 +412,7 @@ object mainForm: TmainForm
       Category = 'View'
       Caption = #1042#1099#1074#1086#1076' '#1076#1077#1090#1077#1082#1090#1086#1088#1072
       Checked = True
+      OnExecute = viewDetectRectActionExecute
     end
     object FirstFrameAction: TAction
       Category = 'Video'
@@ -394,6 +420,18 @@ object mainForm: TmainForm
       Caption = #1042' '#1085#1072#1095#1072#1083#1086
       OnExecute = FirstFrameActionExecute
       OnUpdate = FirstFrameActionUpdate
+    end
+    object viewForegroundAction: TAction
+      Category = 'View'
+      Caption = #1055#1077#1088#1077#1076#1085#1080#1081' '#1087#1083#1072#1085
+      Checked = True
+      OnExecute = viewForegroundActionExecute
+    end
+    object viewTrajectoriesAction: TAction
+      Category = 'View'
+      Caption = #1058#1088#1072#1077#1082#1090#1086#1088#1080#1080
+      Checked = True
+      OnExecute = viewTrajectoriesActionExecute
     end
   end
   object PhPaneTool1: TPhPaneTool
@@ -456,6 +494,12 @@ object mainForm: TmainForm
       end
       object N38: TMenuItem
         Action = viewDetectRectAction
+      end
+      object N1: TMenuItem
+        Action = viewForegroundAction
+      end
+      object N2: TMenuItem
+        Action = viewTrajectoriesAction
       end
     end
     object N25: TMenuItem

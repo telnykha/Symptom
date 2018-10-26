@@ -45,6 +45,7 @@ public:
 public:
     void __fastcall UpdateStatus();
     __property TVAInitParams* params = {read = GetParams};
+    __property TMutex* mtx = {read = mutex};
 };
 
 #endif

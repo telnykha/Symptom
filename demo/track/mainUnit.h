@@ -90,6 +90,12 @@ __published:	// IDE-managed Components
 	TMenuItem *N16;
 	TOpenDialog *OpenDialog1;
 	TAction *FirstFrameAction;
+	TAction *viewForegroundAction;
+	TMenuItem *N1;
+	TAction *viewTrajectoriesAction;
+	TMenuItem *N2;
+	TGroupBox *GroupBox1;
+	TLabel *Label1;
 	void __fastcall OpenVideoActionExecute(TObject *Sender);
 	void __fastcall PlayActionExecute(TObject *Sender);
 	void __fastcall PhTrackBar1Change(TObject *Sender);
@@ -114,6 +120,9 @@ __published:	// IDE-managed Components
 	void __fastcall LastFrameActionUpdate(TObject *Sender);
 	void __fastcall GotoFrameActionExecute(TObject *Sender);
 	void __fastcall GotoFrameActionUpdate(TObject *Sender);
+	void __fastcall viewForegroundActionExecute(TObject *Sender);
+	void __fastcall viewDetectRectActionExecute(TObject *Sender);
+	void __fastcall viewTrajectoriesActionExecute(TObject *Sender);
 
 
 private:	// User declarations
@@ -122,7 +131,11 @@ private:	// User declarations
     TAction*        m_modeAction;
     TTrackAnalysisEngine m_engine;
 
+    // output
     awpImage* m_fg;
+    TVAResult m_result;
+    TVATrajectories m_trj;
+
 
     void __fastcall SetSource(TPhMediaSource* source);
 	void __fastcall SetMode(TAction* action);
@@ -131,10 +144,16 @@ private:	// User declarations
     void __fastcall SetFg(awpImage* fg);
 
     TTrackAnalysisEngine* __fastcall GetEngine();
-
+    // render
     void __fastcall RenderFG(awpImage* img);
+    void __fastcall RenderResult(awpImage* img);
+    void __fastcall RenderTrajectories(awpImage* img);
 public:		// User declarations
 	__fastcall TmainForm(TComponent* Owner);
+
+    void __fastcall SetResult(TVAResult& result);
+    void __fastcall SetTrajectories(TVATrajectories* t);
+    void __fastcall UpdateResult();
 
     __property TTrackAnalysisEngine* engine = {read = GetEngine};
     __property TAction* Mode = {read = m_modeAction};

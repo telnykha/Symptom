@@ -89,7 +89,8 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 			{
 				std::map<string, vector<TVABlob>>::iterator it = p->Trajectories.begin();
 				it = p->Trajectories.find(str_uuid);
-				it->second.push_back(b);
+				if (it != p->Trajectories.end())
+					it->second.push_back(b);
 			}
 			else if (result->blobs[i].status == 3)
 			{

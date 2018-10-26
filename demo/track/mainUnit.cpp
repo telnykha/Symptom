@@ -38,6 +38,8 @@ if (m_videoSource == NULL) \
 __fastcall TmainForm::TmainForm(TComponent* Owner)
 	: TForm(Owner)
 {
+    m_trj.Num = 0;
+    m_trj.Trajectories = NULL;
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainForm::OpenVideoActionExecute(TObject *Sender)
@@ -211,6 +213,8 @@ void __fastcall TmainForm::FImage1FrameData(TObject *Sender, int w, int h, int c
    m_engine.SetImage(&img);
 
    RenderFG(&img);
+   RenderResult(&img);
+   RenderTrajectories(&img);
 }
 //---------------------------------------------------------------------------
 
@@ -373,6 +377,8 @@ void __fastcall TmainForm::RenderFG(awpImage* img)
 {
     if (img == NULL || m_fg == NULL)
         return;
+    if (!viewForegroundAction->Checked)
+        return;
 
     AWPBYTE* _img = (AWPBYTE*)img->pPixels;
     AWPBYTE* _fg = (AWPBYTE*)m_fg->pPixels;
@@ -381,5 +387,120 @@ void __fastcall TmainForm::RenderFG(awpImage* img)
     {
         _img[3*i] = _fg[i] == 0 ? _img[3*i]:255;
     }
+}
+
+void __fastcall TmainForm::viewForegroundActionExecute(TObject *Sender)
+{
+    viewForegroundAction->Checked = !viewForegroundAction->Checked;
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainForm::SetResult(TVAResult& result)
+{
+    if (m_result.Num > 0)
+    {
+        delete m_result.blobs;
+        m_result.blobs = NULL;
+        m_result.Num = 0;
+    }
+
+    m_result.Num = result.Num;
+    if (m_result.Num > 0)
+    {
+        m_result.blobs = new TVABlob[m_result.Num];
+        memcpy(m_result.blobs, result.blobs, m_result.Num*sizeof(TVABlob));
+    }
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainForm::RenderResult(awpImage* img)
+{
+    if (img == NULL || m_result.Num == 0)
+        return;
+    if (!viewDetectRectAction->Checked)
+        return;
+    m_engine.mtx->Acquire();
+    for (int i = 0; i < m_result.Num; i++)
+    {
+        awpRect r;
+        TVABlob* b = &m_result.blobs[i];
+        r.left = b->XPos;
+        r.top  = b->YPos;
+        r.right = b->XPos + b->Width;
+        r.bottom = b->YPos + b->Height;
+
+        awpDrawRect(img, &r, 1, 255, 2);
+    }
+	m_engine.mtx->Release();
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainForm::viewDetectRectActionExecute(TObject *Sender)
+{
+   viewDetectRectAction->Checked = !viewDetectRectAction->Checked;
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainForm::SetTrajectories(TVATrajectories* t)
+{
+    if (m_trj.Num > 0)
+    {
+        for (int i = 0; i < m_trj.Num; i++)
+            delete m_trj.Trajectories[i].blobs;
+        delete m_trj.Trajectories;
+        m_trj.Num = 0;
+        m_trj.Trajectories = NULL;
+    }
+    if (t == NULL || t->Num == 0)
+        return;
+    m_trj.Num = t->Num;
+    m_trj.Trajectories = new TVATrajectory[t->Num];
+    for (int i = 0; i < t->Num; i++)
+    {
+        m_trj.Trajectories[i].id = t->Trajectories[i].id;
+        m_trj.Trajectories[i].Num = t->Trajectories[i].Num;
+        m_trj.Trajectories[i].blobs = new TVABlob[t->Trajectories[i].Num];
+        for (int j =0; j < t->Trajectories[i].Num; j++)
+        {
+            memcpy(&m_trj.Trajectories[i].blobs[j], &t->Trajectories[i].blobs[j], sizeof(TVABlob));
+        }
+    }
+}
+
+void __fastcall TmainForm::viewTrajectoriesActionExecute(TObject *Sender)
+{
+    viewTrajectoriesAction->Checked = !viewTrajectoriesAction->Checked;
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainForm::RenderTrajectories(awpImage* img)
+{
+    if (!viewTrajectoriesAction->Checked)
+        return;
+    if (img == NULL || m_trj.Num  == 0)
+       return;
+    m_engine.mtx->Acquire();
+    try
+    {
+        for (int i = 0; i < m_trj.Num; i++)
+        {
+            awpPoint p0,p1;
+            if (m_trj.Trajectories[i].blobs == NULL)
+                continue;
+            p0.X = m_trj.Trajectories[i].blobs[0].XPos + m_trj.Trajectories[i].blobs[0].Width / 2;
+            p0.Y = m_trj.Trajectories[i].blobs[0].YPos + m_trj.Trajectories[i].blobs[0].Height / 2;
+            for (int j = 1; j < m_trj.Trajectories[i].Num; j++)
+            {
+                p1.X = m_trj.Trajectories[i].blobs[j].XPos + m_trj.Trajectories[i].blobs[j].Width / 2;
+                p1.Y = m_trj.Trajectories[i].blobs[j].YPos + m_trj.Trajectories[i].blobs[j].Height / 2;
+                awpDrawLine(img, p0,p1,1,255,2);
+                p0 = p1;
+            }
+        }
+    }
+    __finally
+    {
+	    m_engine.mtx->Release();
+    }
+}
+
+void __fastcall TmainForm::UpdateResult()
+{
+    Label1->Caption = IntToStr(m_result.Num);
 }
 

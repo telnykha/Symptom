@@ -63,16 +63,19 @@ bool __fastcall TTrackAnalysisEngine::Process(awpImage* img)
             TVAResult result;
             result.Num = 100;
             result.blobs = new TVABlob[100];
+            TVATrajectories t;
+
             trackProcess(m_module, img->sSizeX, img->sSizeY, img->bChannels, (unsigned char*)img->pPixels, &result);
             awpImage* fg = NULL;
             awpCreateImage(&fg, img->sSizeX, img->sSizeY, 1, AWP_BYTE);
             trackForeground(m_module, fg->sSizeX, fg->sSizeY, (unsigned char*)fg->pPixels);
+            trackTrajectories(m_module, &t);
 
             mutex->Acquire();
-
             _AWP_SAFE_RELEASE_(m_fg)
             awpCopyImage(fg, &m_fg);
-
+            mainForm->SetResult(result);
+            mainForm->SetTrajectories(&t);
             mutex->Release();
 
             awpReleaseImage(&fg);
@@ -90,7 +93,7 @@ void __fastcall TTrackAnalysisEngine::Reset()
        m_process->Terminate();
     }
 
-    if (m_module != NULL)
+    if (m_module != NULL && m_process->WaitFor())
     {
 	    trackRelease(&m_module);
         m_module = NULL;
@@ -138,6 +141,7 @@ void TTrackAnalysisEngine::SetImage(awpImage* image)
 void __fastcall TTrackAnalysisEngine::UpdateStatus()
 {
     mainForm->Foregroung = GetForeground();
+    mainForm->UpdateResult();
 }
 
 TVAInitParams* __fastcall TTrackAnalysisEngine::GetParams()
