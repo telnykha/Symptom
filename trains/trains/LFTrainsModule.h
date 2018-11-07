@@ -21,18 +21,22 @@ private:
 	TLFImage		m_prevImage;
 	void TrackBox(awpImage* currentImage);
 protected:
+	int m_scale;//scale  
+	
    TLFDetectEngine m_detector;
    TLFObjectList   m_digits;
    TLFZones        m_zones;
    TLFSemanticImageDescriptor m_res0;
    TLFImage			m_OCRImage;
    awpRect		  GetZoneRect();
+   bool  CheckBoxScale(awpRect& r);
+   bool  SetupBox();
 public:
 	TLFTrains(TLFZones& zones);
     virtual ~TLFTrains();
 	// загрузка нейросетей из файла 
     bool InitOCR(const char* lpFileName);
-
+	// возвращает 1 если номер найден и распознан. 
     int ProcessImage(awpImage* img, awpRect* rect, char* number);
     void SetZones(TLFZones& zones);
 

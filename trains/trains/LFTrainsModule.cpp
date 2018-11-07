@@ -34,17 +34,18 @@ void TLFTrains::TrackBox(awpImage* currentImage)
 		awpRect rect;
 		if (awpflowTrack(m_handle, m_prevImage.GetImage(), currentImage, m_pBox, &rect) == S_OK)
 		{
-			*m_pBox = rect;
-			awpRect zone = GetZoneRect();
-			if (rect.left <= zone.left || rect.right >= zone.right || rect.top <= zone.top || rect.bottom >= zone.bottom)
+			if (this->CheckBoxScale(rect))
+			{
+				*m_pBox = rect;
+				 m_prevImage.SetImage(currentImage);
+			}
+			else
 			{
 				delete m_pBox;
 				m_pBox = NULL;
 				m_prevImage.FreeImages();
 				return;
 			}
-
-			m_prevImage.SetImage(currentImage);
 		}
 		else
 		{
@@ -84,6 +85,15 @@ awpRect TLFTrains::GetZoneRect()
 
 	return r;
 }
+
+bool  TLFTrains::CheckBoxScale(awpRect& r)
+{
+	awpRect zone = this->GetZoneRect();
+	if (r.left <= zone.left || r.right >= zone.right || r.top <= zone.top || r.bottom >= zone.bottom)
+		return false;
+	return true;
+}
+
 
 
 
@@ -398,6 +408,46 @@ TLFSemanticImageDescriptor* _ClusterDescriptorPoins(TLFSemanticImageDescriptor* 
 	return result;
 }
 
+bool  TLFTrains::SetupBox()
+{
+	double max_s = 0;
+	awpRect rect;
+	for (int i = 0; i < m_detector.GetItemsCount(); i++)
+	{
+
+		TLFDetectedItem* item = m_detector.GetItem(i);
+		TLFRect* bounds = item->GetBounds();
+		if (bounds != NULL)
+		{
+			int ww = bounds->Width();
+			int hh = bounds->Height();
+			if (ww*hh > max_s)
+			{
+				max_s = ww*hh;
+				rect = bounds->GetRect();
+			}
+		}
+	}
+	awpRect r = rect;
+	r.left /= m_detector.GetResizeCoef();
+	r.top /= m_detector.GetResizeCoef();
+	r.right /= m_detector.GetResizeCoef();
+	r.bottom /= m_detector.GetResizeCoef();
+
+	if (max_s == 0 || !this->CheckBoxScale(r))
+		return false;
+	
+
+	if (m_pBox == NULL)
+	{
+		// setup m_pBox 
+		m_pBox = new awpRect;
+		*m_pBox = r;
+	}
+	return true;
+}
+
+
 /*
 	return result = num found
     negative  = invalid params (NULL) or state (invalid zones)
@@ -408,24 +458,28 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 	if (img == NULL || rect == NULL || number == NULL)
         return -1;
 
-#if 0
+//#if 0
 	m_detector.SetSourceImage(img, m_pBox == NULL);
 	if (m_pBox != NULL)
 	{
 		TrackBox(m_detector.GetSourceImage());
 		if (m_pBox != NULL)
+		{
 			*rect = *m_pBox;
-
-		rect->left *= m_detector.GetResizeCoef();
-		rect->top *= m_detector.GetResizeCoef();
-		rect->right *= m_detector.GetResizeCoef();
-		rect->bottom *= m_detector.GetResizeCoef();;
-
-		return m_pBox != NULL ? 1:0;
+			rect->left *= m_detector.GetResizeCoef();
+			rect->top *= m_detector.GetResizeCoef();
+			rect->right *= m_detector.GetResizeCoef();
+			rect->bottom *= m_detector.GetResizeCoef();
+			//todo: remove this return after attach OCR
+			//return 1;
+		}
+		// this code skip one frame 
+		else
+			return 0;
 	}
-#else 
-	m_detector.SetSourceImage(img, true);
-#endif 
+//#else 
+//	m_detector.SetSourceImage(img, true);
+//#endif 
 
 
     if (m_detector.GetItemsCount() == 0)
@@ -436,39 +490,20 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
       //and fing biggest rect from responce
 
       //number = "????????";
-      double max_s = 0;
-      for (int i = 0; i < m_detector.GetItemsCount(); i++)
+	if (m_pBox == NULL && !this->SetupBox())
+		return 0;
+	// here is OCR processing 
+	if (m_pBox != NULL)
       {
+		 *rect = *m_pBox;
+		 rect->left *= m_detector.GetResizeCoef();
+		 rect->top *= m_detector.GetResizeCoef();
+		 rect->right *= m_detector.GetResizeCoef();
+		 rect->bottom *= m_detector.GetResizeCoef();
 
-			TLFDetectedItem* item = m_detector.GetItem(i);
-            TLFRect* bounds = item->GetBounds();
-            if (bounds != NULL)
-            {
-				int ww = bounds->Width();
-                int hh = bounds->Height();
-                if (ww*hh > max_s)
-                {
-					max_s = ww*hh;
-                    *rect = bounds->GetRect();
-					if (m_pBox == NULL)
-					{
-						m_pBox = new awpRect;
-						*m_pBox = *rect;
-						m_pBox->left /= m_detector.GetResizeCoef();
-						m_pBox->top /= m_detector.GetResizeCoef();
-						m_pBox->right /= m_detector.GetResizeCoef();
-						m_pBox->bottom /= m_detector.GetResizeCoef();;
-					}
-                }
-            }
-      }
-
-	  // here is OCR processing 
-      if (max_s > 0)
-      {
 		 TLFRect r;
 		 r.SetRect(*rect);
-		 r.Inflate(10*r.Width()/100, 10*r.Height()/100);
+		 r.Inflate(20*r.Width()/100, 10*r.Height()/100);
 		 *rect = r.GetRect();
 		 awpImage* ocr_image = NULL;
          if (awpCopyRect (img, &ocr_image, rect) != AWP_OK)
@@ -476,6 +511,9 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 			 return 0;
          }
 		 awpResizeBilinear(ocr_image, 240, 78);
+#ifdef _DEBUG
+		 awpSaveImage("ocr.awp", ocr_image);
+#endif 
 		 m_OCRImage.SetImage(ocr_image);
 		 for (int i = 0; i < 10; i++)
 		 {
@@ -516,6 +554,8 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 		  {
 			  _AWP_SAFE_RELEASE_(ocr_image);
 			  delete res;
+			  delete m_pBox;
+			  m_pBox = NULL;
 			  return 0;
 		  }
 		  if (res != NULL)

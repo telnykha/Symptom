@@ -114,7 +114,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
 copy  ..\..\..\bin\win32\vautils.dll ..\..\..\bin\vautils.dll
 $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEvent><![CDATA[implib -a track.lib ..\..\..\bin\win32\trains.dll
-implib -a vautils.lib ..\..\..\bin\win32\vautils.dll
 $(PreBuildEvent)]]></PreBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -204,7 +203,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
-        <PreBuildEvent>implib -a track.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll&amp;&amp;implib -a track.lib ..\..\..\bin\win32\track.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
+        <PreBuildEvent>implib -a track.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a track.lib ..\..\..\bin\win32\track.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
