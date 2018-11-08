@@ -474,7 +474,7 @@ void __fastcall TmainForm::FImage1FrameData(TObject *Sender, int w, int h, int c
     {
 		StatusBar1->Panels->Items[1]->Text = L"Кадр "  + IntToStr( m_videoSource->CurrentFrame) +
    		" of " + IntToStr(m_videoSource->NumFrames);
-	    StatusBar1->Panels->Items[3]->Text = L"Изображение: " + IntToStr(w) + L":" + IntToStr(h) + L":" + IntToStr(c);
+	    StatusBar1->Panels->Items[3]->Text = L"Изобр: " + IntToStr(w) + L":" + IntToStr(h) + L":" + IntToStr(c);
 
         PhTrackBar1->Position = m_videoSource->CurrentFrame;
     }

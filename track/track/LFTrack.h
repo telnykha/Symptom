@@ -7,10 +7,10 @@ class TLFTrackEngine : public ILFDetectEngine
 {
 protected:
 
-	float m_minWidth;
-	float m_maxWidth;
-	float m_minHeight;
-	float m_maxHeight;
+	double m_minWidth;
+	double m_maxWidth;
+	double m_minHeight;
+	double m_maxHeight;
 
 	TLFObjectList 		m_tmpList;
 	TLFImage 			m_foreground;

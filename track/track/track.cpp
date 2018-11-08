@@ -8,7 +8,8 @@
 typedef struct
 {
 	int size;
-	TVAInitParams params;
+//	TVAInitParams params;
+	int NumObjects;
 	TLFTrackEngine* engine;
 	std::map<string, vector<TVABlob>> Trajectories;
 	TVATrajectories out_trajectories;
@@ -29,7 +30,8 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	track->out_trajectories.Num = 0;
 	track->out_trajectories.Trajectories = NULL;
 
-	memcpy(&track->params, params, sizeof(TVAInitParams));
+//	memcpy(&track->params, params, sizeof(TVAInitParams));
+	track->NumObjects = params->numObects;
 	track->engine = new TLFTrackEngine(*params);
 	track->engine->SetNeedTrack(true);
 	track->engine->SetResize(true);
@@ -54,7 +56,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 	p->engine->SetSourceImage(tmp, true);
 	int n = p->engine->GetItemsCount();
 
-	result->Num = n < p->params.numObects ? n : p->params.numObects;
+	result->Num = n < p->NumObjects ? n : p->NumObjects;
 	for (int i = 0; i < result->Num; i++)
 	{
 		TLFDetectedItem*  di = p->engine->GetItem(i);

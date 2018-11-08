@@ -65,7 +65,6 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <ILINK_LibraryPath>..\..\..\photon\photon41\apps\common\;$(BDS)\lib\Win32\debug\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDSLIB)\$(PLATFORM)\debug;..\common\;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Defines>WIN32;$(Defines)</Defines>
-        <Custom_Styles>Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf</Custom_Styles>
         <PreBuildEvent><![CDATA[implib -a track.lib ..\..\..\bin\win32\track.dll
 implib -a vautils.lib ..\..\..\bin\win32\vautils.dll
 $(PreBuildEvent)]]></PreBuildEvent>

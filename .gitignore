@@ -300,3 +300,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.stat
+trains/trains/mask_image.awp
+trains/trains/ocr.awp
+trains/trains/source.awp

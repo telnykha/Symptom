@@ -110,7 +110,7 @@ int fbtrack(IplImage *imgI, IplImage *imgJ, float *bb, float *bbnew,
     }
 
     //assert nRealPoints==nlkPoints
-    medFb = getMedian(fbLkCleaned, nlkPoints);
+    medFb  = getMedian(fbLkCleaned, nlkPoints);
     medNcc = getMedian(nccLkCleaned, nlkPoints);
     /*  printf("medianfb: %f\nmedianncc: %f\n", medFb, medNcc);
      printf("Number of points after lk: %d\n", nlkPoints);*/

@@ -458,7 +458,6 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 	if (img == NULL || rect == NULL || number == NULL)
         return -1;
 
-//#if 0
 	m_detector.SetSourceImage(img, m_pBox == NULL);
 	if (m_pBox != NULL)
 	{
@@ -470,17 +469,11 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 			rect->top *= m_detector.GetResizeCoef();
 			rect->right *= m_detector.GetResizeCoef();
 			rect->bottom *= m_detector.GetResizeCoef();
-			//todo: remove this return after attach OCR
-			//return 1;
 		}
 		// this code skip one frame 
 		else
 			return 0;
 	}
-//#else 
-//	m_detector.SetSourceImage(img, true);
-//#endif 
-
 
     if (m_detector.GetItemsCount() == 0)
       	return 0;
@@ -503,7 +496,7 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 
 		 TLFRect r;
 		 r.SetRect(*rect);
-		 r.Inflate(20*r.Width()/100, 10*r.Height()/100);
+		 r.Inflate(25*r.Width()/100, 10*r.Height()/100);
 		 *rect = r.GetRect();
 		 awpImage* ocr_image = NULL;
          if (awpCopyRect (img, &ocr_image, rect) != AWP_OK)

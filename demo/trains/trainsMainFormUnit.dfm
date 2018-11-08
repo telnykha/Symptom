@@ -3,7 +3,7 @@ object mainForm: TmainForm
   Top = 0
   Caption = #1054#1073#1085#1072#1088#1091#1078#1077#1085#1080#1077' '#1080' '#1088#1072#1089#1087#1086#1079#1085#1072#1074#1072#1085#1080#1077' '#1085#1086#1084#1077#1088#1086#1074' '#1074#1072#1075#1086#1085#1086#1074'. '
   ClientHeight = 542
-  ClientWidth = 764
+  ClientWidth = 777
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object mainForm: TmainForm
   object StatusBar1: TStatusBar
     Left = 0
     Top = 523
-    Width = 764
+    Width = 777
     Height = 19
     Panels = <
       item
@@ -38,18 +38,27 @@ object mainForm: TmainForm
         Width = 200
       end
       item
-        Text = #1048#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077':'
-        Width = 150
+        Alignment = taCenter
+        Text = #1048#1079#1086#1073#1088': 1920'#1093'1080:3'
+        Width = 120
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbRaised
+        Text = 'NN-Videolab.net'
+        Width = 50
       end>
+    ExplicitWidth = 764
   end
   object Panel1: TPanel
     Left = 0
     Top = 448
-    Width = 764
+    Width = 777
     Height = 75
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 1
+    ExplicitWidth = 764
     object SpeedButton2: TSpeedButton
       Left = 1
       Top = 1
@@ -257,12 +266,13 @@ object mainForm: TmainForm
       ExplicitHeight = 48
     end
     object GroupBox1: TGroupBox
-      Left = 346
+      Left = 343
       Top = 1
       Width = 160
       Height = 73
       Align = alLeft
       TabOrder = 0
+      ExplicitLeft = 346
       object Label2: TLabel
         Left = 59
         Top = 28
@@ -301,17 +311,20 @@ object mainForm: TmainForm
       end
     end
     object GroupBox2: TGroupBox
-      Left = 506
+      Left = 503
       Top = 1
       Width = 248
       Height = 73
       Align = alLeft
       TabOrder = 1
+      ExplicitLeft = 506
       object Label3: TLabel
-        Left = 6
-        Top = 28
-        Width = 232
+        Left = 2
+        Top = 29
+        Width = 244
         Height = 42
+        Align = alBottom
+        Alignment = taCenter
         Caption = '########'
         Color = clHighlight
         Font.Charset = DEFAULT_CHARSET
@@ -321,20 +334,25 @@ object mainForm: TmainForm
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
+        ExplicitLeft = 6
+        ExplicitTop = 28
+        ExplicitWidth = 232
       end
     end
     object ProgressBar1: TProgressBar
       AlignWithMargins = True
       Left = 324
       Top = 6
-      Width = 19
+      Width = 16
       Height = 63
       Margins.Top = 5
       Margins.Bottom = 5
       Align = alLeft
-      DoubleBuffered = False
+      BorderWidth = 1
+      DoubleBuffered = True
       Orientation = pbVertical
       ParentDoubleBuffered = False
+      BarColor = clWhite
       Step = 1
       TabOrder = 2
     end
@@ -342,7 +360,7 @@ object mainForm: TmainForm
   object FImage1: TPhImage
     Left = 0
     Top = 0
-    Width = 764
+    Width = 777
     Height = 424
     ThumbWidht = 128
     ThumbHeight = 128
@@ -350,12 +368,12 @@ object mainForm: TmainForm
     Align = alClient
     ParentColor = False
     OnFrameData = FImage1FrameData
-    ExplicitLeft = 1
+    ExplicitWidth = 764
   end
   object PhTrackBar1: TPhTrackBar
     Left = 0
     Top = 424
-    Width = 764
+    Width = 777
     Height = 24
     Align = alBottom
     Max = 0
@@ -366,6 +384,7 @@ object mainForm: TmainForm
     OnChange = PhTrackBar1Change
     OnKeyUp = PhTrackBar1KeyUp
     OnMouseUp = PhTrackBar1MouseUp
+    ExplicitWidth = 764
   end
   object ActionList1: TActionList
     Left = 56

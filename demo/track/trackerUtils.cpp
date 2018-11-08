@@ -46,7 +46,6 @@ bool __fastcall TTrackAnalysisEngine::Init(const char* path)
     }
     if (!LoadInitParams(str.c_str(), &m_params))
         return false;
-
     m_module = trackCreate(m_params);
 
     m_process = new TTrackProcess(true);

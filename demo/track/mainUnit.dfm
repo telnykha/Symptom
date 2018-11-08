@@ -257,18 +257,15 @@ object mainForm: TmainForm
       Height = 73
       Align = alLeft
       TabOrder = 0
-      ExplicitLeft = 432
-      ExplicitTop = 32
-      ExplicitHeight = 105
       object Label1: TLabel
-        Left = 6
-        Top = 32
-        Width = 66
-        Height = 39
+        Left = 22
+        Top = 0
+        Width = 132
+        Height = 77
         Caption = 'XXX'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGray
-        Font.Height = -32
+        Font.Height = -64
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
