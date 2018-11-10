@@ -68,6 +68,7 @@
         <PreBuildEvent><![CDATA[implib -a track.lib ..\..\..\bin\win32\track.dll
 implib -a vautils.lib ..\..\..\bin\win32\vautils.dll
 $(PreBuildEvent)]]></PreBuildEvent>
+        <Custom_Styles>&quot;Turquoise Gray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\TurquoiseGray.vsf&quot;</Custom_Styles>
         <PostBuildEvent><![CDATA[copy  ..\..\..\bin\win32\track.dll  ..\..\..\bin\track.dll
 copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll
 $(PostBuildEvent)]]></PostBuildEvent>

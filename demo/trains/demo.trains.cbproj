@@ -194,8 +194,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>TuningUnit.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
-        <FormResources Include="trainsMainFormUnit.dfm"/>
         <FormResources Include="TuningUnit.dfm"/>
+        <FormResources Include="trainsMainFormUnit.dfm"/>
         <FormResources Include="aboutUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

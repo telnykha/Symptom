@@ -253,22 +253,27 @@ object mainForm: TmainForm
     object GroupBox1: TGroupBox
       Left = 321
       Top = 1
-      Width = 185
+      Width = 96
       Height = 73
       Align = alLeft
       TabOrder = 0
       object Label1: TLabel
-        Left = 22
-        Top = 0
-        Width = 132
-        Height = 77
+        AlignWithMargins = True
+        Left = 5
+        Top = 18
+        Width = 86
+        Height = 50
+        Align = alClient
+        Alignment = taCenter
         Caption = 'XXX'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGray
-        Font.Height = -64
+        Font.Height = -37
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
+        ExplicitWidth = 75
+        ExplicitHeight = 45
       end
     end
   end
