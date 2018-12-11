@@ -504,3 +504,4 @@ void __fastcall TmainForm::UpdateResult()
     Label1->Caption = IntToStr(m_result.Num);
 }
 
+

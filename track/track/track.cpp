@@ -84,6 +84,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 			if (result->blobs[i].status == 1)
 			{
 				std::vector<TVABlob> tr;
+				b.time = 1;
 				tr.push_back(b);
 				p->Trajectories.insert(std::pair<string, vector<TVABlob>>(str_uuid, tr));
 			}
@@ -92,7 +93,16 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 				std::map<string, vector<TVABlob>>::iterator it = p->Trajectories.begin();
 				it = p->Trajectories.find(str_uuid);
 				if (it != p->Trajectories.end())
-					it->second.push_back(b);
+				{
+					it->second[it->second.size() - 1].time++;
+					if (it->second[it->second.size() - 1].time % 2 == 0)
+					{
+						b.time = it->second[it->second.size() - 1].time;
+						it->second.push_back(b);
+					}
+					
+				}
+					
 			}
 			else if (result->blobs[i].status == 3)
 			{

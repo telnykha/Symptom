@@ -246,15 +246,24 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 			if (result.blobs[i].status == 1)
             {
                std::vector<TVABlob> tr;
+			   b.time = 1;
                tr.push_back(b);
                Trajectories.insert(std::pair<string, vector<TVABlob> >(str_uuid, tr));
             }
 			else if (result.blobs[i].status == 2)
             {
-                std::map<string, vector<TVABlob> >::iterator it = Trajectories.begin();
+				std::map<string, vector<TVABlob> >::iterator it = Trajectories.begin();
                 it = Trajectories.find(str_uuid);
                 if (it != Trajectories.end())
                  {
+
+					 it->second[it->second.size() - 1].time++;
+					 if (it->second[it->second.size() - 1].time % 4 != 0)
+						 continue;
+						 
+				     b.time = it->second[it->second.size() - 1].time;
+					 it->second.push_back(b);
+
                     awp2DLineSegment segment;
                     awp2DPoint s;
                     awp2DPoint e;
@@ -304,7 +313,7 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 	                           num_out += a;
                         }
                      }
-                    it->second.push_back(b);
+                    
                 }
            }
 			else if (result.blobs[i].status == 3)

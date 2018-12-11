@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9DB50770-CA60-40BA-A510-F4B0FBA15B5C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="track\demo.track.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="demo_track">
+        <MSBuild Projects="track\demo.track.cbproj"/>
+    </Target>
+    <Target Name="demo_track:Clean">
+        <MSBuild Projects="track\demo.track.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="demo_track:Make">
+        <MSBuild Projects="track\demo.track.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="demo_track"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="demo_track:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="demo_track:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

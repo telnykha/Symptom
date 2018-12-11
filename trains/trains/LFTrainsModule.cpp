@@ -496,7 +496,7 @@ int TLFTrains::ProcessImage(awpImage* img, awpRect* rect, char* number)
 
 		 TLFRect r;
 		 r.SetRect(*rect);
-		 r.Inflate(25*r.Width()/100, 10*r.Height()/100);
+		 r.Inflate(10*r.Width()/100, 5*r.Height()/100);
 		 *rect = r.GetRect();
 		 awpImage* ocr_image = NULL;
          if (awpCopyRect (img, &ocr_image, rect) != AWP_OK)

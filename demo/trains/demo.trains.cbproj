@@ -60,11 +60,11 @@
         <Multithreaded>true</Multithreaded>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>..\..\..\photon\photon41\apps\common\;$(BDSINCLUDE)\windows\vcl;..\..\common\;$(PHOTON41);$(AWP);$(LF);$(TINY);..\..\include;..\..\..\photon\cvvideo\module\awpcvvideo;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\..\photon\common\;..\..\..\photon\photon41\apps\common\;$(BDSINCLUDE)\windows\vcl;..\..\common\;$(PHOTON41);$(AWP);$(LF);$(TINY);..\..\include;..\..\..\photon\cvvideo\module\awpcvvideo;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.17;InternalName=;LegalCopyright=Copyright (c) 2004-2018 NN-VideoLab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Trains Demo;ProductVersion=1.0.0.0;Comments=Версия для испытаний </VerInfo_Keys>
         <SanitizedProjectName>demo_trains</SanitizedProjectName>
-        <ILINK_LibraryPath>..\..\..\photon\photon41\apps\common\;$(BDS)\lib\Win32\debug\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDSLIB)\$(PLATFORM)\debug;..\common\;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\..\photon\common\;..\..\..\photon\photon41\apps\common\;$(BDS)\lib\Win32\debug\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDSLIB)\$(PLATFORM)\debug;..\common\;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Build>17</VerInfo_Build>
         <Defines>WIN32;$(Defines)</Defines>
@@ -137,20 +137,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <LinkPackageStatics>rtl.lib;vcl.lib;photon.lib;VclSmp.lib;vclx.lib;photon41.lib;vclimg.lib;bcbsmp.lib</LinkPackageStatics>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\..\photon\photon41\apps\common\PhMediaSource.cpp">
-            <DependentOn>..\..\..\photon\photon41\apps\common\PhMediaSource.h</DependentOn>
+        <CppCompile Include="..\..\..\photon\common\PhMediaSource.cpp">
+            <DependentOn>..\..\..\photon\common\PhMediaSource.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\photon\photon41\apps\common\PhVideo.cpp">
-            <DependentOn>..\..\..\photon\photon41\apps\common\PhVideo.h</DependentOn>
+        <CppCompile Include="..\..\..\photon\common\PhVideo.cpp">
+            <DependentOn>..\..\..\photon\common\PhVideo.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\photon\photon41\apps\common\PhVideoThread.cpp">
-            <DependentOn>..\..\..\photon\photon41\apps\common\PhVideoThread.h</DependentOn>
+        <CppCompile Include="..\..\..\photon\common\PhVideoThread.cpp">
+            <DependentOn>..\..\..\photon\common\PhVideoThread.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\photon\photon41\apps\common\VerInfoUnit.cpp">
-            <DependentOn>..\..\..\photon\photon41\apps\common\VerInfoUnit.h</DependentOn>
+        <CppCompile Include="..\..\..\photon\common\VerInfoUnit.cpp">
+            <DependentOn>..\..\..\photon\common\VerInfoUnit.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
         <CppCompile Include="aboutUnit.cpp">
