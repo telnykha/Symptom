@@ -48,7 +48,6 @@ object mainForm: TmainForm
         Text = 'NN-Videolab.net'
         Width = 50
       end>
-    ExplicitWidth = 764
   end
   object Panel1: TPanel
     Left = 0
@@ -58,7 +57,6 @@ object mainForm: TmainForm
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitWidth = 764
     object SpeedButton2: TSpeedButton
       Left = 1
       Top = 1
@@ -272,7 +270,6 @@ object mainForm: TmainForm
       Height = 73
       Align = alLeft
       TabOrder = 0
-      ExplicitLeft = 346
       object Label2: TLabel
         Left = 59
         Top = 28
@@ -317,7 +314,6 @@ object mainForm: TmainForm
       Height = 73
       Align = alLeft
       TabOrder = 1
-      ExplicitLeft = 506
       object Label3: TLabel
         Left = 2
         Top = 29
@@ -334,8 +330,6 @@ object mainForm: TmainForm
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-        ExplicitLeft = 6
-        ExplicitTop = 28
         ExplicitWidth = 232
       end
     end
@@ -368,7 +362,6 @@ object mainForm: TmainForm
     Align = alClient
     ParentColor = False
     OnFrameData = FImage1FrameData
-    ExplicitWidth = 764
   end
   object PhTrackBar1: TPhTrackBar
     Left = 0
@@ -384,7 +377,6 @@ object mainForm: TmainForm
     OnChange = PhTrackBar1Change
     OnKeyUp = PhTrackBar1KeyUp
     OnMouseUp = PhTrackBar1MouseUp
-    ExplicitWidth = 764
   end
   object ActionList1: TActionList
     Left = 56

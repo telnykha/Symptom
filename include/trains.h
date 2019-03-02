@@ -10,6 +10,7 @@
 
 #define TRAINSHANDLE void*
 #define TARGETHANDLE void*
+#define FULLNESSHANDLE void*
 
 // trains number API
 extern "C" TRAINS_API TRAINSHANDLE  trainsInit(TVARect& zone, double sens, int scale);
@@ -23,4 +24,10 @@ extern "C" TRAINS_API int  trainsTargetHasModel(TARGETHANDLE target, bool* model
 extern "C" TRAINS_API int  trainsTargetClearModel(TARGETHANDLE target);
 extern "C" TRAINS_API int  trainsTargetProcess(TARGETHANDLE target, unsigned char* data, int width, int height, int bpp, double* result, bool* visible);
 extern "C" TRAINS_API int  trainsTargetClose(TARGETHANDLE target);
+
+// trains fullness API
+extern "C" TRAINS_API FULLNESSHANDLE trainsFullnessInit(TVAInitParams& params);
+extern "C" TRAINS_API int  trainsFullnessProcess(FULLNESSHANDLE handle, unsigned char* data, int width, int height, int bpp, double* value);
+extern "C" TRAINS_API int  trainsFullnessClose(FULLNESSHANDLE handle);
+
 #endif	

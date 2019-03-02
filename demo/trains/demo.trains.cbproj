@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>demo.trains.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -111,9 +111,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_AllCodeguardOptions>false</BCC_AllCodeguardOptions>
-        <VerInfo_Build>41</VerInfo_Build>
+        <VerInfo_Build>42</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.41;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Trains Demo;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.42;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Trains Demo;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <IncludePath>$(PHOTON)\photon\;$(IncludePath)</IncludePath>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
@@ -127,8 +127,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Build>81</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.81;InternalName=;LegalCopyright=Copyright (c) 2004-2018 NN-VideoLab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Trains Demo;ProductVersion=1.0.0.0;Comments=Версия для испытаний </VerInfo_Keys>
+        <VerInfo_Build>82</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.82;InternalName=;LegalCopyright=Copyright (c) 2004-2018 NN-VideoLab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Trains Demo;ProductVersion=1.0.0.0;Comments=Версия для испытаний </VerInfo_Keys>
         <BCC_IncludePath>$(PHOTON)\photon\;$(BCC_IncludePath)</BCC_IncludePath>
         <ILINK_LibraryPath>$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -701,19 +701,19 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
     <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
-        <PreBuildEvent>implib -a trains.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
+        <PreBuildEvent>implib -a trains.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy  ..\..\..\bin\win32\trains.dll  ..\..\..\bin\trains.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
+        <PostBuildEvent>copy  ..\..\..\bin\win32\trains.dll  ..\..\..\bin\trains.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
-        <PreBuildEvent>implib -a trains.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
+        <PreBuildEvent>implib -a trains.lib ..\..\..\bin\win32\trains.dll&amp;&amp;implib -a vautils.lib ..\..\..\bin\win32\vautils.dll</PreBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy  ..\..\..\bin\win32\trains.dll  ..\..\..\bin\trains.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
+        <PostBuildEvent>copy  ..\..\..\bin\win32\trains.dll  ..\..\..\bin\trains.dll&amp;&amp;copy  ..\..\..\bin\win32\vautils.dll  ..\..\..\bin\vautils.dll</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

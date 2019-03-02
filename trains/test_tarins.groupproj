@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7071D3DD-7E70-435C-A2BE-83BB22E45E91}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="test_fullness\testFullness.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\demo\trains\demo.trains.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="testFullness">
+        <MSBuild Projects="test_fullness\testFullness.cbproj"/>
+    </Target>
+    <Target Name="testFullness:Clean">
+        <MSBuild Projects="test_fullness\testFullness.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="testFullness:Make">
+        <MSBuild Projects="test_fullness\testFullness.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="demo_trains">
+        <MSBuild Projects="..\demo\trains\demo.trains.cbproj"/>
+    </Target>
+    <Target Name="demo_trains:Clean">
+        <MSBuild Projects="..\demo\trains\demo.trains.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="demo_trains:Make">
+        <MSBuild Projects="..\demo\trains\demo.trains.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="testFullness;demo_trains;photon41"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="testFullness:Clean;demo_trains:Clean;photon41:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="testFullness:Make;demo_trains:Make;photon41:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

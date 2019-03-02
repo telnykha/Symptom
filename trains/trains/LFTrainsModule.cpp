@@ -798,6 +798,113 @@ void TLFTrainsTarget::ClearModel()
 	this->m_model.FreeImages();
 }
 
+/////////////////////////////////////////////////////////////
+
+TLFTrainsFullness::TLFTrainsFullness(TLFZones& zones, TVAInitParams* params)
+{
+	m_zones = zones;
+	CopyParams(params, &this->m_params);
+}
+
+TLFTrainsFullness::~TLFTrainsFullness()
+{
+	if (this->m_params != NULL)
+		FreeParams(&this->m_params);
+}
+
+
+
+double TLFTrainsFullness::ProcessImage(awpImage* image)
+{
+	double result = -1;
+
+	if (m_zones.GetCount() != 1)
+		return result;
+	// выбираем первую зону. 
+	TLFZone* zone = m_zones.GetZone(0);
+	if (zone == NULL || !zone->IsRect())
+		return result;
+
+	TLF2DRect* rect = zone->GetRect();
+	if (rect == NULL)
+		return result;
+
+	// преобразование rect к абсолютным координатам 
+	awpRect r;
+	r.left = (AWPSHORT)floor(rect->GetLeftTop().X*image->sSizeX / 100. + 0.5);
+	r.top = (AWPSHORT)floor(rect->GetLeftTop().Y*image->sSizeY / 100. + 0.5);
+	r.right = (AWPSHORT)floor(rect->GetRightBottom().X*image->sSizeX / 100. + 0.5);
+	r.bottom = (AWPSHORT)floor(rect->GetRightBottom().Y*image->sSizeY / 100. + 0.5);
+
+	// копируем фрагмент изображения. 
+	awpImage* dst = NULL;
+	if (awpCopyRect(image, &dst, &r) != AWP_OK)
+		return result;
+
+	if (awpResizeBilinear(dst, 20, 100) != AWP_OK)
+	{
+		_AWP_SAFE_RELEASE_(dst)
+			return result;
+	}
+	if (awpConvert(dst, AWP_CONVERT_3TO1_BYTE) != AWP_OK)
+	{
+		_AWP_SAFE_RELEASE_(dst)
+			return result;
+	}
+	// подготовка данных 
+	double data[100];
+	memset(data, 0, sizeof(data));
+	AWPBYTE* pix = _AWP_BPIX_(dst, AWPBYTE)
+	for (int y = 0; y < 100; y++)
+	{
+		double sum = 0;
+		for (int x = 0; x < 20; x++)
+			sum += pix[x];
+		data[y] = sum/20;
+		pix += 20;
+	}
+	double kk[84];
+	awpImage* sd = NULL;
+	awpImage* kb = NULL;
+	awpCreateImage(&sd, 16, 2, 1, AWP_DOUBLE);
+	awpCreateImage(&kb, 2, 1, 1, AWP_DOUBLE);
+	AWPDOUBLE* d = _AWP_BPIX_(sd, AWPDOUBLE)
+	AWPDOUBLE* k = _AWP_BPIX_(kb, AWPDOUBLE)
+	for (int i = 8; i < 92; i++)
+	{
+		int s = 0;
+		for (int j = i - 8; j < i + 8; j++)
+		{
+			d[s] = s;
+			d[16 + s] = data[j];
+			s++;
+		}
+		awpApproxPoly(sd, kb);
+		kk[i-8] = k[1];
+	}
+	double max = fabs(kk[0]);
+	int    max_index = 0;
+	for (int i = 1; i < 84; i++)
+	{
+		if (fabs(kk[i]) > max)
+		{
+			max = fabs(kk[i]);
+			max_index = i;
+		}
+	}
+
+	double thr = 3 + 3*this->m_params->EventSens;
+
+	if (max > thr)
+	{
+//		double h = r.bottom - r.top;
+//		return (double)(max_index + 8)*h / 100.;
+		return (double)max_index*1.19;
+	}
+	else
+		return 0;
+}
+
 
 
 #if  defined(__BCPLUSPLUS__)

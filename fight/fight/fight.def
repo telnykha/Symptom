@@ -1,0 +1,7 @@
+LIBRARY FIGHT
+
+EXPORTS
+
+fightCreate		@1
+fightProcess	@2
+fightRelease	@3

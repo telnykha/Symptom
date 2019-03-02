@@ -156,6 +156,9 @@
     <ClCompile Include="..\..\common\awpFlowTracker\tables.cpp">
       <Filter>Файлы исходного кода\FlowTrack</Filter>
     </ClCompile>
+    <ClCompile Include="fullness.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LFTrainsModule.h">

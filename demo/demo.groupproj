@@ -6,6 +6,9 @@
         <Projects Include="track\demo.track.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="trains\demo.trains.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="demo_track:Make">
         <MSBuild Projects="track\demo.track.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="demo_trains">
+        <MSBuild Projects="trains\demo.trains.cbproj"/>
+    </Target>
+    <Target Name="demo_trains:Clean">
+        <MSBuild Projects="trains\demo.trains.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="demo_trains:Make">
+        <MSBuild Projects="trains\demo.trains.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="demo_track"/>
+        <CallTarget Targets="demo_track;demo_trains"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="demo_track:Clean"/>
+        <CallTarget Targets="demo_track:Clean;demo_trains:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="demo_track:Make"/>
+        <CallTarget Targets="demo_track:Make;demo_trains:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

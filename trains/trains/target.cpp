@@ -59,15 +59,7 @@ TRAINS_API int  trainsTargetCreate(TARGETHANDLE target, unsigned char* data, int
 
 	TVAInitParams* params = t->getModuleParams();
 	assert(params != NULL);
-/*
-	TVARect zone = params->Zones[0].Rect;
 
-	
-	rect.left = (AWPSHORT)floor(zone.LeftTop.X*width / 100. + 0.5);
-	rect.top = (AWPSHORT)floor(zone.LeftTop.Y*height / 100. + 0.5);
-	rect.right = (AWPSHORT)floor(zone.RightBottom.X*width / 100. + 0.5);
-	rect.bottom = (AWPSHORT)floor(zone.RightBottom.Y*height / 100. + 0.5);
-*/
 	if (!t->InitModel(tmp))
 	{
 		_AWP_SAFE_RELEASE_(tmp)

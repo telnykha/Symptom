@@ -173,6 +173,7 @@ void __fastcall TmainForm::OpenVideoActionExecute(TObject *Sender)
 
     if (OpenDialog1->Execute())
     {
+        m_engine.Reset();
         TPhMediaSource* videoSource= new TPhVideoSource(FImage1);
         videoSource->Open(OpenDialog1->Files);
         if (videoSource->NumFrames == 0)

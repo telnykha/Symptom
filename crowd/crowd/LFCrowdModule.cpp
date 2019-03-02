@@ -1,5 +1,6 @@
 #include "LFCrowdModule.h"
 #include "zones.cpp"
+
 CCrowdEngine::CCrowdEngine(TVAInitParams& params)
 {
 	TLFFGBGDetector* d = new TLFFGBGDetector();

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.808,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\groupedItems.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.597,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\groupedItems.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.894,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\itemDetail.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.434,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.708,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\splitItemDetail.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.579,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.777,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\AppletModule1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.799,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.100,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>2018.12.22 14:04:08.423,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>2018.12.22 14:04:17.449,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.cpp</Transaction>
+    <Transaction>2018.12.22 14:04:57.758,C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.h=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.h</Transaction>
+    <Transaction>2018.12.22 14:04:57.758,C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.dfm=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.dfm</Transaction>
+    <Transaction>2018.12.22 14:04:57.758,C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.cpp=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit5.cpp</Transaction>
+    <Transaction>2018.12.22 14:05:10.272,C:\_alt\_proj\va_project\trains\test_fullness\testFullnessPCH1.h=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7PCH1.h</Transaction>
+    <Transaction>2018.12.22 14:05:18.604,C:\_alt\_proj\va_project\trains\test_fullness\testFullness.cbproj=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project7.cbproj</Transaction>
+    <Transaction>2018.12.22 14:31:09.246,=C:\_alt\_proj\va_project\trains\test_fullness\Unit1.cpp</Transaction>
+    <Transaction>2018.12.22 14:31:22.123,C:\_alt\_proj\va_project\trains\test_fullness\FullnessTool.cpp=C:\_alt\_proj\va_project\trains\test_fullness\Unit1.cpp</Transaction>
+    <Transaction>2018.12.22 14:31:22.123,C:\_alt\_proj\va_project\trains\test_fullness\FullnessTool.h=C:\_alt\_proj\va_project\trains\test_fullness\Unit1.h</Transaction>
+    <Transaction>2018.12.22 14:43:54.854,C:\_alt\_proj\va_project\trains\test_fullness\mainUnitFullness.cpp=C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.cpp</Transaction>
+    <Transaction>2018.12.22 14:43:54.854,C:\_alt\_proj\va_project\trains\test_fullness\mainUnitFullness.dfm=C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.dfm</Transaction>
+    <Transaction>2018.12.22 14:43:54.854,C:\_alt\_proj\va_project\trains\test_fullness\mainUnitFullness.h=C:\_alt\_proj\va_project\trains\test_fullness\mainUnit.h</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -86,4 +86,27 @@ public:
 	TVAInitParams* getModuleParams();
 };
 
+/*
+определение наполенности цистерны. 
+наполненность определяется путем анализа измений яркости 
+внутри зоны наблюдения. Зона наблюдения задается в 
+переменной [m_zones]. зона должна быть одна и иметь тип ZTRect
+Анализируется вертикальная интегральная кривая, полученная 
+путем суммирования строк втури зоны наблюдения v=F(y) 
+
+*/
+
+class TLFTrainsFullness
+{
+private: 
+	TVAInitParams* m_params;
+protected: 
+	TLFZones        m_zones;
+public: 
+	TLFTrainsFullness(TLFZones& zones, TVAInitParams* params);
+	~TLFTrainsFullness();
+
+	double ProcessImage(awpImage* image);
+};
+
 #endif

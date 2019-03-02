@@ -10,5 +10,6 @@ EXPORTS
 	trainsTargetClose    @7
 	trainsTargetHasModel	@8
 	trainsTargetClearModel @9
-
-
+	trainsFullnessInit	@10
+	trainsFullnessProcess @11
+	trainsFullnessClose @12

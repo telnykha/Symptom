@@ -110,9 +110,15 @@ void __fastcall TTrainsAnalysisEngine::Reset()
     }
 
     if (m_trains != NULL)
+    {
 	    trainsClose(m_trains);
+        m_trains = NULL;
+    }
     if (m_target != NULL)
+    {
 	    trainsTargetClose(m_target);
+        m_target = NULL;
+    }
     m_old_norm = -1;
     m_old_time = -1;
     count = 0;

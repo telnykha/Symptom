@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\common\awpFlowTracker\templmatch.cpp" />
     <ClCompile Include="..\..\common\awpFlowTracker\utils.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="fullness.cpp" />
     <ClCompile Include="LFTrainsModule.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="trains.cpp" />

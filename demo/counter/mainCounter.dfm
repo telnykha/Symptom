@@ -24,10 +24,6 @@ object Form5: TForm5
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
-    ExplicitLeft = -24
-    ExplicitTop = -32
-    ExplicitWidth = 1077
-    ExplicitHeight = 398
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -54,8 +50,6 @@ object Form5: TForm5
         Text = #1048#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077':'
         Width = 150
       end>
-    ExplicitTop = 425
-    ExplicitWidth = 657
   end
   object Panel1: TPanel
     Left = 0
@@ -65,9 +59,6 @@ object Form5: TForm5
     Align = alBottom
     BevelOuter = bvLowered
     TabOrder = 1
-    ExplicitLeft = -8
-    ExplicitTop = 347
-    ExplicitWidth = 1077
     object SpeedButton2: TSpeedButton
       Left = 1
       Top = 1
