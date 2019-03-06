@@ -11,7 +11,7 @@ typedef struct
 //	TVAInitParams params;
 	int NumObjects;
 	TLFTrackEngine* engine;
-	std::map<string, vector<TVABlob>> Trajectories;
+	std::map<string, vector<TVABlob> > Trajectories;
 	TVATrajectories out_trajectories;
 }TheTrack;
 
@@ -74,7 +74,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 
 			std::string str_uuid = LFGUIDToString(&result->blobs[i].id);
 			TVABlob b;
-			b.id = result->blobs[i].id;
+			memcpy(&b.id, result->blobs[i].id, sizeof(UUID));
 			b.XPos = result->blobs[i].XPos;
 			b.YPos = result->blobs[i].YPos;
 			b.Width = result->blobs[i].Width;
@@ -86,11 +86,11 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 				std::vector<TVABlob> tr;
 				b.time = 1;
 				tr.push_back(b);
-				p->Trajectories.insert(std::pair<string, vector<TVABlob>>(str_uuid, tr));
+				p->Trajectories.insert(std::pair<string, vector<TVABlob> >(str_uuid, tr));
 			}
 			else if (result->blobs[i].status == 2)
 			{
-				std::map<string, vector<TVABlob>>::iterator it = p->Trajectories.begin();
+				std::map<string, vector<TVABlob> >::iterator it = p->Trajectories.begin();
 				it = p->Trajectories.find(str_uuid);
 				if (it != p->Trajectories.end())
 				{
@@ -106,7 +106,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 			}
 			else if (result->blobs[i].status == 3)
 			{
-				std::map<string, vector<TVABlob>>::iterator it = p->Trajectories.begin();
+				std::map<string, vector<TVABlob> >::iterator it = p->Trajectories.begin();
 				it = p->Trajectories.find(str_uuid);
 				if (it != p->Trajectories.end())
 					p->Trajectories.erase(it);
@@ -173,13 +173,13 @@ extern "C" TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories*
 	if (p->out_trajectories.Num > 0)
 	{
 		p->out_trajectories.Trajectories = (TVATrajectory*)malloc(p->out_trajectories.Num*sizeof(TVATrajectory));
-		std::map<string, vector<TVABlob>>::iterator it;// = p->Trajectories.begin();
+		std::map<string, vector<TVABlob> >::iterator it;// = p->Trajectories.begin();
 		int count = 0;
 		for (it = p->Trajectories.begin(); it != p->Trajectories.end(); ++it)
 		{
 			p->out_trajectories.Trajectories[count].Num = it->second.size();
 			p->out_trajectories.Trajectories[count].blobs = (TVABlob*)malloc(p->out_trajectories.Trajectories[count].Num*sizeof(TVABlob));
-			p->out_trajectories.Trajectories[count].id = it->second[0].id;
+			memcpy(&p->out_trajectories.Trajectories[count].id, it->second[0].id, sizeof(UUID));
 			for (int i = 0; i < it->second.size(); i++)
 				memcpy(&p->out_trajectories.Trajectories[count].blobs[i], &it->second[i], sizeof(TVABlob));
 			count++;

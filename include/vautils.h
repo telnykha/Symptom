@@ -9,7 +9,6 @@
 #endif 
 #else
 #define VAUTILS_API
-typedef void* HANDLE;
 #endif
 
 #include "va_common.h" 

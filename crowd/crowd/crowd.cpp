@@ -152,7 +152,7 @@ CROWD_API HRESULT  crowdRelease(HANDLE* hModule)
 	return S_OK;
 }
 
-CROWD_API HRESULT     ñrowdGetNumElements(HANDLE hModule, int& num)
+CROWD_API HRESULT     crowdGetNumElements(HANDLE hModule, int& num)
 {
 	TheCrowd* ts = (TheCrowd*)hModule;
 	if (ts->size != sizeof(TheCrowd))
@@ -178,7 +178,7 @@ CROWD_API HRESULT     crowdGetElements(HANDLE hModule, TVACrowdElement* elements
 	}
 	return S_OK;
 }
-CROWD_API HRESULT  ñrowdGetNumObjects(HANDLE hModule, int& num)
+CROWD_API HRESULT  crowdGetNumObjects(HANDLE hModule, int& num)
 {
 	TheCrowd* ts = (TheCrowd*)hModule;
 	if (ts->size != sizeof(TheCrowd))

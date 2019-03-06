@@ -3,7 +3,7 @@
 #include "va_common.h"
 #include "vautils.h"
 #include "_LF.h"
-#include "Counter.h"
+#include "counter.h"
 #include "lftcounter.h"
 
 #include "zones.cpp"

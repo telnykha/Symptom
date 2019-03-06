@@ -233,8 +233,9 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 			result.blobs[i].status = di->GetState();
 
 			std::string str_uuid = LFGUIDToString(&result.blobs[i].id);
-            TVABlob b;
-			b.id = result.blobs[i].id;
+            		TVABlob b;
+			//b.id = result.blobs[i].id;
+			memcpy(&b.id, &result.blobs[i].id, sizeof(UUID));
 			b.XPos = result.blobs[i].XPos;
 			b.YPos = result.blobs[i].YPos;
 			b.Width = result.blobs[i].Width;
@@ -417,7 +418,8 @@ void TLFTCounter::trackTrajectories(TVATrajectories* trajectories)
 		{
 			out_trajectories.Trajectories[count].Num = it->second.size();
 			out_trajectories.Trajectories[count].blobs = (TVABlob*)malloc(out_trajectories.Trajectories[count].Num*sizeof(TVABlob));
-			out_trajectories.Trajectories[count].id = it->second[0].id;
+			memcpy(&out_trajectories.Trajectories[count].id,  &it->second[0].id, 
+sizeof(UUID));
 			for (int i = 0; i < it->second.size(); i++)
 				memcpy(&out_trajectories.Trajectories[count].blobs[i], &it->second[i], sizeof(TVABlob));
 			count++;

@@ -7,8 +7,14 @@ extern "C"
 #else
 	#include <uuid/uuid.h>
 	typedef uuid_t UUID;
+	#define HRESULT int
+	#define E_FAIL -1
+	#define S_OK	0
+	#define DWORD  unsigned long
 #endif
 }
+
+typedef void* HANDLE;
 
 #define VA_OK		 0
 #define VA_ERROR	-1

@@ -1,12 +1,15 @@
 #ifndef _counter_h_
 #define _counter_h_
 
-
-#ifdef COUNTER_EXPORTS
-#define COUNTER_API __declspec(dllexport)
+#ifdef WIN32
+	#ifdef COUNTER_EXPORTS
+		#define COUNTER_API __declspec(dllexport)
+	#else
+		#define COUNTER_API __declspec(dllimport)
+	#endif
 #else
-#define COUNTER_API __declspec(dllimport)
-#endif
+		#define COUNTER_API
+#endif 
 
 extern "C"
 {

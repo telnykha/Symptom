@@ -1,11 +1,14 @@
 #ifndef _track_h_
 #define _track_h_
-
+#ifdef WIN32
 #ifdef TRACK_EXPORTS
 	#define TRACK_API __declspec(dllexport)
 #else
 	#define TRACK_API __declspec(dllimport)
 #endif
+#else
+	#define TRACK_API 
+#endif 
 
 extern "C"
 {
