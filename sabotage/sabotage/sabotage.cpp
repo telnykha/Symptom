@@ -112,12 +112,12 @@ void TSabotage::process(int w, int h, int bpp, unsigned char* data, bool* result
 	{
 		if (this->m_event_time == 0)
 		{
-			this->m_event_start = GetTickCount();
+			this->m_event_start = LFGetTickCount();
 			m_event_time = 1;
 		}
 		else
 		{
-			m_event_time = GetTickCount() - m_event_start;
+			m_event_time = LFGetTickCount() - m_event_start;
 		}
 
 		if (m_event_time > this->m_t)

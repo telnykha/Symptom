@@ -1,10 +1,13 @@
 #ifndef _smoke_h_
 #define _smoke_h_
-
+#ifdef WIN32
 #ifdef SMOKE_EXPORTS
 #define SMOKE_API __declspec(dllexport)
 #else
 #define SMOKE_API __declspec(dllimport)
+#endif
+#else
+#define SMOKE_API
 #endif
 
 #include "va_common.h"

@@ -1,11 +1,14 @@
 #ifndef _sabotage_h_
 #define _sabotage_h_
-
+#ifdef WIN32
 #ifdef SABOTAGE_EXPORTS
 #define SABOTAGE_API __declspec(dllexport)
 #else
 #define SABOTAGE_API __declspec(dllimport)
 #endif
+#else
+#define SABOTAGE_API
+#endif 
 
 #include "va_common.h"
 

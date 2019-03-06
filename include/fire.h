@@ -1,10 +1,13 @@
 #ifndef _fire_h_
 #define _fire_h_
-
+#ifdef WIN32
 #ifdef FIRE_EXPORTS
 	#define FIRE_API __declspec(dllexport)
 #else
 	#define FIRE_API __declspec(dllimport)
+#endif
+#else
+	#define FIRE_API
 #endif
 
 #include "va_common.h"

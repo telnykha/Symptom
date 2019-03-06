@@ -62,10 +62,10 @@ SMOKE_API HRESULT	smokeProcess(HANDLE hModule, int width, int height, int bpp, u
 
 		ts->state = 1;
 		if (ts->num == 0)
-			ts->st = GetTickCount();
+			ts->st = LFGetTickCount();
 		else
 		{
-			if (GetTickCount() - ts->st > ts->params.EventTimeSens)
+			if (LFGetTickCount() - ts->st > ts->params.EventTimeSens)
 				*result = true;
 		}
 		ts->num++;

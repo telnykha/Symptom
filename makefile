@@ -28,6 +28,10 @@ LIBSOURCES_UTILS   =  utils/vautils/vautils.cpp
 LIBSOURCES_COUNTER =  counter/counter/counter.cpp counter/counter/lftcounter.cpp 
 LIBSOURCES_CROWD   =  crowd/crowd/crowd.cpp crowd/crowd/LFCrowdModule.cpp 
 LIBSOURCES_TRACK   =  track/track/LFTrack.cpp 	track/track/track.cpp
+LIBSOURCES_FIRE   =   fire/fire/LFFireModule.cpp 	fire/fire/fire.cpp
+LIBSOURCES_SMOKE   =  smoke/smoke/smoke.cpp 	smoke/smoke/LFSmokeModule.cpp
+LIBSOURCES_PACKAGE   = package/package/package.cpp
+LIBSOURCES_SABOTAGE   =  sabotage/sabotage/sabotage.cpp 
 
 LIBOBJECTS= counter.o lftcounter.o 
 
@@ -38,4 +42,13 @@ symptom:
 	$(CC)  -c $(INC) $(LIBSOURCES_CROWD)
 	$(CC)  -c $(INC) $(LIBSOURCES_TRACK)
 	$(CC)  -c $(INC) $(LIBSOURCES_UTILS)
+	$(CC)  -c $(INC) $(LIBSOURCES_FIRE)
+	$(CC)  -c $(INC) $(LIBSOURCES_PACKAGE)
+	$(CC)  -c $(INC) $(LIBSOURCES_SABOTAGE)
+	$(CC)  -c $(INC) $(LIBSOURCES_SMOKE)
+	rm -f *.o *.awp 
+
+clean:
+	rm -f *.o 
+
 

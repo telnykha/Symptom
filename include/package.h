@@ -1,11 +1,14 @@
 #ifndef _package_h_
 #define _package_h_
-
+#ifdef WIN32
 #ifdef PACKAGE_EXPORTS
 #define PACKAGE_API __declspec(dllexport)
 #else
 #define PACKAGE_API __declspec(dllimport)
 #endif
+#else
+#define PACKAGE_API 
+#endif 
 extern "C"
 {
 #ifdef WIN32
