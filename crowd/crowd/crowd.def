@@ -6,8 +6,8 @@ crowdCreate @1
 crowdProcess @2
 crowdRelease	@3
 crowdGetElements @5
-ñrowdGetNumObjects @6
-ñrowdGetNumElements @4
+crowdGetNumObjects @6
+crowdGetNumElements @4
 
 
 

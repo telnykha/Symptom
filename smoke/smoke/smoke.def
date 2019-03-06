@@ -1,0 +1,9 @@
+LIBRARY SMOKE
+
+EXPORTS
+
+smokeCreate @1
+smokeProcess @2
+smokeRelease	@3
+smokeGetNumElements @4
+smokeGetElements @5

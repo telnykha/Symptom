@@ -1,0 +1,11 @@
+LIBRARY FIRE
+
+EXPORTS
+
+fireCreate @1
+fireProcess @2
+fireRelease	@3
+fireGetNumElements	@4
+fireGetElements	@5
+
+

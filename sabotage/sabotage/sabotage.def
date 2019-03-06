@@ -1,0 +1,10 @@
+LIBRARY SABOTAGE
+
+EXPORTS
+
+sabotageCreate @1
+sabotageProcess @2
+sabotageRelease	@3
+sabotageState	@4
+
+

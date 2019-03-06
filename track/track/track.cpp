@@ -74,7 +74,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 
 			std::string str_uuid = LFGUIDToString(&result->blobs[i].id);
 			TVABlob b;
-			memcpy(&b.id, result->blobs[i].id, sizeof(UUID));
+			memcpy(&b.id, (const void*)&result->blobs[i].id, sizeof(UUID));
 			b.XPos = result->blobs[i].XPos;
 			b.YPos = result->blobs[i].YPos;
 			b.Width = result->blobs[i].Width;
@@ -179,7 +179,7 @@ extern "C" TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories*
 		{
 			p->out_trajectories.Trajectories[count].Num = it->second.size();
 			p->out_trajectories.Trajectories[count].blobs = (TVABlob*)malloc(p->out_trajectories.Trajectories[count].Num*sizeof(TVABlob));
-			memcpy(&p->out_trajectories.Trajectories[count].id, it->second[0].id, sizeof(UUID));
+			memcpy(&p->out_trajectories.Trajectories[count].id, &it->second[0].id, sizeof(UUID));
 			for (int i = 0; i < it->second.size(); i++)
 				memcpy(&p->out_trajectories.Trajectories[count].blobs[i], &it->second[i], sizeof(TVABlob));
 			count++;
