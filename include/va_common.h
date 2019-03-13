@@ -6,6 +6,7 @@ extern "C"
 	#include <Rpc.h>
 #else
 	#include <uuid/uuid.h>
+	#include <stdbool.h>	
 	typedef uuid_t UUID;
 	#define HRESULT int
 	#define E_FAIL -1
@@ -19,15 +20,14 @@ typedef void* HANDLE;
 #define VA_OK		 0
 #define VA_ERROR	-1
 /*
-Структура, описывающая точку 
+
 */
 typedef struct
 {
-	float X; // X координата в % от ширины изображения
-	float Y; // Y координата в % от ширины изображения.
+	float X; // 
+	float Y; // 
 }TVAPoint;
 /*
-	структура, которая описывает точку в пространстве
 */
 typedef struct 
 {
@@ -36,7 +36,6 @@ typedef struct
 	float Z;
 }TVA3DPoint;
 /*
-	структура, описывающая размеры изображения. 
 */
 typedef struct
 {
@@ -44,92 +43,84 @@ typedef struct
 	int height;
 }TVASize;
 /*
-	Структура, описывающая прямоугольник	
 */
 typedef struct 
 {
-	TVAPoint LeftTop;		//Координата левого верхнего угла прямоугольника. 
-	TVAPoint RightBottom;	//Координата правого-нижнего угла прямоугольника
+	TVAPoint LeftTop;		//
+	TVAPoint RightBottom;	//
 }TVARect;
 
 /*
-	Структура, описывающая зону наблюдения. 
 */
 typedef struct
 {
-	bool		IsRect;			//Признак прямоугольной зоны наблюдения
-	TVARect		Rect;			//Зона наблюдения в виде прямоугольника. 
-	int			NumPoints;		//Число точек контура. 
-	TVAPoint*	Points;			//Массив точек. 
+	bool		IsRect;			//
+	TVARect		Rect;			//
+	int			NumPoints;		//
+	TVAPoint*	Points;			//
 }TVAZone;
 
 /*
-обнаруженный объект
 */
 typedef struct
 {
-	UUID	id;			// идентификатор объекта.
-	int		status;		// статус объекта (1- обнаружен, 2 - наблюдается, 3 - потерян)  
-	int		time;		// время наблюдения объекта в кадрах
-	float   XPos;		// центр масс объекта на изображении
-	float   YPos;		// центр масс объекта на изображении
-	float	Width;		// ширина объекта
-	float   Height;		// высота объекта
+	UUID	id;			// 
+	int		status;		// 
+	int		time;		// 
+	float   XPos;		// 
+	float   YPos;		// 
+	float	Width;		// 
+	float   Height;		// 
 }TVABlob;
 /*
-результат наблюдения
 */
 typedef struct
 {
-	int Num;		// число активных объектов
-	TVABlob* blobs; // местоположения и размеры объектов
+	int Num;		// 
+	TVABlob* blobs; // 
 }TVAResult;
 /*
-траектория
 */
 typedef struct
 {
-	UUID	id;  //идентификатор объекта
-	int		Num; //количество точек траектори
-	TVABlob* blobs;// местоположения и размеры объектов
+	UUID	id;  //
+	int		Num; //
+	TVABlob* blobs;// 
 }TVATrajectory;
 /*
-массив траекторий
 */
 typedef struct
 {
-	int Num; // число траекторий
-	TVATrajectory* Trajectories; // траектории 
+	int Num; // 
+	TVATrajectory* Trajectories; // 
 }TVATrajectories;
 /*
-	Структура, описывающая параметры видеокамеры. 
 */
 typedef struct
 {
-	double Height;		//Высота установки в миллиметрах
-	double Angle;		//Угол наклона камеры в градусах
-	double Focus;		//Фокусное расстояние камеры в миллиметрах
-	double WChipSize;	//Ширина сенсора в миллиметрах. 
-	double HChipSize;	//Высота сенсора в миллиметрах. 
+	double Height;		//
+	double Angle;		//
+	double Focus;		//
+	double WChipSize;	//
+	double HChipSize;	//
 	double dMaxLenght;
 }TVACamera;
 /*
-	Структура инициализации модулей. 
 */
 typedef struct
 {
-	bool	  SaveLog;		// для ревизора должен быть всегда установлен в false	
-	char*	  Path;			// для ревизора должне быть установлен в ""
-    bool      useTrack;     // использовать сопровождение найденных объектов
-	TVACamera Camera;		// параметры камеры видеонаблюдения. 
-	int		  NumZones;		// число областей наблюдения на кадре
-	TVAZone*  Zones;		// области наблюдения. 
-	double    EventSens;    // чувствительноность. 0...1; 0 - минимальная, 1 - максимальная, по умолчанию 0.5
-	double	  EventTimeSens;// время наступления события в миллисекундах, по умолчанию 1000  
-	double	  minWidth;		// минимальная ширина объекта, в % от ширины изображения. 
-	double	  minHeight;	// минимальная высота объекта, d % от высоты изображения. 
-	double	  maxWidth;		// максимальная шинина объекта в % от ширины изображени. 
-	double	  maxHeight;	// максимальная высота объекта в % от высоты изображения. 
-	int       numObects;	// максимальное число объектов наблюдения. 
+	bool	  SaveLog;		// 
+	char*	  Path;			// 
+    bool      useTrack;     // 
+	TVACamera Camera;		// 
+	int		  NumZones;		// 
+	TVAZone*  Zones;		// 
+	double    EventSens;    // 
+	double	  EventTimeSens;// 
+	double	  minWidth;		// 
+	double	  minHeight;	// 
+	double	  maxWidth;		// 
+	double	  maxHeight;	// 
+	int       numObects;	// 
 }TVAInitParams;
 #endif // _va_common_h_
