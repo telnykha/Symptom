@@ -6,6 +6,9 @@
 #include "include/crowd.h"
 #include "include/counter.h"
 #include "include/track.h"
+#include "include/motion.h"
+
+MotionDetectorCNT* motion = NULL;
 
 HANDLE sabotage = NULL;
 HANDLE smoke    = NULL;
@@ -32,6 +35,10 @@ TVAPackageInit package_params;
 int main(int argc, const char** argv)
 {
 	int result = VA_OK;
+	
+	motion  = InitMotionDetector();
+	_CHECK_MODULE_(motion, "MOTION")
+	
 	sabotage = sabotageCreate(&params);
 	_CHECK_MODULE_(sabotage, "SABOTAGE")
 	
@@ -54,6 +61,9 @@ int main(int argc, const char** argv)
 	_CHECK_MODULE_(track, "TRACK")
 
 cleanup:
+	if (motion != NULL)
+		FreeMotionDetector(motion);
+		
 	if (sabotage != NULL)
 		sabotageRelease(&sabotage);
 	if (smoke != NULL)

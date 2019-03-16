@@ -34,7 +34,9 @@ LIBSOURCES_TRACK   =  track/track/LFTrack.cpp 	track/track/track.cpp
 LIBSOURCES_FIRE   =   fire/fire/LFFireModule.cpp 	fire/fire/fire.cpp
 LIBSOURCES_SMOKE   =  smoke/smoke/smoke.cpp 	smoke/smoke/LFSmokeModule.cpp
 LIBSOURCES_PACKAGE   = package/package/package.cpp
-LIBSOURCES_SABOTAGE   =  sabotage/sabotage/sabotage.cpp 
+LIBSOURCES_SABOTAGE   =  sabotage/sabotage/sabotage.cpp
+LIBSOURCES_MOTION    =  motion/motion/motion.cpp
+ 
 
 LIBOBJECTS_UTILS = vautils.o
 LIBOBJECTS_COUNTER = counter.o lftcounter.o 
@@ -44,6 +46,7 @@ LIBOBJECTS_FIRE= LFFireModule.o fire.o
 LIBOBJECTS_SMOKE= smoke.o LFSmokeModule.o 
 LIBOBJECTS_PACKAGE= package.o 
 LIBOBJECTS_SABOTAGE= sabotage.o 
+LIBOBJECTS_MOTION= motion.o 
 
 all: symptom clean
 symptom:
@@ -55,6 +58,7 @@ symptom:
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_FIRE)
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_PACKAGE)
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_SMOKE)
+	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_MOTION)
 	$(CC)  -shared -o lib/libsabotage.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SABOTAGE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a   -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libsmoke.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SMOKE)    $(AWPLF)awplflib.a  $(AWPLIB)awpipl2.a  -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libfire.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_FIRE)   $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
@@ -62,8 +66,9 @@ symptom:
 	$(CC)  -shared -o lib/libcounter.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_COUNTER) $(AWPLF)awplflib.a  $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libtrack.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_TRACK)  $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libcrowd.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_CROWD) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
+	$(CC)  -shared -o lib/libmotion.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_MOTION) $(AWPLIB)awpipl2.a -ljpeg 
 	$(CC)  -c $(INC) symptom_test.cpp
-	$(CC)  symptom_test.o  -L. $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so -o test 
+	$(CC)  symptom_test.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so -o test 
 
 clean:
 	rm -f *.o 

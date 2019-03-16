@@ -32,6 +32,8 @@ typedef struct
 	float   Height;		// высота объекта
 }TVACrowdElement;
 
+extern "C"
+{
 CROWD_API HANDLE   crowdCreate(TVAInitParams* params);
 CROWD_API TVAResult* crowdProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data);
 CROWD_API HRESULT  crowdRelease(HANDLE* hModule);
@@ -39,5 +41,5 @@ CROWD_API HRESULT  crowdRelease(HANDLE* hModule);
 CROWD_API HRESULT  crowdGetNumElements(HANDLE hModule, int& num);
 CROWD_API HRESULT  crowdGetElements(HANDLE hModule, TVACrowdElement* elements);
 CROWD_API HRESULT  crowdGetNumObjects(HANDLE hModule, int& num);
-
+}
 #endif // _crowd_h_

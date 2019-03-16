@@ -8,15 +8,12 @@
 typedef struct
 {
 	int size;
-//	TVAInitParams params;
 	int NumObjects;
 	TLFTrackEngine* engine;
 	std::map<string, vector<TVABlob> > Trajectories;
 	TVATrajectories out_trajectories;
 }TheTrack;
 
-
-// экспортируемые функции
 
 extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 {
@@ -30,7 +27,6 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	track->out_trajectories.Num = 0;
 	track->out_trajectories.Trajectories = NULL;
 
-//	memcpy(&track->params, params, sizeof(TVAInitParams));
 	track->NumObjects = params->numObects;
 	track->engine = new TLFTrackEngine(*params);
 	track->engine->SetNeedTrack(true);
@@ -44,6 +40,7 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	s->SetThreshold(params->EventSens);
 	return (HANDLE)track;
 }
+
 extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result)
 {
 	TheTrack* p = (TheTrack*)hModule;
@@ -118,7 +115,7 @@ extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height
 	return S_OK;
 }
 
-extern "C" TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data)
+extern "C" TRACK_API HRESULT	trackForeground(HANDLE hModule, int width, int height, unsigned char* data)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
@@ -319,7 +316,7 @@ extern "C" TRACK_API HRESULT		trackCheckLine(HANDLE hModule, TVAPoint& p1, TVAPo
 	return S_OK;
 }
 
-extern "C" TRACK_API HRESULT		trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result)
+extern "C" TRACK_API HRESULT	trackCheckZone(HANDLE hModule, TVAZone* z, TVATrajectory* t, bool* result)
 {
 	TheTrack* p = (TheTrack*)hModule;
 	if (p->size != sizeof(TheTrack))
