@@ -16,7 +16,7 @@
 
 // forward declaration
 class MotionDetectorCNT;
-struct CvRect
+struct _CvRect
 {
 	int x;
 	int y;
@@ -28,7 +28,7 @@ extern "C"
 {	
 	MOTION_API MotionDetectorCNT*  InitMotionDetector();
 	MOTION_API void  AnalyzeMotionDetectorArgb(MotionDetectorCNT* detector, char* bmpImage, int bmpStride, int bmpWidth, int bmpHeight, int sensitivity, int minObjWidthPercent, int minObjHeightPercent);
-	MOTION_API CvRect*  GetMotionDetectorRects(MotionDetectorCNT* detector, int& rectCount);
+	MOTION_API _CvRect*  GetMotionDetectorRects(MotionDetectorCNT* detector, int& rectCount);
 	MOTION_API void  FreeMotionDetector(MotionDetectorCNT* detector);
 }
 #endif //__motion_h__ 

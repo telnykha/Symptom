@@ -1,0 +1,13 @@
+LIBRARY MOTION
+
+EXPORTS
+
+InitMotionDetector @1
+AnalyzeMotionDetectorArgb @2
+GetMotionDetectorRects	@3
+FreeMotionDetector @4
+
+
+
+
+

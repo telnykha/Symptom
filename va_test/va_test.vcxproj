@@ -153,6 +153,29 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\counter\counter\counter.vcxproj">
+      <Project>{b5331eeb-348e-4003-9de7-8e92413c5737}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\crowd\crowd\crowd.vcxproj">
+      <Project>{dab5488b-ae75-4a3c-8902-099a47bea0b9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\fight\fight\fight.vcxproj">
+      <Project>{76a94cec-f076-40af-a026-ea70e5430869}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\motion\motion.vcxproj">
+      <Project>{9bb3b99e-15dc-4319-a1ae-c3fafd02cb8a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\track\track\track.vcxproj">
+      <Project>{cb15bbc0-5764-4219-8332-bccf8c872cee}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\trains\trains\trains.vcxproj">
+      <Project>{5c337302-8d1d-4f40-a973-f27fed93abdb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\utils\vautils\vautils.vcxproj">
+      <Project>{f2e95c39-34dd-4dd5-b383-62386b97452d}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

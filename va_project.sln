@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fight", "fight\fight\fight.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "va_test", "va_test\va_test.vcxproj", "{4B033D5D-AAAA-43C5-9482-BCD70369D00C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "motion", "motion\motion.vcxproj", "{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -152,6 +154,16 @@ Global
 		{4B033D5D-AAAA-43C5-9482-BCD70369D00C}.Release|Win32.Build.0 = Release|Win32
 		{4B033D5D-AAAA-43C5-9482-BCD70369D00C}.Release|x64.ActiveCfg = Release|x64
 		{4B033D5D-AAAA-43C5-9482-BCD70369D00C}.Release|x64.Build.0 = Release|x64
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Debug|Win32.Build.0 = Debug|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Debug|x64.ActiveCfg = Debug|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Release|Win32.ActiveCfg = Release|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Release|Win32.Build.0 = Release|Win32
+		{9BB3B99E-15DC-4319-A1AE-C3FAFD02CB8A}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

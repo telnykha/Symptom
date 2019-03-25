@@ -28,6 +28,7 @@ int DoReasearch(int argc, char** argv)
 	}
 
 	CvCapture* capture = NULL;
+	bool paused = false;
 	capture = cvCaptureFromFile(argv[1]);
 	if (capture == NULL)
 	{
@@ -48,42 +49,47 @@ int DoReasearch(int argc, char** argv)
 	while (true)
 	{
 		IplImage* frame = NULL;
-		frame = cvQueryFrame(capture);
-		if (!frame)
-			break;
-		if (img == NULL)
+		if (!paused)
 		{
-			int height = frame->height * DISPLAY_WIDTH / frame->width;
-			img = cvCreateImage(CvSize(DISPLAY_WIDTH, height), IPL_DEPTH_8U, 3);
+			frame = cvQueryFrame(capture);
+			if (!frame)
+				break;
+			if (img == NULL)
+			{
+				int height = frame->height * DISPLAY_WIDTH / frame->width;
+				img = cvCreateImage(CvSize(DISPLAY_WIDTH, height), IPL_DEPTH_8U, 3);
+			}
+			cvResize(frame, img);
+			cvRectangle(img, CvPoint(0, 0), CvPoint(DISPLAY_WIDTH - 1, 50), CV_RGB(0, 0, 0), -1);
+			if (awp == NULL)
+				awpCreateImage(&awp, img->width, img->height, 3, AWP_BYTE);
+			memcpy(awp->pPixels, img->imageData, img->widthStep*img->height);
+			engine->SetSourceImage(awp, true);
+			engine->GetFlow()->DrawFlow(img, engine->GetFlow()->GetModule(), engine->GetFlow()->GetAngle(), 0.25, 0);
+			//if (processor.GetMoveCount() > 2)
+			{
+				CvPoint p1 = analysis->GetCvCentroid();
+				p1.x *= processor->GetScale();
+				p1.y *= processor->GetScale();
+				CvScalar color;
+				if (engine->GetState() > 0)
+					color = CV_RGB(255, 0, 0);
+				else
+					color = CV_RGB(0, 255, 0);
+				//cvCircle(img, p1, 100, color, 2);
+				cvShowImage("fight research mask", processor->GetMask());
+			}
+			cvShowImage("research flow", img);
+			cvShowImage("fight research foreground", processor->GetFG());
 		}
-		cvResize(frame, img);
-		cvRectangle(img, CvPoint(0, 0), CvPoint(DISPLAY_WIDTH - 1, 50), CV_RGB(0, 0, 0), -1);
-		if (awp == NULL)
-			awpCreateImage(&awp, img->width, img->height, 3, AWP_BYTE);
-		memcpy(awp->pPixels, img->imageData, img->widthStep*img->height);
-		engine->SetSourceImage(awp, true);
-
-		//if (processor.GetMoveCount() > 2)
-		{
-			CvPoint p1 = analysis->GetCvCentroid();
-			p1.x *= processor->GetScale();
-			p1.y *= processor->GetScale();
-			CvScalar color;
-			if (engine->GetState() > 0)
-				color = CV_RGB(255, 0, 0);
-			else
-				color = CV_RGB(0, 255, 0);
-			cvCircle(img, p1, 100, color, 2);
-			cvShowImage("fight research mask", processor->GetMask());
-		}
-		cvShowImage("fight research flow", img);
-		cvShowImage("fight research foreground", processor->GetFG());
 
 
 		int c;
 		c = cvWaitKey(10);
 		if ((char)c == 27)
 			break;
+		if ((char)c == 'p')
+			paused = !paused;
 	}
 	cvReleaseImage(&img);
 	cvDestroyAllWindows();
@@ -168,6 +174,6 @@ int DoTest(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-	//return DoReasearch(argc, argv);
-	return DoTest(argc, argv);
+	return DoReasearch(argc, argv);
+	//return DoTest(argc, argv);
 }

@@ -11,7 +11,7 @@ class MotionDetectorCNT
 protected:
 	double	m_scale;
 	int 	m_detectedCount;
-	CvRect* m_detectedRects;
+	_CvRect* m_detectedRects;
 
 	awpImage* m_src;  // current image
 	awpImage* m_acc;  // accamulator
@@ -26,7 +26,7 @@ public:
 	~MotionDetectorCNT();
 	
 	int ProcessImage(awpImage* src, double sens, int mw, int mh);
-	CvRect* GetDetectedRects(int& rectCount);
+	_CvRect* GetDetectedRects(int& rectCount);
 };
 
 MotionDetectorCNT::MotionDetectorCNT()
@@ -93,7 +93,7 @@ void MotionDetectorCNT::FindRects(awpImage* image, int mw, int mh)
 	m_detectedCount = count;
 	if (m_detectedCount == 0)
 		return;
-	m_detectedRects = (CvRect*)malloc(m_detectedCount*sizeof(CvRect));
+	m_detectedRects = (_CvRect*)malloc(m_detectedCount*sizeof(_CvRect));
 	count = 0;
 	for (int i = 0; i < NumStrokes; i++)
 	{
@@ -111,11 +111,13 @@ void MotionDetectorCNT::FindRects(awpImage* image, int mw, int mh)
 			count++;
 		}
 	}
+	awpFreeStrokes(NumStrokes, &strokes);
 }
 
 
 int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int mh)
 {
+	_AWP_SAFE_RELEASE_(m_src)
 	awpImage* tmp = NULL;
 	awpCopyImage(image, &tmp);
 
@@ -124,6 +126,8 @@ int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int m
 	awpResizeBilinear(tmp, _MOTION_WIDTH_, height);
 	awpConvert(tmp, AWP_CONVERT_TO_DOUBLE);
 	awpCopyImage(tmp, &m_src);
+	_AWP_SAFE_RELEASE_(tmp)
+
 	// acc
 	awpRunningAvg(m_src, m_acc, 0.02);
 	// abs_diff
@@ -131,10 +135,29 @@ int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int m
     
 	double threshold = (100 - sens) * 1.8 + 15;
     
+#ifdef _DEBUG 
+	awpImage* tmp0 = NULL;
+	awpCopyImage(m_acc, &tmp0);
+	awpConvert(tmp0, AWP_CONVERT_TO_BYTE);
+	awpSaveImage("acc.awp", tmp0);
+	_AWP_SAFE_RELEASE_(tmp0)
+	
+	awpCopyImage(m_diff, &tmp0);
+	awpConvert(tmp0, AWP_CONVERT_TO_BYTE);
+	awpSaveImage("diff.awp", tmp0);
+	_AWP_SAFE_RELEASE_(tmp0)
+
+#endif 
+
 	awpMakeBinary(m_diff, &tmp, threshold, AWP_BINARY, 0, 255, NULL);
 	awpConvert(tmp, AWP_CONVERT_TO_BYTE);
+#ifdef _DEBUG
+	awpSaveImage("bin.awp", tmp);
+#endif 
 	FindRects(tmp, mw, mh);
 	_AWP_SAFE_RELEASE_(tmp)
+	
+	return 0;
 }
 
 int MotionDetectorCNT::ProcessImage(awpImage* src, double sens, int mw, int mh)
@@ -148,7 +171,7 @@ int MotionDetectorCNT::ProcessImage(awpImage* src, double sens, int mw, int mh)
 		return ProcessHelper(src, sens, mw, mh);
 }
 
-CvRect* MotionDetectorCNT::GetDetectedRects(int& rectCount)
+_CvRect* MotionDetectorCNT::GetDetectedRects(int& rectCount)
 {
 	rectCount = m_detectedCount;
 	return m_detectedRects;
@@ -166,7 +189,7 @@ MOTION_API void  AnalyzeMotionDetectorArgb(MotionDetectorCNT* detector, char* bm
 	detector->ProcessImage(tmp, sensitivity, minObjWidthPercent, minObjHeightPercent);
 	_AWP_SAFE_RELEASE_(tmp)
 }
-MOTION_API CvRect*  GetMotionDetectorRects(MotionDetectorCNT* detector, int& rectCount)
+MOTION_API _CvRect*  GetMotionDetectorRects(MotionDetectorCNT* detector, int& rectCount)
 {
 	return detector->GetDetectedRects(rectCount);
 }

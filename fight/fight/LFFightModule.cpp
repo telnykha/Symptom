@@ -346,6 +346,8 @@ void CFBFlow::DrawFlow(IplImage* img, IplImage* module, IplImage* angle, double 
 			CvPoint p2 = cvPoint(_x + 10 * mdata[x + module->width*y] * cos(2 * 3.14159*adata[x + module->width*y] / 360.), _y + 10 * mdata[x + module->width*y] * sin(2 * 3.14159*adata[x + module->width*y] / 360.));
 			if (mdata[x + module->width*y] < t)
 				cvLine(img, p1, p2, CV_RGB(0, 255, 0));
+			else if (mdata[x + module->width*y] > t && mdata[x + module->width*y] < 2*t)
+				cvLine(img, p1, p2, CV_RGB(255, 255, 0));
 			else
 				cvLine(img, p1, p2, CV_RGB(255, 0, 0));
 		}

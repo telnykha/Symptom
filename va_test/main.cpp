@@ -2,8 +2,13 @@
 #include "opencv\cv.h"
 #include "opencv\highgui.h"
 
-#define DISPLAY_WIDTH 800
-#define DISPLAY_HEIHT 600
+#include "motion.h"
+
+#define DISPLAY_WIDTH 640
+#define DISPLAY_HEIHT 480
+
+
+MotionDetectorCNT* motion = NULL;
 
 extern "C"
 {
@@ -32,6 +37,8 @@ int main(int argc, char** argv)
 	}
 
 	IplImage* img = NULL;
+
+	motion = InitMotionDetector();
 	while (true)
 	{
 		IplImage* frame = NULL;
@@ -44,6 +51,20 @@ int main(int argc, char** argv)
 			img = cvCreateImage(CvSize(DISPLAY_WIDTH, height), IPL_DEPTH_8U, 3);
 		}
 		cvResize(frame, img);
+
+		// process image 
+		AnalyzeMotionDetectorArgb(motion, img->imageData, 3, img->width, img->height, 75, 2, 2);
+		int count = 0;
+		_CvRect* r = GetMotionDetectorRects(motion, count);
+		printf("c = %i \n", count);
+
+		// draw result 
+		for (int i = 0; i < count; i++)
+		{
+			CvRect rr = cvRect (r[i].x, r[i].y, r[i].width, r[i].height);
+			cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
+		}
+
 		cvShowImage("va_test", img);
 
 		int c;
@@ -54,5 +75,6 @@ int main(int argc, char** argv)
 	cvReleaseImage(&img);
 	cvDestroyAllWindows();
 	cvReleaseCapture(&capture);
+	FreeMotionDetector(motion);
 	return 0;
 }
