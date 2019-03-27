@@ -209,7 +209,8 @@ MOTION_API MotionDetectorCNT*  InitMotionDetector()
 MOTION_API void  AnalyzeMotionDetectorArgb(MotionDetectorCNT* detector, char* bmpImage, int bmpStride, int bmpWidth, int bmpHeight, int sensitivity, int minObjWidthPercent, int minObjHeightPercent)
 {
 	awpImage* tmp = NULL;
-	if (awpCreateGrayImage(&tmp, bmpWidth, bmpHeight, bmpStride, (AWPBYTE*)bmpImage) != AWP_OK)
+	int bpp = bmpStride / bmpWidth;
+	if (awpCreateGrayImage(&tmp, bmpWidth, bmpHeight, bpp, (AWPBYTE*)bmpImage) != AWP_OK)
 		return;
 	detector->ProcessImage(tmp, sensitivity, minObjWidthPercent, minObjHeightPercent);
 	_AWP_SAFE_RELEASE_(tmp)

@@ -42,8 +42,8 @@ void Usage()
 	printf("--counter	BLOB counter system \n");
 	printf("--crowd		Crowd objects counter\n");
 	printf("--heatmap	Motion heatmap creator \n");
-	printf("--face		Face detecor\n");
-	printf("--human		Human detecor\n");
+	printf("--face		Face detector\n");
+	printf("--human		Human detector\n");
 	printf("--car 		Car detector \n");
 	printf("--trains	Train number detector\n");
 	printf("--fight		Fight detector\n");
