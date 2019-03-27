@@ -1,6 +1,21 @@
 #include "motion.h"
 #include "awpipl.h"
 #include "math.h"
+
+unsigned long MGetTickCount()
+{
+#ifdef WIN32
+	return GetTickCount();
+#else
+    struct timespec ts;
+    unsigned theTick = 0U;
+    clock_gettime( CLOCK_REALTIME, &ts );
+    theTick  = ts.tv_nsec / 1000000;
+    theTick += ts.tv_sec * 1000;
+    return theTick;
+#endif
+}
+
 /*
  * always correct input image width to _MOTION_WIDTH_
  * */
@@ -8,6 +23,8 @@
 
 class MotionDetectorCNT
 {
+private: 
+	unsigned long m_delay;
 protected:
 	double	m_scale;
 	int 	m_detectedCount;
@@ -37,6 +54,7 @@ MotionDetectorCNT::MotionDetectorCNT()
 	m_scale = 1;
 	m_detectedCount = 0;
 	m_detectedRects = NULL;
+	m_delay = 0;
 }
 
 MotionDetectorCNT::~MotionDetectorCNT()
@@ -64,6 +82,7 @@ int MotionDetectorCNT::Init(awpImage* image)
 	res = awpCreateImage(&m_src, _MOTION_WIDTH_, height,  1, AWP_DOUBLE);
 	res = awpCreateImage(&m_acc, _MOTION_WIDTH_, height,  1, AWP_DOUBLE);
 	res = awpCreateImage(&m_diff, _MOTION_WIDTH_, height, 1, AWP_DOUBLE);
+	m_delay = MGetTickCount();
 	
 	return res == AWP_OK ? VA_OK:VA_ERROR;
 }
@@ -173,6 +192,12 @@ int MotionDetectorCNT::ProcessImage(awpImage* src, double sens, int mw, int mh)
 
 _CvRect* MotionDetectorCNT::GetDetectedRects(int& rectCount)
 {
+	unsigned long t = MGetTickCount();
+	if (t - m_delay < 5000)
+	{
+		rectCount = 0;
+		return NULL;
+	}
 	rectCount = m_detectedCount;
 	return m_detectedRects;
 }

@@ -1,14 +1,12 @@
 #include "stdio.h"
-#include "opencv\cv.h"
-#include "opencv\highgui.h"
+#include "opencv/cv.h"
+#include "opencv/highgui.h"
 
 #include "motion.h"
+#include "sabotage.h"
 
 #define DISPLAY_WIDTH 640
 #define DISPLAY_HEIHT 480
-
-MotionDetectorCNT* motion = NULL;
-
 
 #define VA_MODULE_SABOTAGE 1
 #define VA_MODULE_FIRE	   2
@@ -23,6 +21,7 @@ MotionDetectorCNT* motion = NULL;
 #define VA_MODULE_HUMAN    11
 #define VA_MODULE_TRAINS   12
 #define VA_MODULE_FIGHT    13
+#define VA_MODULE_TRACK    14
 
 extern "C"
 {
@@ -31,7 +30,56 @@ extern "C"
 
 void Usage()
 {
-	printf("va_test -key -input [path]\n");
+	printf("Usage: \n");
+	printf("symptom -key -input [path]\n");
+	printf("-key = \n");
+	printf("--motion   	Motion detector\n");
+	printf("--sabotage 	Sabotage detector\n");
+	printf("--fire 		Fire detector\n");
+	printf("--smoke 	Smoke detector\n");
+	printf("--package	Leaving bags and packages detecor\n");
+	printf("--track		BLOB tracking system\n");
+	printf("--counter	BLOB counter system \n");
+	printf("--crowd		Crowd objects counter\n");
+	printf("--heatmap	Motion heatmap creator \n");
+	printf("--face		Face detecor\n");
+	printf("--human		Human detecor\n");
+	printf("--car 		Car detector \n");
+	printf("--trains	Train number detector\n");
+	printf("--fight		Fight detector\n");
+}
+int GetModuleCode(char* key)
+{
+	if (strcmp(key, "--motion") == 0)
+		return VA_MODULE_MOTION;
+	else if (strcmp(key, "--sabotage") == 0)
+		return VA_MODULE_SABOTAGE;
+	else if (strcmp(key, "--fire") == 0)
+		return VA_MODULE_FIRE;
+	else if (strcmp(key, "--smoke") == 0)
+		return VA_MODULE_SMOKE;
+	else if (strcmp(key, "--package") == 0)
+		return VA_MODULE_PACKAGE;
+	else if (strcmp(key, "--track") == 0)
+		return VA_MODULE_TRACK;
+	else if (strcmp(key, "--counter") == 0)
+		return VA_MODULE_COUNTER;
+	else if (strcmp(key, "--crowd") == 0)
+		return VA_MODULE_CROWD;
+	else if (strcmp(key, "--heatmap") == 0)
+		return VA_MODULE_HEATMAP;
+	else if (strcmp(key, "--face") == 0)
+		return VA_MODULE_FACE;
+	else if (strcmp(key, "--human") == 0)
+		return VA_MODULE_HUMAN;
+	else if (strcmp(key, "--car") == 0)
+		return VA_MODULE_CAR;
+	else if (strcmp(key, "--trains") == 0)
+		return VA_MODULE_TRAINS;
+	else if (strcmp(key, "--fight") == 0)
+		return VA_MODULE_FIGHT;
+	else 
+		return -1;
 }
 
 class IVideoAnalysis
@@ -39,7 +87,6 @@ class IVideoAnalysis
 protected:
 	HANDLE		  m_module;
 	TVAInitParams m_params;
-
 public:
 	IVideoAnalysis(TVAInitParams* params)
 	{
@@ -57,11 +104,17 @@ public:
 
 class CMotionModule : public IVideoAnalysis
 {
-protected:
-	
+public:	
+	CMotionModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
 	virtual void InitModule(TVAInitParams* params)
 	{
 		MotionDetectorCNT* m = InitMotionDetector();
+		if (m == NULL)
+		{
+			printf("ERROR: cannot create module MOTION.\n");
+			exit(-1);
+		}
 		m_module = (HANDLE)m;
 	}
 	virtual void ReleaseModule()
@@ -69,9 +122,7 @@ protected:
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
 		FreeMotionDetector(m);
 	}
-public:
-	CMotionModule(TVAInitParams* params) : IVideoAnalysis(params){}
-	
+
 	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
 	{
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
@@ -85,7 +136,7 @@ public:
 		
 		int count = 0;
 		_CvRect* r = GetMotionDetectorRects(m, count);
-		printf("c = %i \n", count);
+		printf("MOTION MODULE: count of moving objects = %i \n", count);
 
 		// draw result 
 		for (int i = 0; i < count; i++)
@@ -97,15 +148,56 @@ public:
 	}
 };
 
+class CSabotageModule : public IVideoAnalysis
+{
+public:
+	CSabotageModule(TVAInitParams* params) : IVideoAnalysis(params){}
+	
+	virtual void InitModule(TVAInitParams* params)
+	{
+		m_module = (HANDLE)sabotageCreate(params);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module SABOTAGE.\n");
+			exit(-1);
+		}
+	}
+	
+	virtual void ReleaseModule()
+	{
+		sabotageRelease (&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		bool result = false;
+		sabotageProcess(m_module,  width, height, bpp, data, &result);
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int state = NO_SABOTAGE;
+		sabotageState(m_module, &state);
+		if (state != NO_SABOTAGE)
+			printf("MODULE SABOTAGE: detect sabotage\n");
+		else 
+			printf("MODULE SABOTAGE: status ok\n");
+	}
+	
+
+};
+
 IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 {
 	if (VA_MODULE_ID == VA_MODULE_MOTION)
 		return new CMotionModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_SABOTAGE)
+		return new CSabotageModule(params);
 	else
 		return NULL;
 }
 
-IVideoAnalysis* module;
+IVideoAnalysis* module = NULL;
 
 
 int main(int argc, char** argv)
@@ -116,24 +208,41 @@ int main(int argc, char** argv)
 		return 0;
 	}
 	
+	int k = GetModuleCode(argv[1]);
+	if (k < 0)
+	{
+		printf("ERROR: unknown module. \n");
+		printf("---------------------- \n");
+		Usage();
+		return 0;
+	}
+
+	TVAInitParams params;
+	params.EventSens 		= 0.5;
+	params.EventTimeSens 	= 500;
+	
+	module = VideoAnalysisFactory(&params, k);
+	if (module == NULL)
+	{
+		printf("ERROR: Cannot create video analysis: %s\n", argv[1]);
+		Usage();
+		return 0;
+	}
+
+	
 	CvCapture* capture = NULL;
 	capture = cvCaptureFromFile(argv[2]);
 	if (capture == NULL)
 	{
-		printf("Cannot open video source: %s\n", argv[2]);
+		printf("ERROR: Cannot open video source: %s\n", argv[2]);
 		return 0;
 	}
 
 	IplImage* img = NULL;
-
-	//motion = InitMotionDetector();
-	module = VideoAnalysisFactory(NULL, VA_MODULE_MOTION);
-	if (module == NULL)
-	{
-		printf("Cannot create video analysis: %s\n", argv[2]);
-		return 0;
-	}
-	module->InitModule(NULL);
+	char msg[64];
+	sprintf(msg, "symptom 3.0 %s", argv[1]);	
+	
+	module->InitModule(&params);
 	while (true)
 	{
 		IplImage* frame = NULL;
@@ -147,22 +256,9 @@ int main(int argc, char** argv)
 		}
 		cvResize(frame, img);
 
-		// process image 
-		//AnalyzeMotionDetectorArgb(motion, img->imageData, 3, img->width, img->height, 75, 2, 2);
 		module->ProcessData((unsigned char*)img->imageData,img->width, img->height, 3);
 		module->DrawResult((unsigned char*)img->imageData, img->width, img->height, 3);
-		//int count = 0;
-		//_CvRect* r = GetMotionDetectorRects(motion, count);
-		//printf("c = %i \n", count);
-
-		//// draw result 
-		//for (int i = 0; i < count; i++)
-		//{
-		//	CvRect rr = cvRect (r[i].x, r[i].y, r[i].width, r[i].height);
-		//	cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
-		//}
-
-		cvShowImage("va_test", img);
+		cvShowImage(msg, img);
 
 		int c;
 		c = cvWaitKey(10);
@@ -172,7 +268,6 @@ int main(int argc, char** argv)
 	cvReleaseImage(&img);
 	cvDestroyAllWindows();
 	cvReleaseCapture(&capture);
-	//FreeMotionDetector(motion);
 	module->ReleaseModule();
 	return 0;
 }
