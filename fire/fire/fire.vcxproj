@@ -73,15 +73,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,7 +100,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>fire.def</ModuleDefinitionFile>
-      <OutputFile>$(BuildDebug)\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -134,7 +138,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>fire.def</ModuleDefinitionFile>
-      <OutputFile>$(BuildRelease)\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -168,7 +172,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\fire.h" />
+    <ClInclude Include="..\..\include\fire.h" />
     <ClInclude Include="LFFireModule.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,16 +194,13 @@
     <ClCompile Include="LFFireModule.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
+    <ProjectReference Include="..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
       <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
+    <ProjectReference Include="..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
       <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\jpeg-6b\vc\vc2010\JPEGLIB.vcxproj">
-      <Project>{d22f6666-746d-4436-8ead-481c2c37af55}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
+    <ProjectReference Include="..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
       <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
     </ProjectReference>
   </ItemGroup>

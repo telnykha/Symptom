@@ -4,6 +4,11 @@
 
 #include "motion.h"
 #include "sabotage.h"
+#include "fire.h"
+#include "smoke.h"
+#include "crowd.h"
+#include "track.h"
+#include "counter.h"
 
 #define DISPLAY_WIDTH 640
 #define DISPLAY_HEIHT 480
@@ -126,7 +131,7 @@ public:
 	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
 	{
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
-		AnalyzeMotionDetectorArgb(m, (char*)data, 3, width, height, 75, 2, 2);
+		AnalyzeMotionDetectorArgb(m, (char*)data, 3*width, width, height, 70, 1, 1);
 	}
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
@@ -183,8 +188,242 @@ public:
 		else 
 			printf("MODULE SABOTAGE: status ok\n");
 	}
-	
+};
 
+class CFireModule : public IVideoAnalysis
+{
+public:
+	CFireModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
+	virtual void InitModule(TVAInitParams* params)
+	{
+		m_module = (HANDLE)fireCreate(params);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module FIRE.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		fireRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		bool result = false;
+		fireProcess(m_module, width, height, bpp, data, &result);
+		if (result)
+			printf("MODULE FIRE: fire detectede\n");
+		else
+			printf("MODULE FIRE: status ok\n");
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int num = 0;
+		fireGetNumElements(m_module, num);
+		if (num > 0)
+		{
+			// todo:
+		}
+	}
+
+};
+
+class CSmokeModule : public IVideoAnalysis
+{
+public:
+	CSmokeModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
+	virtual void InitModule(TVAInitParams* params)
+	{
+		m_module = (HANDLE)smokeCreate(params);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module SMOKE.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		smokeRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		bool result = false;
+		smokeProcess(m_module, width, height, bpp, data, &result);
+		if (result)
+			printf("MODULE SMOKE: smoke detectede\n");
+		else
+			printf("MODULE SMOKE: status ok\n");
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int num = 0;
+		smokeGetNumElements(m_module, num);
+		if (num > 0)
+		{
+			// todo:
+		}
+	}
+
+};
+
+class CCrowdModule : public IVideoAnalysis
+{
+public:
+	CCrowdModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
+	virtual void InitModule(TVAInitParams* params)
+	{
+		m_module = (HANDLE)crowdCreate(params);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module CROWD.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		crowdRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		crowdProcess(m_module, width, height, bpp, data);
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int num = 0;
+		crowdGetNumElements(m_module, num);
+		if (num > 0)
+		{
+			// todo:
+		}
+	}
+
+};
+
+
+class CTrackModule : public IVideoAnalysis
+{
+public:
+	CTrackModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
+	virtual void InitModule(TVAInitParams* params)
+	{
+
+		TVAInitParams p = *params;
+		p.SaveLog = false;
+		p.Path = "";
+		p.useTrack = true;
+		memset(&p.Camera, 0, sizeof(p.Camera));
+		p.NumZones = 0;
+		p.NumZones = NULL;
+		p.EventSens = 0.5;
+		p.EventTimeSens = 0;
+		p.minWidth = 1;
+		p.maxHeight = 1;
+		p.maxWidth = 10;
+		p.maxHeight = 10;
+		p.numObects = 4;
+
+		m_module = (HANDLE)trackCreate(&p);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module TRACK.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		trackRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		TVAResult result;
+		result.Num = 100;
+		result.blobs = new TVABlob[100];
+		trackProcess(m_module, width, height, bpp, data, &result);
+
+		delete result.blobs;
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int num = 0;
+		if (num > 0)
+		{
+			// todo:
+		}
+	}
+};
+
+class CCounterModule : public IVideoAnalysis
+{
+public:
+	CCounterModule(TVAInitParams* params) : IVideoAnalysis(params){}
+
+	virtual void InitModule(TVAInitParams* params)
+	{
+
+		TVAPoint start;
+
+		start.X = 0.6;
+		start.Y = 52;
+
+		TVAPoint finish;
+
+		finish.X = 98;
+		finish.Y = 52;
+
+		TVARect sizes;
+
+		sizes.LeftTop.X = 60;
+		sizes.LeftTop.Y = 26;
+
+		sizes.RightBottom.X = 98;
+		sizes.RightBottom.Y = 98;
+
+		double eventSens = 0.5;
+		m_module = (HANDLE)tcounterCreate(start, finish, sizes, eventSens);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module COUNTER.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		tcounterRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		double result = 0;
+		tcounterProcess(m_module, width, height, bpp, data, result);
+		if (result != 0)
+			printf("MODULE COUNTER : count = %lf \n", result);
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		int num = 0;
+		if (num > 0)
+		{
+			// todo:
+		}
+	}
 };
 
 IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
@@ -193,6 +432,16 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return new CMotionModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_SABOTAGE)
 		return new CSabotageModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_FIRE)
+		return new CFireModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_SMOKE)
+		return new CSmokeModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_CROWD)
+		return new CCrowdModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_TRACK)
+		return new CTrackModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
+		return new CCounterModule(params);
 	else
 		return NULL;
 }
@@ -220,6 +469,10 @@ int main(int argc, char** argv)
 	TVAInitParams params;
 	params.EventSens 		= 0.5;
 	params.EventTimeSens 	= 500;
+	params.minHeight = 1;
+	params.minWidth = 1;
+	params.maxWidth = 30;
+	params.maxHeight = 30;
 	
 	module = VideoAnalysisFactory(&params, k);
 	if (module == NULL)

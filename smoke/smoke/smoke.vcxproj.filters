@@ -21,10 +21,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\smoke.h">
+    <ClInclude Include="LFSmokeModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LFSmokeModule.h">
+    <ClInclude Include="..\..\include\smoke.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

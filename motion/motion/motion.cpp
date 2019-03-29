@@ -152,7 +152,7 @@ int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int m
 	// abs_diff
     awpAbsDiff(m_src, m_acc, &m_diff);
     
-	double threshold = (100 - sens) * 1.8 + 15;
+	double threshold = (100 - sens) * 1.1 + 15;
     
 #ifdef _DEBUG 
 	awpImage* tmp0 = NULL;
@@ -196,7 +196,7 @@ _CvRect* MotionDetectorCNT::GetDetectedRects(int& rectCount)
 	if (t - m_delay < 5000)
 	{
 		rectCount = 0;
-		return NULL;
+	//	return NULL;
 	}
 	rectCount = m_detectedCount;
 	return m_detectedRects;

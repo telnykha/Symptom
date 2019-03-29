@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.144,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\ProjectGroup2.groupproj=C:\_alt\_proj\va_project\demo\demo.groupproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.144,C:\_alt\_proj\va_project\demo\demo.groupproj=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\ProjectGroup2.groupproj</Transaction>
   </Transactions>
 	<Default.Personality>
-		<Projects ActiveProject="C:\_alt\_proj\va_project\demo\track\demo.track.cbproj"/>
+		<Projects ActiveProject="C:\_alt\_proj\va_project\demo\counter\Counter.cbproj"/>
 	</Default.Personality>
 </BorlandProject>

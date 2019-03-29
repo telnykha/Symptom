@@ -163,8 +163,17 @@
     <ProjectReference Include="..\fight\fight\fight.vcxproj">
       <Project>{76a94cec-f076-40af-a026-ea70e5430869}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\fire\fire\fire.vcxproj">
+      <Project>{69cedeb3-dda5-43e5-b79e-ef17c3b90bca}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\motion\motion.vcxproj">
       <Project>{9bb3b99e-15dc-4319-a1ae-c3fafd02cb8a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\sabotage\sabotage\sabotage.vcxproj">
+      <Project>{6ab4e96a-a060-4e31-8f0c-ec9c2bc844f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\smoke\smoke\smoke.vcxproj">
+      <Project>{7cab8adb-975a-4a08-87dd-80332e5e5e1f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\track\track\track.vcxproj">
       <Project>{cb15bbc0-5764-4219-8332-bccf8c872cee}</Project>

@@ -105,6 +105,7 @@ static bool CheckCrossPoint(awp2DLineSegment s1, awp2DLineSegment s2, awp2DPoint
     d2 =  _awpL2Distance(p, s2.end);
     if (d1 + d2 - sd2 > 0.1)
     	return false;
+//	printf("Cross here!!!\n");
 	return true;
 }
 
@@ -175,7 +176,7 @@ void TLFTCounter::InitEngine(double sens)
 	m_engine.SetAverageBufferSize(5);
 	m_engine.SetDelay(0);
 	m_engine.SetBgStability(1);
-	m_engine.SetBaseImageWidth(128);
+	m_engine.SetBaseImageWidth(256);
 	m_engine.SetResize(true);
 	m_engine.SetMinAR(0.25);
 	m_engine.SetMaxAR(4);
@@ -226,15 +227,20 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
             UUID id;
             di->GetId(id);
             memcpy(&result.blobs[i].id, &id, sizeof(UUID));
+			
+			
 			result.blobs[i].XPos = rr.left;
 			result.blobs[i].YPos = rr.top;
 			result.blobs[i].Width = rr.right - rr.left;
 			result.blobs[i].Height = rr.bottom - rr.top;
 			result.blobs[i].status = di->GetState();
 
+		//	printf("xpos = %f\typos = %f\twidth = %f\theight = %f\n", result.blobs[i].XPos, result.blobs[i].YPos, result.blobs[i].Width, result.blobs[i].Height);
+
+
 			std::string str_uuid = LFGUIDToString(&result.blobs[i].id);
-            		TVABlob b;
-			//b.id = result.blobs[i].id;
+            TVABlob b;
+
 			memcpy(&b.id, &result.blobs[i].id, sizeof(UUID));
 			b.XPos = result.blobs[i].XPos;
 			b.YPos = result.blobs[i].YPos;
@@ -250,6 +256,7 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 			   b.time = 1;
                tr.push_back(b);
                Trajectories.insert(std::pair<string, vector<TVABlob> >(str_uuid, tr));
+//			   printf("start\n");
             }
 			else if (result.blobs[i].status == 2)
             {
@@ -263,7 +270,6 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 						 continue;
 						 
 				     b.time = it->second[it->second.size() - 1].time;
-					 it->second.push_back(b);
 
                     awp2DLineSegment segment;
                     awp2DPoint s;
@@ -276,13 +282,19 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
                     segment.strat = s;
                     segment.end   = e;
 
+					it->second.push_back(b);
+					//printf("s.x = %f\ts.y = %f\te.x = %f\t e.y = %f\n", s.X,s.Y, e.X, e.Y);
+
                     awp2DLineSegment line = m_zones.GetZone(0)->GetLineSegmnet()->GetSegment();
+
+
                     double w = m_zones.GetZone(1)->GetRect()->Width();
                     double h = m_zones.GetZone(1)->GetRect()->Height();
                     w = w*img->sSizeX / 100.;
                     h = h*img->sSizeY / 100.;
                     double square0 = w*h;
-                    line.strat.X = line.strat.X* img->sSizeX / 100.;
+
+					line.strat.X = line.strat.X* img->sSizeX / 100.;
                     line.end.X = line.end.X* img->sSizeX / 100.;
                     line.strat.Y = line.strat.Y*img->sSizeY / 100.;
                     line.end.Y = line.end.Y* img->sSizeY / 100.;
@@ -290,7 +302,8 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 
                    if(CheckCrossPoint(segment, line, cross) && floor(square1/square0 + 0.5) > 0)
                     {
-                        num_cross++;
+                        
+						num_cross++;
 						this->m_total_square += square1;
 						this->m_average_square = this->m_total_square / (double)num_cross;
                         crect.left = cross.X - 10;
@@ -314,7 +327,6 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 	                           num_out += a;
                         }
                      }
-                    
                 }
            }
 			else if (result.blobs[i].status == 3)
@@ -323,6 +335,7 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
                 it = Trajectories.find(str_uuid);
                 if (it != Trajectories.end())
                     Trajectories.erase(it);
+				//printf("remove\n");
             }
         }
     }
@@ -431,7 +444,7 @@ sizeof(UUID));
 }
 
 double TLFTCounter::GetThreshold()
-{
+{ 
 	return 	m_engine.GetDetector(0)->GetThreshold();
 }
 void   TLFTCounter::SetThreshold(double value)

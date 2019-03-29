@@ -20,7 +20,7 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	
 	if (params == NULL)
 		return NULL;
-	
+
 	TheTrack* track = new TheTrack();
 	track->size = sizeof(TheTrack);
 
