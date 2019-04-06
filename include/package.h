@@ -57,8 +57,4 @@ PACKAGE_API HANDLE		packageCreate(TVAInitParams* params, TVAPackageInit* params1
 PACKAGE_API HRESULT		packageProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAPackageResult* result);
 PACKAGE_API HRESULT		packageForeground(HANDLE hModule, int width, int height, unsigned char* data);
 PACKAGE_API HRESULT		packageRelease (HANDLE* hModule );
-
-PACKAGE_API TVAInitParams* packageGetDefaultParams();
-
-
 #endif // _package_h_

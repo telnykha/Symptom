@@ -17,27 +17,6 @@ extern "C"
 }
 
 #include "_LF.h"
-/*
-TVAInitParams g_params = {
-	false,//bool	  SaveLog;		// для ревизора должен быть всегда установлен в false	
-	"\0",// char*	  Path;			// для ревизора должне быть установлен в ""
-	{
-		0,//double Height;		//Высота установки в миллиметрах
-		0,//double Angle;		//Угол наклона камеры в градусах
-		0,//double Focus;		//Фокусное расстояние камеры в миллиметрах
-		0,//double WChipSize;	//Ширина сенсора в миллиметрах. 
-		0,//double HChipSize;	//Высота сенсора в миллиметрах. 
-		0,//double dMaxLenght;
-	},
-	//TVACamera Camera;		// параметры камеры видеонаблюдения. 
-	0,//int		  NumZones;		// число областей наблюдения на кадре
-	NULL,// TVAZone*  Zones;		// области наблюдения. 
-	0.5,//double    EventSens;    // чувствительноность. 0...1; 0 - минимальная, 1 - максимальная, по умолчанию 0.5
-	10,//double	  EventTimeSens;// время наступления события в миллисекундах, по умолчанию 1000  
-	1,//double	  minSquare;	// минимальная площадь объекта, в % от площади изображения 
-	15,//double    maxSquare;	// максимальная площадь объекта, в % от площади изображения 
-	0,//int       numObects;	// максимальное число объектов наблюдения. 
-};*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef struct 
@@ -62,11 +41,6 @@ PACKAGE_API HANDLE		packageCreate(TVAInitParams* params, TVAPackageInit* params1
 		delete p;
 		return NULL;
 	}
-
-	TLFZones* z = new TLFZones();
-	z->Load("notebook.zone");
-	p->e->SetZones(z);
-	delete z;
 
 	p->e->SetNeedCluster(true);
 	p->e->SetNeedTrack(true);

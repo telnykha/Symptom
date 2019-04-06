@@ -169,6 +169,9 @@
     <ProjectReference Include="..\motion\motion.vcxproj">
       <Project>{9bb3b99e-15dc-4319-a1ae-c3fafd02cb8a}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\package\package\package.vcxproj">
+      <Project>{99ddcdb4-e462-432b-81c5-4982d9478db5}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\sabotage\sabotage\sabotage.vcxproj">
       <Project>{6ab4e96a-a060-4e31-8f0c-ec9c2bc844f8}</Project>
     </ProjectReference>

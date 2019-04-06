@@ -9,6 +9,7 @@
 #include "crowd.h"
 #include "track.h"
 #include "counter.h"
+#include "package.h"
 
 #define DISPLAY_WIDTH 640
 #define DISPLAY_HEIHT 480
@@ -426,6 +427,72 @@ public:
 	}
 };
 
+
+class CPackageModule : public IVideoAnalysis
+{
+private:
+	TVAPackageResult m_result;
+public:
+	CPackageModule(TVAInitParams* params) : IVideoAnalysis(params)
+	{
+		m_result.objects = new TVAPackageBlob[10];
+	}
+	~CPackageModule()
+	{
+		delete m_result.objects;
+	}
+	virtual void InitModule(TVAInitParams* params)
+	{
+		TVAPackageInit pparams;
+		pparams.maxHeight = 10;
+		pparams.maxWidth = 10;
+		pparams.minHeight = 1;
+		pparams.minWidth = 1;
+		pparams.Mode = 0;
+		pparams.numObects = 10;
+
+		params->EventTimeSens = 5;
+
+		m_module = (HANDLE)packageCreate(params, &pparams);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module PACKAGE.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		packageRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+
+		packageProcess(m_module, width, height, bpp, data, &m_result);
+		if (m_result.num >0)
+			printf("MODULE PACKAGE : count = %i \n", m_result.num);
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		if (m_result.num > 0)
+		{
+			IplImage* img = cvCreateImageHeader(CvSize(width, height), IPL_DEPTH_8U, 3);
+			img->imageData = (char*)data;
+
+			// draw result 
+			for (int i = 0; i < m_result.num; i++)
+			{
+				CvRect rr = cvRect(m_result.objects[i].XPos, m_result.objects[i].YPos, m_result.objects[i].Width, m_result.objects[i].Height);
+				cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
+			}
+			cvReleaseImageHeader(&img);
+		}
+	}
+};
+
+
 IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 {
 	if (VA_MODULE_ID == VA_MODULE_MOTION)
@@ -442,6 +509,8 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return new CTrackModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
 		return new CCounterModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_PACKAGE)
+		return new CPackageModule(params);
 	else
 		return NULL;
 }

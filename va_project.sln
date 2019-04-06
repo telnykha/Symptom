@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fire", "fire\fire\fire.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "smoke", "smoke\smoke\smoke.vcxproj", "{7CAB8ADB-975A-4A08-87DD-80332E5E5E1F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "package", "package\package\package.vcxproj", "{99DDCDB4-E462-432B-81C5-4982D9478DB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -209,6 +211,18 @@ Global
 		{7CAB8ADB-975A-4A08-87DD-80332E5E5E1F}.Release|Win32.Build.0 = Release|Win32
 		{7CAB8ADB-975A-4A08-87DD-80332E5E5E1F}.Release|x64.ActiveCfg = Release|x64
 		{7CAB8ADB-975A-4A08-87DD-80332E5E5E1F}.Release|x64.Build.0 = Release|x64
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|Win32.Build.0 = Debug|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|x64.ActiveCfg = Debug|x64
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Debug|x64.Build.0 = Debug|x64
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|Win32.ActiveCfg = Release|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|Win32.Build.0 = Release|Win32
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|x64.ActiveCfg = Release|x64
+		{99DDCDB4-E462-432B-81C5-4982D9478DB5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
