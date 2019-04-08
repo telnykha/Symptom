@@ -67,8 +67,6 @@ symptom:
 	$(CC)  -shared -o lib/libtrack.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_TRACK)  $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libcrowd.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_CROWD) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libmotion.so   $(LIBOBJECTS_MOTION) $(AWPLIB)awpipl2.a -ljpeg 
-	$(CC)  -c $(INC) symptom_test.cpp
-	$(CC)  symptom_test.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so `pkg-config --cflags --libs opencv` -o test 
 	$(CC)  -c $(INC) va_test/main.cpp
 	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so `pkg-config --cflags --libs opencv` -o symptom 
 
