@@ -96,8 +96,8 @@ public:
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
-//		IplImage* img = cvCreateImageHeader(CvSize(width, height), IPL_DEPTH_8U, 3); 
-//		img->imageData = (char*)data;
+		IplImage* img = cvCreateImageHeader(CvSize(width, height), IPL_DEPTH_8U, 3); 
+		img->imageData = (char*)data;
 		
 		int count = 0;
 		_CvRect* r = GetMotionDetectorRects(m, count);
@@ -106,10 +106,10 @@ public:
 		// draw result 
 		for (int i = 0; i < count; i++)
 		{
-//			CvRect rr = cvRect(r[i].x, r[i].y, r[i].width, r[i].height);
-//			cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
+			CvRect rr = cvRect(r[i].x, r[i].y, r[i].width, r[i].height);
+			cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
 		}
-//		cvReleaseImageHeader(&img);
+		cvReleaseImageHeader(&img);
 	}
 };
 
