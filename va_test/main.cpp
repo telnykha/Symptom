@@ -137,7 +137,10 @@ public:
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
-		IplImage* img = cvCreateImageHeader(CvSize(width, height), IPL_DEPTH_8U, 3); 
+		CvSize s;
+		s.width = width;
+		s.height = height;
+		IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3); 
 		img->imageData = (char*)data;
 		
 		int count = 0;
@@ -148,7 +151,13 @@ public:
 		for (int i = 0; i < count; i++)
 		{
 			CvRect rr = cvRect(r[i].x, r[i].y, r[i].width, r[i].height);
-			cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
+			CvPoint p1,p2;
+			p1.x = rr.x;
+			p1.y = rr.y;
+			p2.x = rr.x + rr.width;
+			p2.y = rr.y + rr.height;
+
+			cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 1);
 		}
 		cvReleaseImageHeader(&img);
 	}
@@ -478,14 +487,22 @@ public:
 	{
 		if (m_result.num > 0)
 		{
-			IplImage* img = cvCreateImageHeader(CvSize(width, height), IPL_DEPTH_8U, 3);
+			CvSize s;
+			s.width = width;
+			s.height = height;
+			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
 			img->imageData = (char*)data;
 
 			// draw result 
 			for (int i = 0; i < m_result.num; i++)
 			{
 				CvRect rr = cvRect(m_result.objects[i].XPos, m_result.objects[i].YPos, m_result.objects[i].Width, m_result.objects[i].Height);
-				cvRectangle(img, CvPoint(rr.x, rr.y), CvPoint(rr.x + rr.width, rr.y + rr.height), CV_RGB(0, 255, 0), 1);
+				CvPoint p1,p2;
+				p1.x = rr.x;
+				p1.y = rr.y;
+				p2.x = rr.x + rr.width;
+				p2.y = rr.y + rr.height;
+				cvRectangle(img, p1,p2, CV_RGB(0, 255, 0), 1);
 			}
 			cvReleaseImageHeader(&img);
 		}
@@ -520,6 +537,8 @@ IVideoAnalysis* module = NULL;
 
 int main(int argc, char** argv)
 {
+	printf("OpenCV = %s\n", CV_VERSION);
+
 	if (argc < 3)
 	{
 		Usage();
@@ -574,7 +593,10 @@ int main(int argc, char** argv)
 		if (img == NULL)
 		{
 			int height = frame->height * DISPLAY_WIDTH / frame->width;
-			img = cvCreateImage(CvSize(DISPLAY_WIDTH, height), IPL_DEPTH_8U, 3);
+			CvSize s;
+			s.width = DISPLAY_WIDTH;
+			s.height = height;
+			img = cvCreateImage(s, IPL_DEPTH_8U, 3);
 		}
 		cvResize(frame, img);
 
