@@ -10,7 +10,7 @@ typedef struct
 	int max_objects;
 	TLFFaceEngine* f;
 }TheFace;
-
+#ifdef WIN32
 static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 {
 	try
@@ -52,7 +52,7 @@ static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 	}
 	return true;
 }
-
+#endif
 
 FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, int BaseSize, bool Tilt, int NumObjects)
 {
@@ -75,8 +75,13 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 
 	try
 	{
+#ifdef WIN32
 		if (!_LoadEngine("ENGINE_FACE", face->f))
 			throw 0;
+#else
+		if (params->Path == 0 || !face->f->Load(params->Path))
+			throw 0;
+#endif
 	}
 	catch (...)
 	{
@@ -123,7 +128,8 @@ FACE_API HRESULT  faceProcess(HANDLE hModule, int width, int height, int bpp, un
 		if (di != NULL)
 		{
 			awpRect rr = di->GetBounds()->GetRect();
-			UuidCreate(&result[i].id);
+			//UuidCreate(&result[i].id);					
+			LF_UUID_CREATE(result[i].id);
 			result[i].racurs = di->GetRacurs();
 			result[i].XPos = rr.left;
 			result[i].YPos = rr.top;
