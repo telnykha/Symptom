@@ -1,0 +1,13 @@
+LIBRARY FACE
+
+EXPORTS
+
+faceCreate @1
+faceProcess @2
+faceRelease	@3
+
+facetrackCreate @4
+facetrackProcess @5
+facetrackRelease @6
+
+

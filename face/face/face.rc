@@ -1,0 +1,3 @@
+#include "resource.h"
+
+IDR_LF_ENGINE ENGINE_FACE "face.xml"

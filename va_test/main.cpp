@@ -10,6 +10,7 @@
 #include "track.h"
 #include "counter.h"
 #include "package.h"
+#include "face.h"
 
 #define DISPLAY_WIDTH 640
 #define DISPLAY_HEIHT 480
@@ -510,6 +511,72 @@ public:
 };
 
 
+class CFaceModule : public IVideoAnalysis
+{
+private:
+	TVAFace* m_faces;
+	int      m_num;
+public:
+	CFaceModule(TVAInitParams* params) : IVideoAnalysis(params)
+	{
+		m_faces = new TVAFace[10];
+		m_num = 0;
+	}
+	~CFaceModule()
+	{
+		delete m_faces;
+	}
+	virtual void InitModule(TVAInitParams* params)
+	{
+
+		m_module = (HANDLE)faceCreate(params, 1,  1.1, 320, false, 10);
+		if (m_module == NULL)
+		{
+			printf("ERROR: cannot create module FACE.\n");
+			exit(-1);
+		}
+	}
+
+	virtual void ReleaseModule()
+	{
+		faceRelease(&m_module);
+	}
+
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
+	{
+		m_num = 0;
+		faceProcess(m_module, width, height, bpp, data, m_faces, &m_num);
+		if (m_num > 0)
+			printf("MODULE FACE : Face detected. count = %i \n", m_num);
+	}
+
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
+	{
+		if (m_num > 0)
+		{
+			CvSize s;
+			s.width = width;
+			s.height = height;
+			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+			img->imageData = (char*)data;
+
+			// draw result 
+			for (int i = 0; i < m_num; i++)
+			{
+				CvRect rr = cvRect(m_faces[i].XPos, m_faces[i].YPos, m_faces[i].Width, m_faces[i].Height);
+				CvPoint p1, p2;
+				p1.x = rr.x;
+				p1.y = rr.y;
+				p2.x = rr.x + rr.width;
+				p2.y = rr.y + rr.height;
+				cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 1);
+			}
+			cvReleaseImageHeader(&img);
+		}
+	}
+};
+
+
 IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 {
 	if (VA_MODULE_ID == VA_MODULE_MOTION)
@@ -528,6 +595,8 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return new CCounterModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_PACKAGE)
 		return new CPackageModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_FACE)
+		return new CFaceModule(params);
 	else
 		return NULL;
 }

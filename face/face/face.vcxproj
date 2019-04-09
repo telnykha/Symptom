@@ -19,72 +19,72 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4B033D5D-AAAA-43C5-9482-BCD70369D00C}</ProjectGuid>
+    <ProjectGuid>{F95936FA-827C-4F22-8834-57F078A6BB34}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>va_test</RootNamespace>
+    <RootNamespace>face</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <ExecutablePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExecutablePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <ExecutablePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExecutablePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\include;..\..\awpipl2\include\;..\..\TinyXML\src\;..\..\awplflib\include\;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,12 +92,17 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\opencv\x86\vc12\lib\</AdditionalLibraryDirectories>
+      <OutputFile>..\..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <ModuleDefinitionFile>face.def</ModuleDefinitionFile>
+      <AdditionalDependencies>Rpcrt4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,12 +111,17 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\opencv\x64\vc12\lib\</AdditionalLibraryDirectories>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
+      <ModuleDefinitionFile>face.def</ModuleDefinitionFile>
+      <AdditionalDependencies>Rpcrt4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,14 +132,19 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;NDEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\opencv\x86\vc12\lib\</AdditionalLibraryDirectories>
+      <OutputFile>..\..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <ModuleDefinitionFile>face.def</ModuleDefinitionFile>
+      <AdditionalDependencies>Rpcrt4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,54 +155,48 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;NDEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\opencv\x64\vc12\lib\</AdditionalLibraryDirectories>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
+      <ModuleDefinitionFile>face.def</ModuleDefinitionFile>
+      <AdditionalDependencies>Rpcrt4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="face.cpp" />
+    <ClCompile Include="LFFaceModule.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\counter\counter\counter.vcxproj">
-      <Project>{b5331eeb-348e-4003-9de7-8e92413c5737}</Project>
+    <ClInclude Include="..\..\..\..\include\face.h" />
+    <ClInclude Include="..\..\..\..\include\va_common.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="face.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="face.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
+      <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\crowd\crowd\crowd.vcxproj">
-      <Project>{dab5488b-ae75-4a3c-8902-099a47bea0b9}</Project>
+    <ProjectReference Include="..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
+      <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\face\face\face.vcxproj">
-      <Project>{f95936fa-827c-4f22-8834-57f078a6bb34}</Project>
+    <ProjectReference Include="..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
+      <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\fight\fight\fight.vcxproj">
-      <Project>{76a94cec-f076-40af-a026-ea70e5430869}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\fire\fire\fire.vcxproj">
-      <Project>{69cedeb3-dda5-43e5-b79e-ef17c3b90bca}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\motion\motion.vcxproj">
-      <Project>{9bb3b99e-15dc-4319-a1ae-c3fafd02cb8a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\package\package\package.vcxproj">
-      <Project>{99ddcdb4-e462-432b-81c5-4982d9478db5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\sabotage\sabotage\sabotage.vcxproj">
-      <Project>{6ab4e96a-a060-4e31-8f0c-ec9c2bc844f8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\smoke\smoke\smoke.vcxproj">
-      <Project>{7cab8adb-975a-4a08-87dd-80332e5e5e1f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\track\track\track.vcxproj">
-      <Project>{cb15bbc0-5764-4219-8332-bccf8c872cee}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\trains\trains\trains.vcxproj">
-      <Project>{5c337302-8d1d-4f40-a973-f27fed93abdb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\utils\vautils\vautils.vcxproj">
+    <ProjectReference Include="..\..\utils\vautils\vautils.vcxproj">
       <Project>{f2e95c39-34dd-4dd5-b383-62386b97452d}</Project>
     </ProjectReference>
   </ItemGroup>
