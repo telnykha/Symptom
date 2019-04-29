@@ -53,7 +53,6 @@ static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 	return true;
 }
 
-
 FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, int BaseSize, bool Tilt, int NumObjects)
 {
 	TheFace* face = new TheFace();
