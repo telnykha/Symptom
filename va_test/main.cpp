@@ -111,6 +111,8 @@ public:
 
 class CMotionModule : public IVideoAnalysis
 {
+private:
+	int m_sens;
 public:	
 	CMotionModule(TVAInitParams* params) : IVideoAnalysis(params){}
 
@@ -122,6 +124,7 @@ public:
 			printf("ERROR: cannot create module MOTION.\n");
 			exit(-1);
 		}
+		m_sens = (int)(100.*params->EventSens);
 		m_module = (HANDLE)m;
 	}
 	virtual void ReleaseModule()
@@ -133,7 +136,7 @@ public:
 	virtual void ProcessData(unsigned char* data, int width, int height, int bpp)
 	{
 		MotionDetectorCNT* m = (MotionDetectorCNT*)m_module;
-		AnalyzeMotionDetectorArgb(m, (char*)data, 3*width, width, height, 70, 1, 1);
+		AnalyzeMotionDetectorArgb(m, (char*)data, 3*width, width, height, m_sens, 1, 1);
 	}
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
@@ -529,6 +532,7 @@ public:
 	virtual void InitModule(TVAInitParams* params)
 	{
 
+		params->Path = "../data/face.xml";
 		m_module = (HANDLE)faceCreate(params, 1,  1.1, 320, false, 10);
 		if (m_module == NULL)
 		{
@@ -624,12 +628,13 @@ int main(int argc, char** argv)
 	}
 
 	TVAInitParams params;
-	params.EventSens 		= 0.5;
+	params.EventSens 		= 0.79;
 	params.EventTimeSens 	= 500;
 	params.minHeight = 1;
 	params.minWidth = 1;
 	params.maxWidth = 30;
 	params.maxHeight = 30;
+
 	
 	module = VideoAnalysisFactory(&params, k);
 	if (module == NULL)

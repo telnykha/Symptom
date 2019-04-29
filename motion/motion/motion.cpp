@@ -19,7 +19,7 @@ unsigned long MGetTickCount()
 /*
  * always correct input image width to _MOTION_WIDTH_
  * */
-#define _MOTION_WIDTH_ 320 
+#define _MOTION_WIDTH_ 160 
 
 class MotionDetectorCNT
 {
@@ -82,7 +82,7 @@ int MotionDetectorCNT::Init(awpImage* image)
 	res = awpCreateImage(&m_src, _MOTION_WIDTH_, height,  1, AWP_DOUBLE);
 	res = awpCreateImage(&m_acc, _MOTION_WIDTH_, height,  1, AWP_DOUBLE);
 	res = awpCreateImage(&m_diff, _MOTION_WIDTH_, height, 1, AWP_DOUBLE);
-	m_delay = MGetTickCount();
+	m_delay = 0;//MGetTickCount();
 	
 	return res == AWP_OK ? VA_OK:VA_ERROR;
 }
@@ -136,6 +136,8 @@ void MotionDetectorCNT::FindRects(awpImage* image, int mw, int mh)
 
 int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int mh)
 {
+
+	m_delay++;
 	_AWP_SAFE_RELEASE_(m_src)
 	awpImage* tmp = NULL;
 	awpCopyImage(image, &tmp);
@@ -148,11 +150,11 @@ int MotionDetectorCNT::ProcessHelper(awpImage* image, double sens, int mw, int m
 	_AWP_SAFE_RELEASE_(tmp)
 
 	// acc
-	awpRunningAvg(m_src, m_acc, 0.02);
+	awpRunningAvg(m_src, m_acc, 0.01);
 	// abs_diff
     awpAbsDiff(m_src, m_acc, &m_diff);
     
-	double threshold = (100 - sens) * 1.1 + 15;
+	double threshold = (100 - sens)*1.05 + 15;
     
 #ifdef _DEBUG 
 	awpImage* tmp0 = NULL;
@@ -192,11 +194,11 @@ int MotionDetectorCNT::ProcessImage(awpImage* src, double sens, int mw, int mh)
 
 _CvRect* MotionDetectorCNT::GetDetectedRects(int& rectCount)
 {
-	unsigned long t = MGetTickCount();
-	if (t - m_delay < 5000)
+	//unsigned long t = MGetTickCount();
+	if (m_delay < 200)
 	{
 		rectCount = 0;
-	//	return NULL;
+		return NULL;
 	}
 	rectCount = m_detectedCount;
 	return m_detectedRects;

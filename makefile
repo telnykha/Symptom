@@ -36,6 +36,7 @@ LIBSOURCES_SMOKE   =  smoke/smoke/smoke.cpp 	smoke/smoke/LFSmokeModule.cpp
 LIBSOURCES_PACKAGE   = package/package/package.cpp
 LIBSOURCES_SABOTAGE   =  sabotage/sabotage/sabotage.cpp
 LIBSOURCES_MOTION    =  motion/motion/motion.cpp
+LIBSOURCES_FACE   =  face/face/face.cpp 	face/face/LFFaceModule.cpp
  
 
 LIBOBJECTS_UTILS = vautils.o
@@ -47,6 +48,7 @@ LIBOBJECTS_SMOKE= smoke.o LFSmokeModule.o
 LIBOBJECTS_PACKAGE= package.o 
 LIBOBJECTS_SABOTAGE= sabotage.o 
 LIBOBJECTS_MOTION= motion.o 
+LIBOBJECTS_FACE= face.o LFFaceModule.o 
 
 all: symptom clean
 symptom:
@@ -59,6 +61,8 @@ symptom:
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_PACKAGE)
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_SMOKE)
 	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_MOTION)
+	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_FACE)
+
 	$(CC)  -shared -o lib/libsabotage.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SABOTAGE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a   -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libsmoke.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SMOKE)    $(AWPLF)awplflib.a  $(AWPLIB)awpipl2.a  -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libfire.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_FIRE)   $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
@@ -68,7 +72,9 @@ symptom:
 	$(CC)  -shared -o lib/libcrowd.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_CROWD) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libmotion.so   $(LIBOBJECTS_MOTION) $(AWPLIB)awpipl2.a -ljpeg 
 	$(CC)  -c $(INC) va_test/main.cpp
-	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so `pkg-config --cflags --libs opencv` -o symptom 
+	$(CC)  -shared -o lib/libface.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_FACE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
+
+	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so $(LIB)libface.so `pkg-config --cflags --libs opencv` -o symptom 
 
 clean:
 	rm -f *.o 

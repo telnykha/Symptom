@@ -1,11 +1,14 @@
 #ifndef _face_h_
 #define _face_h_
 
-
+#ifdef WIN32
 #ifdef FACE_EXPORTS
 	#define FACE_API __declspec(dllexport)
 #else
 	#define FACE_API __declspec(dllimport)
+#endif
+#else
+#define FACE_API 
 #endif
 
 extern "C"
