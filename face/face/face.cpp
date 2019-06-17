@@ -12,7 +12,7 @@ typedef struct
 	int max_objects;
 	TLFFaceEngine* f;
 }TheFace;
-
+#ifdef WIN32
 static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 {
 	try
@@ -60,7 +60,7 @@ static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 	}
 	return true;
 }
-
+#endif 
 FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, int BaseSize, bool Tilt, int NumObjects)
 {
 	TheFace* face = new TheFace();
@@ -79,7 +79,7 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 		BaseSize = 1980;
 	face->f->SetBaseImageWidth(BaseSize);
 	face->f->SetResize(true);
-
+#ifdef WIN32 
 	try
 	{
 		if (!_LoadEngine("ENGINE_FACE", face->f))
@@ -91,6 +91,10 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 		delete face;
 		return NULL;
 	}
+#else
+	//todo: load face engine in the Linux env. 
+	return NULL;
+#endif 
 	for (int k = 0; k < face->f->GetDetectorsCount(); k++)
 	{
 		ILFObjectDetector* d = face->f->GetDetector(k);
@@ -137,7 +141,7 @@ FACE_API HRESULT  faceProcess(HANDLE hModule, int width, int height, int bpp, un
 		if (di != NULL)
 		{
 			awpRect rr = di->GetBounds()->GetRect();
-			UuidCreate(&result[i].id);
+			LF_UUID_CREATE((unsigned char*)(&result[i].id));
 			result[i].racurs = di->GetRacurs();
 			result[i].XPos = rr.left;
 			result[i].YPos = rr.top;

@@ -28,7 +28,7 @@ INC= -Iinclude -Icommon -I../awpipl/include -I../awplflib/include
 
 # source files: symptom library proper
 LIBSOURCES_UTILS   =  utils/vautils/vautils.cpp 
-LIBSOURCES_COUNTER =  counter/counter/counter.cpp counter/counter/lftcounter.cpp 
+LIBSOURCES_COUNTER =  counter/counter/counter.cpp counter/counter/lftcounter.cpp counter/counter/SDCounter.cpp 
 LIBSOURCES_CROWD   =  crowd/crowd/crowd.cpp crowd/crowd/LFCrowdModule.cpp 
 LIBSOURCES_TRACK   =  track/track/LFTrack.cpp 	track/track/track.cpp
 LIBSOURCES_FIRE   =   fire/fire/LFFireModule.cpp 	fire/fire/fire.cpp
@@ -40,7 +40,7 @@ LIBSOURCES_FACE   =  face/face/face.cpp 	face/face/LFFaceModule.cpp
  
 
 LIBOBJECTS_UTILS = vautils.o
-LIBOBJECTS_COUNTER = counter.o lftcounter.o 
+LIBOBJECTS_COUNTER = counter.o lftcounter.o SDCounter.o
 LIBOBJECTS_CROWD = crowd.o LFCrowdModule.o 
 LIBOBJECTS_TRACK = LFTrack.o track.o 
 LIBOBJECTS_FIRE= LFFireModule.o fire.o 
@@ -74,7 +74,7 @@ symptom:
 	$(CC)  -c $(INC) va_test/main.cpp
 	$(CC)  -shared -o lib/libface.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_FACE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 
-	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so $(LIB)libface.so `pkg-config --cflags --libs opencv` -o symptom 
+	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so $(LIB)libface.so `pkg-config --cflags --libs opencv` `sdl2-config --cflags --libs` -o symptom 
 
 clean:
 	rm -f *.o 
