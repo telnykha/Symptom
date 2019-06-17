@@ -52,16 +52,16 @@ LIBOBJECTS_FACE= face.o LFFaceModule.o
 
 all: symptom clean
 symptom:
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_SABOTAGE)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_COUNTER)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_CROWD)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_TRACK)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_UTILS)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_FIRE)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_PACKAGE)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_SMOKE)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_MOTION)
-	$(CC)  -fPIC -c  $(INC) $(LIBSOURCES_FACE)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_SABOTAGE)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_COUNTER)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_CROWD)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_TRACK)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_UTILS)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_FIRE)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_PACKAGE)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_SMOKE)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_MOTION)
+	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_FACE)
 
 	$(CC)  -shared -o lib/libsabotage.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SABOTAGE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a   -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libsmoke.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SMOKE)    $(AWPLF)awplflib.a  $(AWPLIB)awpipl2.a  -ljpeg -luuid -ltinyxml
@@ -74,7 +74,7 @@ symptom:
 	$(CC)  -c $(INC) va_test/main.cpp
 	$(CC)  -shared -o lib/libface.so    $(LIBOBJECTS_UTILS) $(LIBOBJECTS_FACE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a -ljpeg -luuid -ltinyxml
 
-	$(CC)  main.o  -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so $(LIB)libface.so `pkg-config --cflags --libs opencv` `sdl2-config --cflags --libs` -o symptom 
+	$(CC)  main.o  -Ofast -L. $(LIB)libmotion.so $(LIB)libsabotage.so $(LIB)libsmoke.so  $(LIB)libfire.so $(LIB)libpackage.so   $(LIB)libcounter.so $(LIB)libtrack.so $(LIB)libcrowd.so $(LIB)libface.so `pkg-config --cflags --libs opencv` `sdl2-config --cflags --libs` -o symptom 
 
 clean:
 	rm -f *.o 

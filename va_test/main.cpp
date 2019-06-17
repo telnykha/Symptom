@@ -531,7 +531,7 @@ public:
 		m_result.Num = 100;
 		m_result.blobs = new TVABlob[100];
 	}
-	CTrackModule::~CTrackModule()
+	virtual ~CTrackModule()
 	{
 		delete m_result.blobs;
 	}
