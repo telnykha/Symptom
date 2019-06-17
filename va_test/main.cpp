@@ -523,8 +523,18 @@ public:
 };
 class CTrackModule : public IVideoAnalysis
 {
+protected: 
+	TVAResult m_result;
 public:
-	CTrackModule(TVAInitParams* params) : IVideoAnalysis(params){}
+	CTrackModule(TVAInitParams* params) : IVideoAnalysis(params)
+	{
+		m_result.Num = 100;
+		m_result.blobs = new TVABlob[100];
+	}
+	CTrackModule::~CTrackModule()
+	{
+		delete m_result.blobs;
+	}
 
 	virtual void InitModule(TVAInitParams* params)
 	{
@@ -539,10 +549,10 @@ public:
 		p.EventSens = 0.5;
 		p.EventTimeSens = 0;
 		p.minWidth = 1;
-		p.maxHeight = 1;
-		p.maxWidth = 10;
-		p.maxHeight = 10;
-		p.numObects = 4;
+		p.minHeight = 1;
+		p.maxWidth = 30;
+		p.maxHeight = 30;
+		p.numObects = 100;
 
 		m_module = (HANDLE)trackCreate(&p);
 		if (m_module == NULL)
@@ -562,17 +572,34 @@ public:
 		TVAResult result;
 		result.Num = 100;
 		result.blobs = new TVABlob[100];
-		trackProcess(m_module, width, height, bpp, data, &result);
-
+		trackProcess(m_module, width, height, bpp, data, &m_result);
 		delete result.blobs;
 	}
 
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
-		int num = 0;
-		if (num > 0)
+		if (m_result.Num > 0)
 		{
-			// todo:
+			CvSize s;
+			s.width = width;
+			s.height = height;
+			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+			img->imageData = (char*)data;
+			if (m_result.Num > 0)
+			{
+				// draw result 
+				for (int i = 0; i < m_result.Num; i++)
+				{
+					CvRect rr = cvRect(m_result.blobs[i].XPos, m_result.blobs[i].YPos, m_result.blobs[i].Width, m_result.blobs[i].Height);
+					CvPoint p1, p2;
+					p1.x = rr.x;
+					p1.y = rr.y;
+					p2.x = rr.x + rr.width;
+					p2.y = rr.y + rr.height;
+					cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 1);
+				}
+			}
+			cvReleaseImageHeader(&img);
 		}
 	}
 };
