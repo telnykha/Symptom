@@ -141,7 +141,7 @@ FACE_API HRESULT  faceProcess(HANDLE hModule, int width, int height, int bpp, un
 		if (di != NULL)
 		{
 			awpRect rr = di->GetBounds()->GetRect();
-			LF_UUID_CREATE((unsigned char*)(&result[i].id));
+			//LF_UUID_CREATE((unsigned char*)(&result[i].id));
 			result[i].racurs = di->GetRacurs();
 			result[i].XPos = rr.left;
 			result[i].YPos = rr.top;

@@ -260,7 +260,7 @@ double getCPUTime( )
     return -1;      /* Failed. */
 }
 
-/*
+#ifdef WIN32
 class CPerfomanceCounter
 {
 protected: 
@@ -290,7 +290,7 @@ public:
 		return double(li.QuadPart - CounterStart) / PCFreq;
 	}
 };
-*/
+#endif 
 class IVideoAnalysis
 {
 protected:
@@ -923,15 +923,25 @@ int main(int argc, char** argv)
 			s.height = height;
 			img = cvCreateImage(s, IPL_DEPTH_8U, 3);
 		}
-		//CPerfomanceCounter perfomance;
-		double startTime = getCPUTime( );
 		cvResize(frame, img);
+
+#ifdef WIN32		
+		CPerfomanceCounter perfomance;
+#else
+		double startTime = getCPUTime( );
+#endif 
 		module->ProcessData((unsigned char*)img->imageData,img->width, img->height, 3);
+		double ff;
+#ifdef WIN32 
+		ff = perfomance.GetCounter();
+#else 
+		ff = getCPUTime() - startTime;
+	    ff *= 1000;
+#endif 
 		module->DrawResult((unsigned char*)img->imageData, img->width, img->height, 3);
 		cvShowImage(msg, img);
 		cvReleaseImage(&frame);
-	    double ff = getCPUTime() - startTime;
-	    ff *= 1000;
+
 		printf("frame #%i\t%lf fps\t t= %lf\n", c++, 1000.f / ff, ff);
 		int c;
 		c = cvWaitKey(10);
