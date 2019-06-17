@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #ifndef lftcounterH
 #define lftcounterH
 #include "_LF.h"

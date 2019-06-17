@@ -2,20 +2,14 @@ LIBRARY COUNTER
 
 EXPORTS
 
-counterCreate @1
-counterProcess @2
-counterGetCount @3
-counterRestart @4
-counterRelease @5
-counterForeground @6
-counterGetLastTrajectory @7
-counterGetEventImageSize @8
-counterGetEventImage @9
-counterGetDefaultParams @10
-
 tcounterCreate @11
 tcounterProcess @12
 tcounterRelease @13
+tcounterCreateEx @14
+tcounterGetState @15
+tcounterGetCount @16
+tcounterGetForeground @17
+tcounterGetLastTrajectory @18
 
 
 

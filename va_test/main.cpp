@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
+#include "SDL2\include\sdl.h"
 
 #include "motion.h"
 #include "sabotage.h"
@@ -30,10 +31,56 @@
 #define VA_MODULE_FIGHT    13
 #define VA_MODULE_TRACK    14
 
+
+#define ERROR_CREATE_THREAD -11
+#define ERROR_JOIN_THREAD   -12
+#define SUCCESS        0
+
 extern "C"
 {
 	#pragma comment(lib, "opencv_world300.lib")
+#ifdef _WIN64
+	#pragma comment(lib, "sdl2/lib/x64/sdl2.lib")
+	#pragma comment(lib, "sdl2/lib/x64/sdl2main.lib")
+#else
+	#pragma comment(lib, "sdl2/lib/x86/sdl2.lib")
+	#pragma comment(lib, "sdl2/lib/x86/sdl2main.lib")
+#endif
 }
+
+
+bool		gquit;
+IplImage*   gframe = NULL;
+CvCapture* capture = NULL;
+SDL_mutex*  mutex;
+SDL_Thread* thread;
+
+static int ThreadCapture(void* args)
+{
+	int i, num = 0;
+	gquit = false;
+	printf("Enter a thread\n");
+	while (1)
+	{
+		if (gframe == NULL)
+		{
+			SDL_LockMutex(mutex);
+			gframe = cvQueryFrame(capture);
+			if (gframe == NULL)
+			{
+				printf("thread: gframe == NULL\n");
+				gquit = true;
+			}
+			SDL_UnlockMutex(mutex);
+		}
+		if (gquit)
+			break;
+	}
+	printf("Quit a thread\n");
+	SDL_UnlockMutex(mutex);
+	return SUCCESS;
+}
+
 
 void Usage()
 {
@@ -55,6 +102,7 @@ void Usage()
 	printf("--trains	Train number detector\n");
 	printf("--fight		Fight detector\n");
 }
+
 int GetModuleCode(char* key)
 {
 	if (strcmp(key, "--motion") == 0)
@@ -88,6 +136,37 @@ int GetModuleCode(char* key)
 	else 
 		return -1;
 }
+
+
+class CPerfomanceCounter
+{
+protected: 
+	double PCFreq;
+	__int64 CounterStart;
+public:
+	CPerfomanceCounter()
+	{
+		PCFreq = 0;
+		CounterStart = 0;
+		LARGE_INTEGER li;
+
+		if (!QueryPerformanceFrequency(&li))
+		{
+			printf("QueryPerformanceFrequency failed!\n");
+		}
+
+		PCFreq = double(li.QuadPart) / 1000.0;
+
+		QueryPerformanceCounter(&li);
+		CounterStart = li.QuadPart;
+	}
+	double GetCounter()
+	{
+		LARGE_INTEGER li;
+		QueryPerformanceCounter(&li);
+		return double(li.QuadPart - CounterStart) / PCFreq;
+	}
+};
 
 class IVideoAnalysis
 {
@@ -489,14 +568,24 @@ public:
 
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
+
+		CvSize s;
+		s.width = width;
+		s.height = height;
+		IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+		img->imageData = (char*)data;
+
+		// 
+		CvRect rr = cvRect(10, 10, 24, 24);
+		CvPoint p1, p2;
+		p1.x = rr.x;
+		p1.y = rr.y;
+		p2.x = rr.x + rr.width;
+		p2.y = rr.y + rr.height;
+		cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 2);
+
 		if (m_result.num > 0)
 		{
-			CvSize s;
-			s.width = width;
-			s.height = height;
-			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
-			img->imageData = (char*)data;
-
 			// draw result 
 			for (int i = 0; i < m_result.num; i++)
 			{
@@ -508,8 +597,8 @@ public:
 				p2.y = rr.y + rr.height;
 				cvRectangle(img, p1,p2, CV_RGB(0, 255, 0), 1);
 			}
-			cvReleaseImageHeader(&img);
 		}
+		cvReleaseImageHeader(&img);
 	}
 };
 
@@ -519,11 +608,21 @@ class CFaceModule : public IVideoAnalysis
 private:
 	TVAFace* m_faces;
 	int      m_num;
+	int		 m_width;
+	double	 m_scale;
+	double   m_grow;
+	bool     m_tilt;
 public:
 	CFaceModule(TVAInitParams* params) : IVideoAnalysis(params)
 	{
 		m_faces = new TVAFace[10];
 		m_num = 0;
+
+		// settings 
+		m_width = 320;
+		m_scale = 1;
+		m_grow  = 1.1;
+		m_tilt = true;
 	}
 	~CFaceModule()
 	{
@@ -533,7 +632,7 @@ public:
 	{
 
 		params->Path = "../data/face.xml";
-		m_module = (HANDLE)faceCreate(params, 1,  1.1, 320, false, 10);
+		m_module = (HANDLE)faceCreate(params, m_scale,  m_grow, m_width, m_tilt, 10);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module FACE.\n");
@@ -550,12 +649,34 @@ public:
 	{
 		m_num = 0;
 		faceProcess(m_module, width, height, bpp, data, m_faces, &m_num);
-		if (m_num > 0)
-			printf("MODULE FACE : Face detected. count = %i \n", m_num);
 	}
 
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
+
+		CvSize s;
+		s.width = width;
+		s.height = height;
+		IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+		img->imageData = (char*)data;
+
+		// 
+		int w = (int)(m_scale*24 * (double)DISPLAY_WIDTH / (double)this->m_width);
+		CvRect rr = cvRect(10, 10, w, w);
+		CvPoint p1, p2;
+		p1.x = rr.x;
+		p1.y = rr.y;
+		p2.x = rr.x + rr.width;
+		p2.y = rr.y + rr.height;
+		cvRectangle(img, p1, p2, CV_RGB(0, 0, 255), 2);
+		/*
+		rr = cvRect(10, 10, 5*w, 5*w);
+		p1.x = rr.x;
+		p1.y = rr.y;
+		p2.x = rr.x + rr.width;
+		p2.y = rr.y + rr.height;
+		cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 2);
+		*/
 		if (m_num > 0)
 		{
 			CvSize s;
@@ -563,10 +684,12 @@ public:
 			s.height = height;
 			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
 			img->imageData = (char*)data;
-
+			if (m_num > 0)
+				printf("MODULE FACE : Face detected. count = %i \n", m_num);
 			// draw result 
 			for (int i = 0; i < m_num; i++)
 			{
+				printf("racurs = %i\n",  m_faces[i].racurs); 
 				CvRect rr = cvRect(m_faces[i].XPos, m_faces[i].YPos, m_faces[i].Width, m_faces[i].Height);
 				CvPoint p1, p2;
 				p1.x = rr.x;
@@ -575,8 +698,8 @@ public:
 				p2.y = rr.y + rr.height;
 				cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 1);
 			}
-			cvReleaseImageHeader(&img);
 		}
+		cvReleaseImageHeader(&img);
 	}
 };
 
@@ -643,9 +766,8 @@ int main(int argc, char** argv)
 		Usage();
 		return 0;
 	}
-
 	
-	CvCapture* capture = NULL;
+
 	capture = cvCaptureFromFile(argv[2]);
 	if (capture == NULL)
 	{
@@ -653,17 +775,35 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+	int threadReturnValue;
+	mutex =  SDL_CreateMutex();
+	thread = SDL_CreateThread(ThreadCapture, "ThreadCapture", (void *)NULL);
+	
 	IplImage* img = NULL;
 	char msg[64];
 	sprintf(msg, "symptom 3.0 %s", argv[1]);	
-	
 	module->InitModule(&params);
+	gquit = false;
+	printf("start processing\n");
+	int c = 0;
 	while (true)
 	{
+		if (gquit == true)
+			break;
 		IplImage* frame = NULL;
-		frame = cvQueryFrame(capture);
+		if (gframe == NULL)
+		{
+			printf("continue\n");
+			continue;
+		}
+
+		SDL_LockMutex(mutex);
+		frame = (IplImage*)cvClone(gframe);
+		gframe = NULL;
+		SDL_UnlockMutex(mutex);
 		if (!frame)
 			break;
+	
 		if (img == NULL)
 		{
 			int height = frame->height * DISPLAY_WIDTH / frame->width;
@@ -672,20 +812,26 @@ int main(int argc, char** argv)
 			s.height = height;
 			img = cvCreateImage(s, IPL_DEPTH_8U, 3);
 		}
+		CPerfomanceCounter perfomance;
 		cvResize(frame, img);
-
 		module->ProcessData((unsigned char*)img->imageData,img->width, img->height, 3);
 		module->DrawResult((unsigned char*)img->imageData, img->width, img->height, 3);
 		cvShowImage(msg, img);
-
+		cvReleaseImage(&frame);
+		double ff = perfomance.GetCounter();
+		printf("frame #%i\t%lf fps\t t= %lf\n", c++, 1000.f / ff, ff);
 		int c;
 		c = cvWaitKey(10);
 		if ((char)c == 27)
-			break;
+			gquit = true;
 	}
+	printf("finish processing\n");
+	SDL_WaitThread(thread, &threadReturnValue);
+
 	cvReleaseImage(&img);
 	cvDestroyAllWindows();
 	cvReleaseCapture(&capture);
 	module->ReleaseModule();
+	SDL_DestroyMutex(mutex);
 	return 0;
 }

@@ -21,21 +21,22 @@ extern "C"
 }
 #include "va_common.h"
 
-//---------------------------- old counter ----------------------------------------
-COUNTER_API HANDLE   counterCreate(TVAInitParams* params);
-COUNTER_API HRESULT  counterProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, double& value1, double& value2, int& state);
-COUNTER_API HRESULT  counterGetCount(HANDLE hModule, int* in_count, int* out_count);
-COUNTER_API HRESULT	 counterForeground(HANDLE hModule, int width, int height, unsigned char* data);
-COUNTER_API HRESULT  counterRestart(HANDLE hModule);
-COUNTER_API HRESULT  counterRelease(HANDLE* hModule);
-COUNTER_API HRESULT  counterGetLastTrajectory(HANDLE hModule, TVAPoint* startPoint, TVAPoint* endPoint, bool* has_trajectory);
-COUNTER_API HRESULT  counterGetEventImageSize(HANDLE hModule, int& width, int& height);
-COUNTER_API HRESULT  counterGetEventImage(HANDLE hModule, int width, int height, double* data);
-COUNTER_API TVAInitParams* counterGetDefaultParams();
 
-//--------------------------- tragectory counter -------------------------------------
+
+#define TRAJECTORY_COUNTER		0
+#define SINGLE_DOOR_COUNTER     1
+
+
+//--------------------------- counter API ------------------------------------------------------------------------------
 COUNTER_API HANDLE   tcounterCreate(TVAPoint start, TVAPoint finish, TVARect sizes, double eventSens);
+COUNTER_API HANDLE   tcounterCreateEx(TVAPoint start, TVAPoint finish, TVARect sizes, double eventSens,  int options);
 COUNTER_API HRESULT  tcounterProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, double& value);
 COUNTER_API HRESULT  tcounterRelease(HANDLE* hModule);
+//--------------------------- counter advanced API -----------------------------------------------------------------------
+COUNTER_API HRESULT  tcounterGetState(HANDLE hModule, double& value1, double& value2, int& state);
+COUNTER_API HRESULT  tcounterGetCount(HANDLE hModule, int* in_count, int* out_count);
+COUNTER_API HRESULT  tcounterGetForeground(HANDLE hModule, int width, int height, unsigned char* data);
+COUNTER_API HRESULT  tcounterGetLastTrajectory(HANDLE hModule, TVAPoint* startPoint, TVAPoint* endPoint, bool* has_trajectory);
+
 
 #endif // _counter_h_

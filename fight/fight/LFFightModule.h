@@ -3,9 +3,6 @@
 #include "_LF.h"
 #include "vautils.h"
 #include "opencv\cv.h"
-#include "opencv\highgui.h"
-#include "opencv2\video.hpp"
-#include "opencv2\video\background_segm.hpp"
 
 class CIplImage : public TLFObject
 {

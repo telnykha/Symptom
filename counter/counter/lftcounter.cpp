@@ -105,7 +105,6 @@ static bool CheckCrossPoint(awp2DLineSegment s1, awp2DLineSegment s2, awp2DPoint
     d2 =  _awpL2Distance(p, s2.end);
     if (d1 + d2 - sd2 > 0.1)
     	return false;
-//	printf("Cross here!!!\n");
 	return true;
 }
 
@@ -231,12 +230,9 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 			
 			result.blobs[i].XPos = rr.left;
 			result.blobs[i].YPos = rr.top;
-			result.blobs[i].Width = rr.right - rr.left;
-			result.blobs[i].Height = rr.bottom - rr.top;
+			result.blobs[i].Width = (float)floor(0.5 + rr.right - rr.left);
+			result.blobs[i].Height = (float)floor(0.5 + rr.bottom - rr.top);
 			result.blobs[i].status = di->GetState();
-
-		//	printf("xpos = %f\typos = %f\twidth = %f\theight = %f\n", result.blobs[i].XPos, result.blobs[i].YPos, result.blobs[i].Width, result.blobs[i].Height);
-
 
 			std::string str_uuid = LFGUIDToString(&result.blobs[i].id);
             TVABlob b;
@@ -256,7 +252,6 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 			   b.time = 1;
                tr.push_back(b);
                Trajectories.insert(std::pair<string, vector<TVABlob> >(str_uuid, tr));
-//			   printf("start\n");
             }
 			else if (result.blobs[i].status == 2)
             {
@@ -283,8 +278,6 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
                     segment.end   = e;
 
 					it->second.push_back(b);
-					//printf("s.x = %f\ts.y = %f\te.x = %f\t e.y = %f\n", s.X,s.Y, e.X, e.Y);
-
                     awp2DLineSegment line = m_zones.GetZone(0)->GetLineSegmnet()->GetSegment();
 
 
@@ -306,10 +299,10 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
 						num_cross++;
 						this->m_total_square += square1;
 						this->m_average_square = this->m_total_square / (double)num_cross;
-                        crect.left = cross.X - 10;
-                        crect.right = cross.X + 10;
-                        crect.top = cross.Y - 10;
-                        crect.bottom = cross.Y+ 10;
+						crect.left = (AWPSHORT)(cross.X - 10);
+						crect.right = (AWPSHORT)(cross.X + 10);
+						crect.top = (AWPSHORT)(cross.Y - 10);
+						crect.bottom = (AWPSHORT)(cross.Y + 10);
 
 
                         int a =  awp2DSegmentsAngle(line, segment) > 0 ? 1:-1;
@@ -335,7 +328,6 @@ bool TLFTCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double&
                 it = Trajectories.find(str_uuid);
                 if (it != Trajectories.end())
                     Trajectories.erase(it);
-				//printf("remove\n");
             }
         }
     }
@@ -353,8 +345,8 @@ bool TLFTCounter::CreateMask(int w, int h)
 
     int sw,sh;
 
-    sw =rect->Width()*w / 100.;
-    sh =rect->Height()*h/100.;
+    sw =(int)floor(0.5 + rect->Width()*w / 100.);
+	sh = (int)floor(0.5 + rect->Height()*h / 100.);
 
     awpImage* img = NULL;
     if (awpCreateImage(&img, w,h, 1, AWP_BYTE) != AWP_OK)
@@ -431,9 +423,8 @@ void TLFTCounter::trackTrajectories(TVATrajectories* trajectories)
 		{
 			out_trajectories.Trajectories[count].Num = it->second.size();
 			out_trajectories.Trajectories[count].blobs = (TVABlob*)malloc(out_trajectories.Trajectories[count].Num*sizeof(TVABlob));
-			memcpy(&out_trajectories.Trajectories[count].id,  &it->second[0].id, 
-sizeof(UUID));
-			for (int i = 0; i < it->second.size(); i++)
+			memcpy(&out_trajectories.Trajectories[count].id,  &it->second[0].id, sizeof(UUID));
+			for (unsigned int i = 0; i < it->second.size(); i++)
 				memcpy(&out_trajectories.Trajectories[count].blobs[i], &it->second[i], sizeof(TVABlob));
 			count++;
 		}

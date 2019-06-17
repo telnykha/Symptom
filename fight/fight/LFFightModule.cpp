@@ -139,7 +139,7 @@ CFBFlow::CFBFlow(double scale)
 	m_poly_n = 5;
 	m_polySigma = 1.2;
 	m_flags = 0;
-	m_threshold = 0.1;
+	m_threshold = 0.8;
 	m_moveCount = 0;
 }
 

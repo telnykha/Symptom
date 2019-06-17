@@ -68,9 +68,6 @@ bool TLFFaceEngine::LoadXML(TiXmlElement* parent)
 					}
 				}
 			}
-
-
-
 		}
 	}
 	catch (...)

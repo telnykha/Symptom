@@ -92,7 +92,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -111,7 +111,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -132,7 +132,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;NDEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOAD_FROM_STREAM;WIN32;NDEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;_OMP_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(INCL);$(common);$(awpipl);$(awplflib);$(tinyxml)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
@@ -142,7 +142,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>..\..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
       <ModuleDefinitionFile>face.def</ModuleDefinitionFile>
       <AdditionalDependencies>Rpcrt4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

@@ -39,7 +39,7 @@ int DoReasearch(int argc, char** argv)
 	IplImage* img = NULL;
 
 	TVAInitParams params;
-	params.EventSens = 0.75;
+	params.EventSens = 0;
 	params.EventTimeSens = 3;
 
 	CFightEngine* engine = new CFightEngine(params);

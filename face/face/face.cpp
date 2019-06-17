@@ -3,7 +3,9 @@
 #include "face.h"
 #include "_LF.h"
 #include "LFFaceModule.h"
-
+#ifdef _OMP_
+	#include <omp.h>
+#endif
 typedef struct
 {
 	int size;
@@ -43,8 +45,14 @@ static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 		str = pDump;
 		s << str;
 
+#ifdef _DEBUG
+		FILE* f = fopen("tst.xml", "w+t");
+		fprintf(f, "%s", pDump);
+		fclose(f);
+#endif
 		if (!engine->LoadStream(s))
 			throw 0;
+//		engine->Load("tst.xml");
 	}
 	catch (...)
 	{
@@ -57,7 +65,7 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 {
 	TheFace* face = new TheFace();
 	face->size = sizeof(TheFace);
-	face->f = new TLFFaceEngine(false, false, false);
+	face->f = new TLFFaceEngine(false, Tilt, false);
 	face->max_objects = NumObjects;
 	if (face->f == NULL) 
 	{
@@ -83,21 +91,28 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 		delete face;
 		return NULL;
 	}
-
-	ILFScanner* scr = face->f->GetScanner();
-	for (int i = 0; i < scr->GetParamsCount(); i++)
+	for (int k = 0; k < face->f->GetDetectorsCount(); k++)
 	{
-		TLFParameter* p = scr->GetParameter(i);
-		if (strcmp(p->GetPName(), "MinSize") == 0)
+		ILFObjectDetector* d = face->f->GetDetector(k);
+		ILFScanner* scr = d->GetScanner();
+		for (int i = 0; i < scr->GetParamsCount(); i++)
 		{
-			if (scale < 1)
-				scale = 1;
-			p->SetValue(scale);
-		}
-		if (strcmp(p->GetName(),"grow") == 0)
-		{
-			if (grow >= 1.1 && grow <= 2)
-				p->SetValue(grow);
+			TLFParameter* p = scr->GetParameter(i);
+			if (strcmp(p->GetPName(), "MinSize") == 0)
+			{
+				if (scale < 1)
+					scale = 1;
+				p->SetValue(scale);
+			}
+			if (strcmp(p->GetPName(), "grow") == 0)
+			{
+				if (grow >= 1.1 && grow <= 2)
+					p->SetValue(grow);
+			}
+			if (strcmp(p->GetPName(), "MaxSize") == 0)
+			{
+				p->SetValue(scale*20);
+			}
 		}
 	}
 	// all ok
