@@ -768,8 +768,11 @@ public:
 	}
 	virtual void InitModule(TVAInitParams* params)
 	{
-
+#ifdef WIN32 
+		params->Path = "";
+#else
 		params->Path = "../data/face.xml";
+#endif 
 		m_module = (HANDLE)faceCreate(params, m_scale,  m_grow, m_width, m_tilt, 10);
 		if (m_module == NULL)
 		{
@@ -807,14 +810,6 @@ public:
 		p2.x = rr.x + rr.width;
 		p2.y = rr.y + rr.height;
 		cvRectangle(img, p1, p2, CV_RGB(0, 0, 255), 2);
-		/*
-		rr = cvRect(10, 10, 5*w, 5*w);
-		p1.x = rr.x;
-		p1.y = rr.y;
-		p2.x = rr.x + rr.width;
-		p2.y = rr.y + rr.height;
-		cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 2);
-		*/
 		if (m_num > 0)
 		{
 			CvSize s;
