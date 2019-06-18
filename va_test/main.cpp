@@ -771,7 +771,7 @@ public:
 #ifdef WIN32 
 		params->Path = "";
 #else
-		params->Path = "../data/face.xml";
+		params->Path = "data/face.xml";
 #endif 
 		m_module = (HANDLE)faceCreate(params, m_scale,  m_grow, m_width, m_tilt, 10);
 		if (m_module == NULL)
