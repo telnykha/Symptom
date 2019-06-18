@@ -93,19 +93,7 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 	}
 #else
 	//todo: load face engine in the Linux env. 
-	if (params->Path == NULL || params->Path == "")
-	{
-		delete face->f;
-		delete face;
-		return NULL;
-	}
-	
-	if (!face->f->Load(params->Path))
-	{
-		delete face->f;
-		delete face;
-		return NULL;
-	}
+	return NULL;
 #endif 
 	for (int k = 0; k < face->f->GetDetectorsCount(); k++)
 	{
