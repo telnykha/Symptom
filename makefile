@@ -52,16 +52,16 @@ LIBOBJECTS_FACE= face.o LFFaceModule.o
 
 all: symptom clean
 symptom:
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_SABOTAGE)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_COUNTER)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_CROWD)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_TRACK)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_UTILS)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_FIRE)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_PACKAGE)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_SMOKE)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_MOTION)
-	$(CC)  -fPIC -Ofast -c  $(INC) $(LIBSOURCES_FACE)
+	$(CC)  -fPIC -O3 -c  $(INC) $(LIBSOURCES_SABOTAGE)
+	$(CC)  -fPIC -O3 -c  $(INC) $(LIBSOURCES_COUNTER)
+	$(CC)  -fPIC -O3 -c  $(INC) $(LIBSOURCES_CROWD)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_TRACK)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_UTILS)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_FIRE)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_PACKAGE)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_SMOKE)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_MOTION)
+	$(CC)  -fPIC -O3  -c  $(INC) $(LIBSOURCES_FACE)
 
 	$(CC)  -shared -o lib/libsabotage.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SABOTAGE) $(AWPLF)awplflib.a $(AWPLIB)awpipl2.a   -ljpeg -luuid -ltinyxml
 	$(CC)  -shared -o lib/libsmoke.so $(LIBOBJECTS_UTILS) $(LIBOBJECTS_SMOKE)    $(AWPLF)awplflib.a  $(AWPLIB)awpipl2.a  -ljpeg -luuid -ltinyxml
