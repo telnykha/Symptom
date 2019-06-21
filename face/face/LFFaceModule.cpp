@@ -267,11 +267,11 @@ void TLFFaceEngine::InitDetectors()
 
 bool TLFFaceEngine::FindObjects()
 {
+
 	if (this->m_SourceImage.GetImage() == NULL)
 		return false;
 	if (this->m_SourceImage.GetImage()->dwType != AWP_BYTE)
 		return false;
-
 	m_tmpList.Clear();
 	if (this->m_needTrack)
 		m_result.Predict(this);
@@ -296,11 +296,12 @@ bool TLFFaceEngine::FindObjects()
 	}
 	}
 	*/
-
 	int cc = 0;
+#ifdef WI32
 #ifdef _OMP_
 	omp_set_num_threads(m_detectors.GetCount());
 #pragma omp parallel for  reduction(+: cc)
+#endif
 #endif
 	for (int k = 0; k < m_detectors.GetCount(); k++)
 	{
@@ -308,7 +309,6 @@ bool TLFFaceEngine::FindObjects()
 		ILFObjectDetector* d = (ILFObjectDetector*)m_detectors.Get(k);
 		d->Detect();
 	}
-
 	for (int k = 0; k < m_detectors.GetCount(); k++)
 	{
 		ILFObjectDetector* d = (ILFObjectDetector*)m_detectors.Get(k);
@@ -363,6 +363,7 @@ bool TLFFaceEngine::FindObjects()
 		}
 		else
 			OverlapsFilter(&this->m_result);
+			
 	}
 	return true;
 }

@@ -3,6 +3,7 @@
 #include "face.h"
 #include "_LF.h"
 #include "LFFaceModule.h"
+#include <clocale>
 #ifdef _OMP_
 	#include <omp.h>
 #endif
@@ -52,7 +53,6 @@ static bool _LoadEngine(const char* lpResourceName, TLFFaceEngine* engine)
 #endif
 		if (!engine->LoadStream(s))
 			throw 0;
-//		engine->Load("tst.xml");
 	}
 	catch (...)
 	{
@@ -70,14 +70,15 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 	if (face->f == NULL) 
 	{
 		delete face;
+		printf("MODULE FACE ERROR: cannot create engine.\n");
 		return NULL;
-	}
+	} 
 
 	if (BaseSize < 256)
 		BaseSize = 256;
 	if (BaseSize > 1980)
 		BaseSize = 1980;
-	face->f->SetBaseImageWidth(BaseSize);
+	face->f->SetBaseImageWidth(BaseSize); 
 	face->f->SetResize(true);
 #ifdef WIN32 
 	try
@@ -89,23 +90,28 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 	{
 		delete face->f;
 		delete face;
+		printf("MODULE FACE ERROR: cannot load engine.\n");
 		return NULL;
 	}
 #else
-	//todo: load face engine in the Linux env. 
+	//load face engine in the Linux env. 
 	if (params->Path == NULL || params->Path == "")
 	{
 		delete face->f;
 		delete face;
+		printf("MODULE FACE ERROR: invalid parameters.\n");
 		return NULL;
 	}
-	
+	setlocale(LC_ALL, "en_US.UTF-8");
 	if (!face->f->Load(params->Path))
 	{
 		delete face->f;
 		delete face;
 		return NULL;
+		printf("MODULE FACE ERROR: cannot load engine.\n");
+		setlocale(LC_ALL, "");
 	}
+	setlocale(LC_ALL, "");
 #endif 
 	for (int k = 0; k < face->f->GetDetectorsCount(); k++)
 	{
@@ -136,12 +142,12 @@ FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, i
 }
 FACE_API HRESULT  faceProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAFace* result,  int* num)
 {
+	if (hModule == NULL)
+		return E_FAIL;
 	TheFace* p = (TheFace*)hModule;
 	if (p->size != sizeof(TheFace))
 		return E_FAIL;
-#ifdef _DEBUG
-	printf("bpp = %i \n", bpp);
-#endif  
+
 	awpImage* tmp = NULL;
 	awpCreateGrayImage(&tmp, width, height, bpp, data);
 	p->f->SetSourceImage(tmp, true);

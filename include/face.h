@@ -34,6 +34,8 @@ typedef struct
 }TVAFace;
 
 // поиск лиц
+extern "C" 
+{
 FACE_API HANDLE   faceCreate(TVAInitParams* params, double scale, double grow, int BaseSize, bool Tilt,  int NumObjects);
 FACE_API HRESULT  faceProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAFace* result,  int* num);
 FACE_API HRESULT  faceRelease(HANDLE* hModule);
@@ -41,4 +43,5 @@ FACE_API HRESULT  faceRelease(HANDLE* hModule);
 FACE_API HANDLE   facetrackCreate(TVAInitParams* params, int NumObjects);
 FACE_API HRESULT  facetrackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAFace* result, int* num);
 FACE_API HRESULT  facetrackRelease(HANDLE* hModule);
+}
 #endif // _face_h_

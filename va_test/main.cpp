@@ -491,7 +491,7 @@ public:
 	CCrowdModule(TVAInitParams* params) : IVideoAnalysis(params){}
 
 	virtual void InitModule(TVAInitParams* params)
-	{
+	{ 
 		m_module = (HANDLE)crowdCreate(params);
 		if (m_module == NULL)
 		{
@@ -760,7 +760,7 @@ public:
 		m_width = 320;
 		m_scale = 1;
 		m_grow  = 1.1;
-		m_tilt = true;
+		m_tilt = false;
 	}
 	~CFaceModule()
 	{
@@ -770,7 +770,7 @@ public:
 	{
 #ifdef WIN32 
 		params->Path = "";
-#else
+#else s
 		params->Path = "data/face.xml";
 #endif 
 		m_module = (HANDLE)faceCreate(params, m_scale,  m_grow, m_width, m_tilt, 10);
