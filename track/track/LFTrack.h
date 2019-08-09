@@ -3,6 +3,9 @@
 #include "_LF.h"
 #include "va_common.h"
 
+#define LF_MOTION_DETCTOR		0
+#define TL_FOREGROUND_DETECTOR  1
+
 class TLFTrackEngine : public ILFDetectEngine
 {
 protected:
@@ -21,8 +24,8 @@ protected:
 
 	TLFClusterTrack* m_cluster_maker;
 public:
-	TLFTrackEngine();
-	TLFTrackEngine(TVAInitParams& params);
+	TLFTrackEngine(int method);
+	TLFTrackEngine(int method, TVAInitParams& params);
 	virtual ~TLFTrackEngine();
 	virtual void Clear();
 	virtual bool LoadXML(TiXmlElement* parent);

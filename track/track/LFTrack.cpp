@@ -1,23 +1,46 @@
 #include "_LF.h"
 #include "LFTrack.h"
-
+#include "LFForegroundDetector.h"
 #include "zones.cpp"
 
-TLFTrackEngine::TLFTrackEngine()
+TLFTrackEngine::TLFTrackEngine(int method)
 {
 	m_minWidth = 5;
 	m_maxWidth = 30;
 	m_minHeight = 5;
 	m_maxHeight = 30;
-    TLFMotionDetector* d = new TLFMotionDetector();
+	ILFObjectDetector* d = NULL;
+	switch (method)
+	{
+	case LF_MOTION_DETCTOR:
+			d = new TLFMotionDetector();
+		break;
+	case TL_FOREGROUND_DETECTOR:
+		d = new TLFForegroundDetector(0);
+			break;
+	default:
+		d = new TLFMotionDetector();
+	}
 	this->m_detectors.Add(d);
 	m_cluster_maker = new TLFClusterTrack(d, m_minWidth, m_minHeight, m_maxWidth, m_maxHeight);
 	m_strPredictorName = "NULL";
 }
 
-TLFTrackEngine::TLFTrackEngine(TVAInitParams& params)
+TLFTrackEngine::TLFTrackEngine(int method, TVAInitParams& params)
 {
-	TLFMotionDetector* d = new TLFMotionDetector();
+//	TLFMotionDetector* d = new TLFMotionDetector();
+	ILFObjectDetector* d = NULL;
+	switch (method)
+	{
+	case LF_MOTION_DETCTOR:
+		d = new TLFMotionDetector();
+		break;
+	case TL_FOREGROUND_DETECTOR:
+		d = new TLFForegroundDetector(params.EventTimeSens);
+		break;
+	default:
+		d = new TLFMotionDetector();
+	}
 
 	m_minWidth = params.minWidth;
 	m_maxWidth = params.maxWidth;

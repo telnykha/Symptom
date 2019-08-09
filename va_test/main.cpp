@@ -1,3 +1,5 @@
+//rtsp://admin:12345@192.168.1.107:554/ISAPI/Streaming/Channels/101
+
 #include "stdio.h"
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
@@ -87,20 +89,25 @@ static int ThreadCapture(void* args)
 	{
 		if (gframe == NULL)
 		{
-			SDL_LockMutex(mutex);
-			gframe = cvQueryFrame(capture);
-			if (gframe == NULL)
+			//SDL_LockMutex(mutex);
+			int status = SDL_TryLockMutex(mutex);
+			if (status == 0)
 			{
-				printf("thread: gframe == NULL\n");
-				gquit = true;
+				gframe = cvQueryFrame(capture);
+				if (gframe == NULL)
+				{
+					printf("thread: gframe == NULL\n");
+					gquit = true;
+				}
+				SDL_UnlockMutex(mutex);
 			}
-			SDL_UnlockMutex(mutex);
 		}
 		if (gquit)
 			break;
 	}
 	printf("Quit a thread\n");
 	SDL_UnlockMutex(mutex);
+	gquit = true;
 	return SUCCESS;
 }
 
@@ -491,7 +498,7 @@ public:
 	CCrowdModule(TVAInitParams* params) : IVideoAnalysis(params){}
 
 	virtual void InitModule(TVAInitParams* params)
-	{ 
+	{
 		m_module = (HANDLE)crowdCreate(params);
 		if (m_module == NULL)
 		{
@@ -547,14 +554,14 @@ public:
 		p.NumZones = 0;
 		p.NumZones = NULL;
 		p.EventSens = 0.5;
-		p.EventTimeSens = 0;
+		p.EventTimeSens = 5000;
 		p.minWidth = 1;
 		p.minHeight = 1;
-		p.maxWidth = 30;
-		p.maxHeight = 30;
+		p.maxWidth = 100;
+		p.maxHeight = 100;
 		p.numObects = 100;
 
-		m_module = (HANDLE)trackCreate(&p);
+		m_module = (HANDLE)trackCreate(&p, 0, 640);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module TRACK.\n");
@@ -770,7 +777,7 @@ public:
 	{
 #ifdef WIN32 
 		params->Path = "";
-#else s
+#else
 		params->Path = "data/face.xml";
 #endif 
 		m_module = (HANDLE)faceCreate(params, m_scale,  m_grow, m_width, m_tilt, 10);

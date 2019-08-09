@@ -15,10 +15,12 @@ typedef struct
 }TheTrack;
 
 
-extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
+extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params, int options, int width)
 {
 	
 	if (params == NULL)
+		return NULL;
+	if (options < 0 || options > 1)
 		return NULL;
 
 	TheTrack* track = new TheTrack();
@@ -28,15 +30,19 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params)
 	track->out_trajectories.Trajectories = NULL;
 
 	track->NumObjects = params->numObects;
-	track->engine = new TLFTrackEngine(*params);
+	track->engine = new TLFTrackEngine(options, *params);
 	track->engine->SetNeedTrack(true);
 	track->engine->SetResize(true);
-	track->engine->SetBaseImageWidth(320);
+	track->engine->SetBaseImageWidth(width);
 	track->engine->SetNeedCluster(true);
 
 	ILFObjectDetector* s = track->engine->GetDetector(0);
-	s->SetBaseWidht(4);
-	s->SetBaseHeight(4);
+	double es = params->EventSens;
+	if (options == 0)
+	{
+		s->SetBaseWidht(4);
+		s->SetBaseHeight(4);
+	}
 	s->SetThreshold(params->EventSens);
 	return (HANDLE)track;
 }

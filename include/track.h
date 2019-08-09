@@ -23,7 +23,7 @@ extern "C"
 
 
 // экспортируемые функции
-extern "C" TRACK_API HANDLE			trackCreate(TVAInitParams* params);
+extern "C" TRACK_API HANDLE			trackCreate(TVAInitParams* params, int options, int width);
 extern "C" TRACK_API HRESULT		trackProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, TVAResult* result);
 extern "C" TRACK_API HRESULT		trackForeground(HANDLE hModule, int width, int height, unsigned char* data);
 extern "C" TRACK_API HRESULT		trackTrajectories(HANDLE hModule, TVATrajectories* trajectories);
