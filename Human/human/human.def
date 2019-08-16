@@ -1,0 +1,10 @@
+LIBRARY HUMAN
+
+EXPORTS
+
+humanCreate @1
+humanProcess @2
+humanRelease	@3
+
+
+
