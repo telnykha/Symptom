@@ -132,7 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\opencv\x86\vc12\lib\</AdditionalLibraryDirectories>
-      <OutputFile>..\..\bin\win32\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>copy sdl2\lib\x86\sdl2.dll ..\..\bin\win32\sdl2.dll</Command>
@@ -154,7 +154,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\opencv\x64\vc12\lib\</AdditionalLibraryDirectories>
-      <OutputFile>..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>copy sdl2\lib\x64\sdl2.dll ..\..\bin\x64\sdl2.dll</Command>

@@ -610,34 +610,59 @@ public:
 		}
 	}
 };
+/*
+	counter module test
+*/
 class CCounterModule : public IVideoAnalysis
 {
+protected: 
+	TVAPoint m_start;
+	TVAPoint m_finish;
+	TVARect  m_sizes;
+
+	void DrawSettings(IplImage* img)
+	{
+		if (img == NULL)
+			return;
+		CvPoint p1;
+		CvPoint p2;
+
+		p1.x = 0.01*m_start.X*img->width;
+		p1.y = 0.01*m_start.Y*img->height;
+		p2.x = 0.01*m_finish.X*img->width;
+		p2.y = 0.01*m_finish.Y*img->height;
+
+		cvDrawLine(img, p1, p2, CV_RGB(0,255,0));
+
+		p1.x = 0.01*m_sizes.LeftTop.X*img->width;
+		p1.y = 0.01*m_sizes.LeftTop.Y*img->height;
+		p2.x = 0.01*m_sizes.RightBottom.X*img->width;
+		p2.y = 0.01*m_sizes.RightBottom.Y*img->height;
+
+		cvRectangle(img, p1, p2, CV_RGB(0, 255, 0));
+	}
 public:
-	CCounterModule(TVAInitParams* params) : IVideoAnalysis(params){}
+	CCounterModule(TVAInitParams* params) : IVideoAnalysis(params)
+	{
+		m_start.X = 20;
+		m_start.Y = 20;
+
+		m_finish.X = 60;
+		m_finish.Y = 20;
+
+		m_sizes.LeftTop.X = 40;
+		m_sizes.LeftTop.Y = 40;
+
+		m_sizes.RightBottom.X = 50;
+		m_sizes.RightBottom.Y = 60;
+
+	}
 
 	virtual void InitModule(TVAInitParams* params)
 	{
 
-		TVAPoint start;
-
-		start.X = 0.6;
-		start.Y = 52;
-
-		TVAPoint finish;
-
-		finish.X = 98;
-		finish.Y = 52;
-
-		TVARect sizes;
-
-		sizes.LeftTop.X = 60;
-		sizes.LeftTop.Y = 26;
-
-		sizes.RightBottom.X = 98;
-		sizes.RightBottom.Y = 98;
-
 		double eventSens = 0.5;
-		m_module = (HANDLE)tcounterCreate(start, finish, sizes, eventSens);
+		m_module = (HANDLE)tcounterCreate(m_start, m_finish, m_sizes, eventSens);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module COUNTER.\n");
@@ -660,11 +685,22 @@ public:
 
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
 	{
+
+		CvSize s;
+		s.width = width;
+		s.height = height;
+		IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+		img->imageData = (char*)data;
+
+		DrawSettings(img);
+
 		int num = 0;
 		if (num > 0)
 		{
 			// todo:
 		}
+		cvReleaseImageHeader(&img);
+
 	}
 };
 class CPackageModule : public IVideoAnalysis
