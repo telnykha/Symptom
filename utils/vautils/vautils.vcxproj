@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>..\..\..\bin\x64\$(TargetName)d$(TargetExt)</OutputFile>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
       <ModuleDefinitionFile>vautils.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>

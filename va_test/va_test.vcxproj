@@ -112,7 +112,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\opencv\x64\vc12\lib\</AdditionalLibraryDirectories>
-      <OutputFile>..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>..\..\..\bin\x64\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
