@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "human", "Human\human\human.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_human", "Human\test_human\test_human.vcxproj", "{4ADE6CA0-AC48-4A7E-AFD5-DE4179188B01}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEGLIB", "..\jpeg-6b\vc\vc2015\JPEGLIB.vcxproj", "{D22F6666-746D-4436-8EAD-481C2C37AF55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -279,6 +281,18 @@ Global
 		{4ADE6CA0-AC48-4A7E-AFD5-DE4179188B01}.Release|Win32.Build.0 = Release|Win32
 		{4ADE6CA0-AC48-4A7E-AFD5-DE4179188B01}.Release|x64.ActiveCfg = Release|x64
 		{4ADE6CA0-AC48-4A7E-AFD5-DE4179188B01}.Release|x64.Build.0 = Release|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Win32.Build.0 = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|x64.ActiveCfg = Debug|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|x64.Build.0 = Debug|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Win32.ActiveCfg = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Win32.Build.0 = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|x64.ActiveCfg = Release|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

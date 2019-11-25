@@ -164,6 +164,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\jpeg-6b\vc\vc2015\JPEGLIB.vcxproj">
+      <Project>{d22f6666-746d-4436-8ead-481c2c37af55}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\counter\counter\counter.vcxproj">
       <Project>{b5331eeb-348e-4003-9de7-8e92413c5737}</Project>
     </ProjectReference>

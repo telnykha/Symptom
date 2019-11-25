@@ -166,6 +166,9 @@
     <ProjectReference Include="..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
       <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\jpeg-6b\vc\vc2015\JPEGLIB.vcxproj">
+      <Project>{d22f6666-746d-4436-8ead-481c2c37af55}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

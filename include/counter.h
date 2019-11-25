@@ -25,6 +25,7 @@ extern "C"
 
 #define TRAJECTORY_COUNTER		0
 #define SINGLE_DOOR_COUNTER     1
+#define FLOW_COUNTER			2
 
 
 //--------------------------- counter API ------------------------------------------------------------------------------
