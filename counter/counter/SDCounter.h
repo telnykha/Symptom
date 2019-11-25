@@ -99,4 +99,15 @@ public:
 	}
 };
 
+//---------------------------- SINGLE_DOOR_COUNTER   API ----------------------------------------
+HANDLE   counterCreate(TVAInitParams* params);
+HRESULT  counterProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, double& value1, double& value2, int& state);
+HRESULT  counterGetCount(HANDLE hModule, int* in_count, int* out_count);
+HRESULT	 counterForeground(HANDLE hModule, int width, int height, unsigned char* data);
+HRESULT  counterRestart(HANDLE hModule);
+HRESULT  counterRelease(HANDLE* hModule);
+HRESULT  counterGetLastTrajectory(HANDLE hModule, TVAPoint* startPoint, TVAPoint* endPoint, bool* has_trajectory);
+HRESULT  counterGetEventImageSize(HANDLE hModule, int& width, int& height);
+HRESULT  counterGetEventImage(HANDLE hModule, int width, int height, double* data);
+
 #endif //_sd_counter_h

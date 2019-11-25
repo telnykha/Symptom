@@ -1,3 +1,5 @@
+#include "_counter.h"
+#include "counter.h"
 #include "SDCounter.h"
 CCounter::CCounter(TVAInitParams& params)
 {
@@ -418,3 +420,173 @@ int	 CCounter::EventGetCount()
 	return (int)floor(s / (k*w) + 0.5);
 }
 
+HANDLE   counterCreate(TVAInitParams* params)
+{
+	if (params == NULL)
+		return NULL;
+	bool create_zone = false;
+	if (params->NumZones == 0)
+	{
+		create_zone = true;
+	}
+	else
+		if (params->NumZones != 2 && params->Zones[0].IsRect == false)
+			return NULL;
+
+	TheCounter* hcounter = new TheCounter();
+
+	hcounter->size = sizeof(TheCounter);
+	hcounter->options = SINGLE_DOOR_COUNTER;
+	hcounter->t_counter = NULL;
+	hcounter->f_counter = NULL;
+	hcounter->c_counter = new CCounter(*params);
+	hcounter->c_counter->SetNeedTrack(false);
+	hcounter->c_counter->SetNeedCluster(false);
+	hcounter->c_counter->SetResize(true);
+	hcounter->c_counter->SetBaseImageWidth(320);
+	hcounter->c_counter->SetAverageBufferSize(5);
+	hcounter->c_counter->SetBGStability(1);
+	ILFObjectDetector* s = hcounter->c_counter->GetDetector(0);
+	s->SetBaseWidht(8);
+	s->SetBaseHeight(8);
+	s->SetThreshold(params->EventSens);
+
+	return (HANDLE)hcounter;
+}
+HRESULT  counterProcess(HANDLE hModule, int width, int height, int bpp, unsigned char* data, double& value1, double& value2, int& state)
+{
+	HANDLE module = hModule;
+	TheCounter* hcounter = (TheCounter*)module;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+	if (hcounter->c_counter == NULL)
+		return E_FAIL;
+	awpImage* tmp = NULL;
+	awpCreateGrayImage(&tmp, width, height, bpp, data);
+
+	hcounter->c_counter->SetSourceImage(tmp, true);
+	value1 = hcounter->c_counter->AValue();
+	value2 = hcounter->c_counter->HValue();
+	state = hcounter->c_counter->GetState();
+	awpReleaseImage(&tmp);
+	return S_OK;
+}
+HRESULT  counterGetCount(HANDLE hModule, int* in_count, int* out_count)
+{
+	HANDLE module = hModule;
+	TheCounter* hcounter = (TheCounter*)module;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+	*in_count = hcounter->c_counter->InCount();
+	*out_count = hcounter->c_counter->OutCount();
+	return S_OK;
+}
+HRESULT  counterGetLastTrajectory(HANDLE hModule, TVAPoint* startPoint, TVAPoint* endPoint, bool* has_trajectory)
+{
+	HANDLE module = hModule;
+	TheCounter* hcounter = (TheCounter*)module;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+	*has_trajectory = false;
+	startPoint->X = 0;
+	startPoint->Y = 0;
+	endPoint->X = 0;
+	endPoint->Y = 0;
+	if (hcounter->c_counter->GetHasTrajectory())
+	{
+		*has_trajectory = true;
+		double rc = hcounter->c_counter->GetResizeCoef();
+		awpPoint p = hcounter->c_counter->GetStartPoint();
+		startPoint->X = (float)(p.X*rc);
+		startPoint->Y = (float)(p.Y*rc);
+		p = hcounter->c_counter->GetEndPoint();
+		endPoint->X = (float)(p.X*rc);
+		endPoint->Y = (float)(p.Y*rc);
+	}
+	return S_OK;
+}
+HRESULT  counterRestart(HANDLE hModule)
+{
+	HANDLE module = hModule;
+	TheCounter* hcounter = (TheCounter*)module;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+	hcounter->c_counter->Clear();
+	return S_OK;
+}
+HRESULT  counterRelease(HANDLE* hModule)
+{
+	HANDLE module = *hModule;
+	TheCounter* hcounter = (TheCounter*)module;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+
+
+	delete hcounter->c_counter;
+	hcounter->c_counter = NULL;
+
+	delete hcounter;
+
+	*hModule = NULL;
+	return S_OK;
+}
+
+HRESULT	 counterForeground(HANDLE hModule, int width, int height, unsigned char* data)
+{
+	TheCounter*  hcounter = (TheCounter*)hModule;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+
+	awpImage* img = hcounter->c_counter->GetForeground();
+	if (img != NULL)
+	{
+		awpImage* tmp = NULL;
+		awpCopyImage(img, &tmp);
+
+		if (tmp->sSizeX != width || tmp->sSizeY != height)
+			awpResize(tmp, width, height);
+		memcpy(data, tmp->pPixels, width*height*sizeof(unsigned char));
+		_AWP_SAFE_RELEASE_(tmp);
+	}
+
+	return S_OK;
+}
+
+HRESULT  counterGetEventImageSize(HANDLE hModule, int& width, int& height)
+{
+	TheCounter*  hcounter = (TheCounter*)hModule;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+	width = 0;
+	height = 0;
+	awpImage* img = hcounter->c_counter->GetEventImage();
+	if (img != NULL)
+	{
+		width = img->sSizeX;
+		height = img->sSizeY;
+	}
+	return S_OK;
+}
+HRESULT  counterGetEventImage(HANDLE hModule, int width, int height, double* data)
+{
+	TheCounter*  hcounter = (TheCounter*)hModule;
+	if (hcounter->size != sizeof(TheCounter))
+		return E_FAIL;
+
+	awpImage* img = hcounter->c_counter->GetEventImage();
+	if (img != NULL)
+	{
+		if (width != img->sSizeX)
+			return E_FAIL;
+
+		if (height != img->sSizeY)
+			return E_FAIL;
+
+		if (data == NULL)
+			return E_FAIL;
+
+		memcpy(data, img->pPixels, width*height*sizeof(double));
+	}
+	return S_OK;
+
+}

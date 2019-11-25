@@ -68,19 +68,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;..\..\..\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;..\..\..\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;..\..\..\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\awpipl2\include\;..\..\..\TinyXML\src\;..\..\..\awplflib\include\;..\..\common;..\..\..\opencv\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,6 +99,7 @@
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>counter.def</ModuleDefinitionFile>
       <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>..\..\..\opencv\x86\vc12\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,6 +141,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>counter.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>..\..\..\opencv\x86\vc12\lib\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -166,6 +168,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>counter.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>..\..\..\opencv\x64\vc12\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -173,8 +176,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\counter.h" />
+    <ClInclude Include="FlowCounter.h" />
+    <ClInclude Include="LFBorderLine.h" />
+    <ClInclude Include="LFIplFBFlow.h" />
+    <ClInclude Include="LFIplImage.h" />
+    <ClInclude Include="LFSensorLine.h" />
+    <ClInclude Include="LFSTProcessor.h" />
     <ClInclude Include="lftcounter.h" />
     <ClInclude Include="SDCounter.h" />
+    <ClInclude Include="_counter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="counter.cpp" />
@@ -192,13 +202,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="FlowCounter.cpp" />
+    <ClCompile Include="LFBorderLine.cpp" />
+    <ClCompile Include="LFIplFBFlow.cpp" />
+    <ClCompile Include="LFIplImage.cpp" />
+    <ClCompile Include="LFSensorLine.cpp" />
+    <ClCompile Include="LFSTProcessor.cpp" />
     <ClCompile Include="lftcounter.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SDCounter.cpp" />
+    <ClCompile Include="sdcounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="counter.def" />
@@ -209,6 +225,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
       <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\jpeg-6b\vc\vc2015\JPEGLIB.vcxproj">
+      <Project>{d22f6666-746d-4436-8ead-481c2c37af55}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
       <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
