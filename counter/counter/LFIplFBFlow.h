@@ -44,7 +44,7 @@ protected:
 	void MakeMask();
 	void MakeMoule();
 public:
-	CFBFlow(double scale = 3);
+	CFBFlow(double scale = 2);
 	~CFBFlow();
 	void Process(IplImage* image);
 	IplImage* GetVFlow();

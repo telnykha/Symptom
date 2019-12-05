@@ -662,7 +662,7 @@ public:
 	{
 
 		double eventSens = 0.5;
-		m_module = (HANDLE)tcounterCreate(m_start, m_finish, m_sizes, eventSens);
+		m_module = (HANDLE)tcounterCreateEx(m_start, m_finish, m_sizes, eventSens, FLOW_COUNTER);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module COUNTER.\n");
@@ -969,7 +969,7 @@ int main(int argc, char** argv)
 		IplImage* frame = NULL;
 		if (gframe == NULL)
 		{
-			printf("continue\n");
+			//printf("continue\n");
 			continue;
 		}
 
@@ -1007,7 +1007,7 @@ int main(int argc, char** argv)
 		cvShowImage(msg, img);
 		cvReleaseImage(&frame);
 
-		printf("frame #%i\t%lf fps\t t= %lf\n", c++, 1000.f / ff, ff);
+		//printf("frame #%i\t%lf fps\t t= %lf\n", c++, 1000.f / ff, ff);
 		int c;
 		c = cvWaitKey(10);
 		if ((char)c == 27)

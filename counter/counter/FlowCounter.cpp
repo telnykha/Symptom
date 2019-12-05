@@ -58,10 +58,10 @@ TLFFlowCounter::TLFFlowCounter(TVAPoint& start, TVAPoint& finish, TVARect& sizes
 TLFFlowCounter::~TLFFlowCounter()
 {
 
-	if (m_in_event != NULL)
-		delete m_in_event;
-	if (m_out_event != NULL)
-		delete m_out_event;
+//	if (m_in_event != NULL)
+//		delete m_in_event;
+//	if (m_out_event != NULL)
+//		delete m_out_event;
 }
 
 bool TLFFlowCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, double& sq)
@@ -91,6 +91,15 @@ bool TLFFlowCounter::ProcessImage(awpImage* img, int& num_in, int& num_out, doub
 		{
 			m_sensor.Update(m_flow.GetModule(), m_flow.GetAngle());
 			m_processor.AddData(m_sensor.Data());
+			int before_in  = m_in_events.GetCount();
+			int before_out = m_out_events.GetCount();
+			AnslysisDataLine();
+			TLFEvent* in = (TLFEvent*)m_in_events.Last();
+			TLFEvent* out = (TLFEvent*)m_out_events.Last();
+			int coef_in  = in == NULL ? 0: 1 + in->GetLenght() / 30;
+			int coef_out = out == NULL ? 0:1 + out->GetLenght() / 30;
+			num_in = (m_in_events.GetCount() - before_in)*coef_in;
+			num_out = -(m_out_events.GetCount() - before_out)*coef_out;
 		}
 	}
 	m_counter++;
