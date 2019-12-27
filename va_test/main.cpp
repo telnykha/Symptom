@@ -644,11 +644,11 @@ protected:
 public:
 	CCounterModule(TVAInitParams* params) : IVideoAnalysis(params)
 	{
-		m_start.X = 20;
-		m_start.Y = 20;
-
-		m_finish.X = 60;
+		m_finish.X = 20;
 		m_finish.Y = 20;
+
+		m_start.X = 60;
+		m_start.Y = 20;
 
 		m_sizes.LeftTop.X = 40;
 		m_sizes.LeftTop.Y = 40;

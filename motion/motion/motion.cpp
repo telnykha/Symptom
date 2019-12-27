@@ -111,7 +111,10 @@ void MotionDetectorCNT::FindRects(awpImage* image, int mw, int mh)
 	}
 	m_detectedCount = count;
 	if (m_detectedCount == 0)
+	{
+		awpFreeStrokes(NumStrokes, &strokes);
 		return;
+	}
 	m_detectedRects = (_CvRect*)malloc(m_detectedCount*sizeof(_CvRect));
 	count = 0;
 	for (int i = 0; i < NumStrokes; i++)
