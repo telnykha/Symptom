@@ -612,7 +612,7 @@ public:
 };
 /*
 	counter module test
-*/
+
 class CCounterModule : public IVideoAnalysis
 {
 protected: 
@@ -702,7 +702,7 @@ public:
 		cvReleaseImageHeader(&img);
 
 	}
-};
+};*/
 class CPackageModule : public IVideoAnalysis
 {
 private:
@@ -894,8 +894,8 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return new CCrowdModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_TRACK)
 		return new CTrackModule(params);
-	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
-		return new CCounterModule(params);
+//	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
+//		return new CCounterModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_PACKAGE)
 		return new CPackageModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_FACE)

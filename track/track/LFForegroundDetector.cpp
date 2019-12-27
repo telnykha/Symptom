@@ -92,7 +92,7 @@ bool TLFNNFeaturesClassify::Classify(TLFImage& image)
 	{
 		this->m_count = LFGetTickCount();
 	}
-	DWORD time = LFGetTickCount() - m_count;
+	unsigned long time = LFGetTickCount() - m_count;
 	if (time > this->m_delay)
 		m_buffer->AddVector(d);
     return true;
