@@ -86,6 +86,8 @@ void CBorderLine::CalcAngle()
 
 int CBorderLine::Direction(double angle)
 {
+	if (fabs(m_angle - angle) < 5)
+		return 0;
 	if (m_angle > 0 && m_angle <= 90)
 	{
 		if (angle < m_angle || angle > m_angle + 180)

@@ -51,7 +51,7 @@ protected:
     TLFObjectList m_sensors;
 	int m_delay;
 public:
-    TLFForegroundDetector(int delay);
+    TLFForegroundDetector(int delay, int size = 12);
     virtual ~TLFForegroundDetector();
 
     virtual bool Init(awpImage* pImage, bool scan = false );

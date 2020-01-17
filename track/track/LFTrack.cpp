@@ -15,9 +15,13 @@ TLFTrackEngine::TLFTrackEngine(int method)
 	case LF_MOTION_DETCTOR:
 			d = new TLFMotionDetector();
 		break;
-	case TL_FOREGROUND_DETECTOR:
+	case LF_FOREGROUND_DETECTOR:
 		d = new TLFForegroundDetector(0);
 			break;
+	case LF_FOREGROUND_DETETCTOR_8:
+		d = new TLFForegroundDetector(0, 9);
+		break;
+
 	default:
 		d = new TLFMotionDetector();
 	}
@@ -28,15 +32,17 @@ TLFTrackEngine::TLFTrackEngine(int method)
 
 TLFTrackEngine::TLFTrackEngine(int method, TVAInitParams& params)
 {
-//	TLFMotionDetector* d = new TLFMotionDetector();
 	ILFObjectDetector* d = NULL;
 	switch (method)
 	{
 	case LF_MOTION_DETCTOR:
 		d = new TLFMotionDetector();
 		break;
-	case TL_FOREGROUND_DETECTOR:
+	case LF_FOREGROUND_DETECTOR:
 		d = new TLFForegroundDetector(params.EventTimeSens);
+		break;
+	case LF_FOREGROUND_DETETCTOR_8:
+		d = new TLFForegroundDetector(params.EventTimeSens, 8);
 		break;
 	default:
 		d = new TLFMotionDetector();

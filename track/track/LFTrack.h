@@ -4,7 +4,8 @@
 #include "va_common.h"
 
 #define LF_MOTION_DETCTOR		0
-#define TL_FOREGROUND_DETECTOR  1
+#define LF_FOREGROUND_DETECTOR  1
+#define LF_FOREGROUND_DETETCTOR_8 2
 
 class TLFTrackEngine : public ILFDetectEngine
 {

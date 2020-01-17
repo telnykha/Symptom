@@ -100,12 +100,12 @@ bool TLFNNFeaturesClassify::Classify(TLFImage& image)
 
 
 ////////////////////////////////////////////////////////////////////////////
-TLFForegroundDetector::TLFForegroundDetector(int delay) : ILFObjectDetector()
+TLFForegroundDetector::TLFForegroundDetector(int delay, int size) : ILFObjectDetector()
 {
 
     m_strDetName = this->GetName();
-    this->m_baseHeight = 12;
-    this->m_baseWidth  = 12;
+	this->m_baseHeight = size;
+	this->m_baseWidth = size;
 	this->m_delay = delay;
     if (this->m_scanner != NULL)
     {
@@ -115,6 +115,7 @@ TLFForegroundDetector::TLFForegroundDetector(int delay) : ILFObjectDetector()
         this->m_scanner->SetBaseHeight(this->m_baseHeight);
         this->m_scanner->SetBaseWidth(this->m_baseWidth);
     }
+	printf("INFO: create TLFForegroundDetector\n");
 }
 TLFForegroundDetector::~TLFForegroundDetector()
 {
@@ -134,6 +135,7 @@ bool TLFForegroundDetector::Init(awpImage* pImage, bool scan)
     {
         this->m_sensors.Clear();
         m_scanner->Scan(&m_Image);
+		printf("INFO:TLFForegroundDetector fragments = %i\n", m_scanner->GetFragmentsCount());
         for(int i= 0; i < m_scanner->GetFragmentsCount(); i++)
         {
             TLFRect rect(m_scanner->GetFragmentRect(i));

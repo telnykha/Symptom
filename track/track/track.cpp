@@ -20,7 +20,7 @@ extern "C" TRACK_API HANDLE		trackCreate(TVAInitParams* params, int options, int
 	
 	if (params == NULL)
 		return NULL;
-	if (options < 0 || options > 1)
+	if (options < 0 || options > 2)
 		return NULL;
 
 	TheTrack* track = new TheTrack();

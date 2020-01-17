@@ -555,13 +555,12 @@ public:
 		p.NumZones = NULL;
 		p.EventSens = 0.5;
 		p.EventTimeSens = 5000;
-		p.minWidth = 1;
-		p.minHeight = 1;
+		p.minWidth = 0;
+		p.minHeight = 0;
 		p.maxWidth = 100;
 		p.maxHeight = 100;
 		p.numObects = 100;
 
-		m_module = (HANDLE)trackCreate(&p, 0, 640);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module TRACK.\n");
@@ -961,7 +960,7 @@ int main(int argc, char** argv)
 	module->InitModule(&params);
 	gquit = false;
 	printf("start processing\n");
-	int c = 0;
+	int count = 0;
 	while (true)
 	{
 		if (gquit == true)
@@ -1006,8 +1005,10 @@ int main(int argc, char** argv)
 		module->DrawResult((unsigned char*)img->imageData, img->width, img->height, 3);
 		cvShowImage(msg, img);
 		cvReleaseImage(&frame);
-
-		//printf("frame #%i\t%lf fps\t t= %lf\n", c++, 1000.f / ff, ff);
+		int a = count % 10;
+		if (a == 0)
+			printf("frame #%i\t%lf fps\t t= %lf\n", count, 1000.f / ff, ff);
+		count++;
 		int c;
 		c = cvWaitKey(10);
 		if ((char)c == 27)
