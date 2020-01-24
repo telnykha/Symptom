@@ -73,40 +73,116 @@ extern "C"
 #endif
 }
 
+class IVideoAnalysis
+{
+protected:
+	HANDLE		  m_module;
+	TVAInitParams m_params;
+	TVAResult	  m_result;
+public:
+	IVideoAnalysis(TVAInitParams* params)
+	{
+		m_module = NULL;
+		m_result.Num = 100;
+		m_result.blobs = new TVABlob[100];
+	}
+	virtual ~IVideoAnalysis()
+	{
+		delete m_result.blobs;
+	}
+
+	virtual void InitModule(TVAInitParams* params) = 0;
+	virtual void ReleaseModule() = 0;
+	virtual void ProcessData(unsigned char* data, int width, int height, int bpp) = 0;
+	virtual void DrawResult(unsigned char* data, int width, int height, int bpp) = 0;
+	int NumObjects()
+	{
+		return m_result.Num;
+	}
+	TVABlob* Blob(int index)
+	{
+		if (index < 0 || index >= m_result.Num)
+			return NULL;
+		return &m_result.blobs[index];
+	}
+};
 
 bool		gquit;
 IplImage*   gframe = NULL;
+IplImage*   img = NULL;
+IplImage*   todraw = NULL;
 CvCapture* capture = NULL;
 SDL_mutex*  mutex;
+SDL_mutex*  pmutex;
 SDL_Thread* thread;
+SDL_Thread* pthread;
+int  num_frames;
+int  frames;
+DWORD dwtime;
+IVideoAnalysis* module;
 
+void DrawStatus(IplImage* si)
+{
+	//if (m_pressed)
+	{
+		cvRectangle(si, cvPoint(0, 0), cvPoint(si->width, 50), CV_RGB(0, 0, 0), CV_FILLED, 8, 0);
+		CvFont font;
+		cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, .5, .5, 0, 1, 8);
+		char string1[128];
+		//frames = 0;
+		sprintf_s(string1, "#frame %d of %d  objects = %d", frames, num_frames,module->NumObjects());
+		cvPutText(si, string1, cvPoint(250, 15), &font, CV_RGB(255, 255, 255));
+		sprintf(string1, "time = %d ms perfomance = %d fps", dwtime, 1000 / (1 + dwtime));
+		cvPutText(si, string1, cvPoint(10, 35), &font, CV_RGB(255, 255, 255));
+
+		if (num_frames > 1)
+			cvRectangle(si, cvPoint(10, 6), cvPoint(10 + 230 * (double)frames / (double)num_frames, 20), CV_RGB(255, 0, 0), CV_FILLED, 8, 0);
+	}
+}
 static int ThreadCapture(void* args)
 {
 	int i, num = 0;
 	gquit = false;
-	printf("Enter a thread\n");
+	printf("Start capturing.\n");
 	while (1)
 	{
-		if (gframe == NULL)
+		if (SDL_LockMutex(mutex) == 0)
 		{
-			//SDL_LockMutex(mutex);
-			int status = SDL_TryLockMutex(mutex);
-			if (status == 0)
+			IplImage* f = cvQueryFrame(capture);
+			if (f != NULL)
 			{
-				gframe = cvQueryFrame(capture);
-				if (gframe == NULL)
+				gframe = f;
+				frames++;
+				if (img == NULL)
 				{
-					printf("thread: gframe == NULL\n");
-					gquit = true;
+					int height = gframe->height * DISPLAY_WIDTH / gframe->width;
+					CvSize s;
+					s.width = DISPLAY_WIDTH;
+					s.height = height;
+					img = cvCreateImage(s, IPL_DEPTH_8U, 3);
 				}
-				SDL_UnlockMutex(mutex);
+				cvResize(gframe, img);
+				if (todraw == NULL)
+				{
+					int height = gframe->height * DISPLAY_WIDTH / gframe->width;
+					CvSize s;
+					s.width = DISPLAY_WIDTH;
+					s.height = height;
+					todraw = cvCreateImage(s, IPL_DEPTH_8U, 3);
+				}
+				cvResize(img, todraw);
 			}
+			else
+				gquit = true;
+			SDL_UnlockMutex(mutex);
 		}
+		else
+			printf("Couldn't lock mutex\n");
 		if (gquit)
 			break;
+		Sleep(20);
 	}
-	printf("Quit a thread\n");
-	SDL_UnlockMutex(mutex);
+	printf("Finish capturing.\n");
 	gquit = true;
 	return SUCCESS;
 }
@@ -298,25 +374,6 @@ public:
 	}
 };
 #endif 
-class IVideoAnalysis
-{
-protected:
-	HANDLE		  m_module;
-	TVAInitParams m_params;
-public:
-	IVideoAnalysis(TVAInitParams* params)
-	{
-		m_module = NULL;
-	}
-	virtual ~IVideoAnalysis()
-	{
-	}
-	
-	virtual void InitModule(TVAInitParams* params) = 0;
-	virtual void ReleaseModule() = 0;
-	virtual void ProcessData(unsigned char* data, int width, int height, int bpp) = 0;
-	virtual void DrawResult(unsigned char* data, int width, int height, int bpp) = 0;
-};
 class CMotionModule : public IVideoAnalysis
 {
 private:
@@ -377,7 +434,9 @@ public:
 class CSabotageModule : public IVideoAnalysis
 {
 public:
-	CSabotageModule(TVAInitParams* params) : IVideoAnalysis(params){}
+	CSabotageModule(TVAInitParams* params) : IVideoAnalysis(params){
+		m_result.Num = 0;
+	}
 	
 	virtual void InitModule(TVAInitParams* params)
 	{
@@ -531,16 +590,13 @@ public:
 class CTrackModule : public IVideoAnalysis
 {
 protected: 
-	TVAResult m_result;
 public:
 	CTrackModule(TVAInitParams* params) : IVideoAnalysis(params)
 	{
-		m_result.Num = 100;
-		m_result.blobs = new TVABlob[100];
+
 	}
 	virtual ~CTrackModule()
 	{
-		delete m_result.blobs;
 	}
 
 	virtual void InitModule(TVAInitParams* params)
@@ -560,7 +616,7 @@ public:
 		p.maxWidth = 100;
 		p.maxHeight = 100;
 		p.numObects = 100;
-
+		m_module = (HANDLE)trackCreate(&p, 1, 640);
 		if (m_module == NULL)
 		{
 			printf("ERROR: cannot create module TRACK.\n");
@@ -578,7 +634,18 @@ public:
 		TVAResult result;
 		result.Num = 100;
 		result.blobs = new TVABlob[100];
-		trackProcess(m_module, width, height, bpp, data, &m_result);
+		trackProcess(m_module, width, height, bpp, data, &result);
+	
+		m_result.Num = result.Num;
+		printf("res = %i \n", m_result.Num);
+		for (int i = 0; i < m_result.Num; i++)
+		{
+			m_result.blobs[i].XPos = result.blobs[i].XPos;
+			m_result.blobs[i].YPos = result.blobs[i].YPos;
+			m_result.blobs[i].Height = result.blobs[i].Height;
+			m_result.blobs[i].Width = result.blobs[i].Width;
+		}
+
 		delete result.blobs;
 	}
 
@@ -589,23 +656,15 @@ public:
 			CvSize s;
 			s.width = width;
 			s.height = height;
-			IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
-			img->imageData = (char*)data;
-			if (m_result.Num > 0)
+			IplImage* img0 = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
+			img0->imageData = (char*)data;
+			// draw result 
+			for (int i = 0; i < m_result.Num; i++)
 			{
-				// draw result 
-				for (int i = 0; i < m_result.Num; i++)
-				{
-					CvRect rr = cvRect(m_result.blobs[i].XPos, m_result.blobs[i].YPos, m_result.blobs[i].Width, m_result.blobs[i].Height);
-					CvPoint p1, p2;
-					p1.x = rr.x;
-					p1.y = rr.y;
-					p2.x = rr.x + rr.width;
-					p2.y = rr.y + rr.height;
-					cvRectangle(img, p1, p2, CV_RGB(0, 255, 0), 1);
-				}
+				CvRect rr = cvRect(m_result.blobs[i].XPos, m_result.blobs[i].YPos, m_result.blobs[i].Width, m_result.blobs[i].Height);
+				cvRectangleR(img0, rr, CV_RGB(0, 255, 0), 2);
 			}
-			cvReleaseImageHeader(&img);
+			cvReleaseImageHeader(&img0);
 		}
 	}
 };
@@ -903,7 +962,62 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return NULL;
 }
 
-IVideoAnalysis* module = NULL;
+static int ThreadProcess(void* ards)
+{
+	printf("start processing.\n");
+	TVAInitParams params;
+	params.EventSens = 0.79;
+	params.EventTimeSens = 500;
+	params.minHeight = 1;
+	params.minWidth = 1;
+	params.maxWidth = 30;
+	params.maxHeight = 30;
+
+	int* k = (int*)ards;
+	module = VideoAnalysisFactory(&params, *k);
+	if (module == NULL)
+	{
+		printf("ERROR: Cannot create video analysis.\n");
+		return 0;
+	}
+	module->InitModule(&params);
+	while (!gquit)
+	{
+		// process data
+		if (gframe != NULL)
+		{
+			if (SDL_LockMutex(mutex) == 0)
+			{
+				gframe = NULL;
+				SDL_UnlockMutex(mutex);
+#ifdef WIN32		
+				CPerfomanceCounter perfomance;
+#else
+				double startTime = getCPUTime();
+#endif 
+				double ff;
+				module->ProcessData((unsigned char*)img->imageData, img->width, img->height, 3);
+				SDL_UnlockMutex(mutex);
+#ifdef WIN32 
+				ff = perfomance.GetCounter();
+				dwtime = ff;
+#else 
+				ff = getCPUTime() - startTime;
+				ff *= 1000;
+#endif 
+			}
+		}
+	}
+	module->ReleaseModule();
+	printf("finish processing.\n");
+	return SUCCESS;
+}
+
+
+CvScalar black = CV_RGB(0, 0, 0);
+CvScalar white = CV_RGB(255, 255, 255);
+CvScalar red = CV_RGB(255, 0, 0);
+
 
 
 int main(int argc, char** argv)
@@ -925,23 +1039,6 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
-	TVAInitParams params;
-	params.EventSens 		= 0.79;
-	params.EventTimeSens 	= 500;
-	params.minHeight = 1;
-	params.minWidth = 1;
-	params.maxWidth = 30;
-	params.maxHeight = 30;
-
-	
-	module = VideoAnalysisFactory(&params, k);
-	if (module == NULL)
-	{
-		printf("ERROR: Cannot create video analysis: %s\n", argv[1]);
-		Usage();
-		return 0;
-	}
-	
 
 	capture = cvCaptureFromFile(argv[2]);
 	if (capture == NULL)
@@ -949,78 +1046,48 @@ int main(int argc, char** argv)
 		printf("ERROR: Cannot open video source: %s\n", argv[2]);
 		return 0;
 	}
-
+	num_frames = (int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
+	if (num_frames < 0)
+		num_frames = 1;
+	frames = 0;
 	int threadReturnValue;
 	mutex =  SDL_CreateMutex();
+	pmutex = SDL_CreateMutex();
 	thread = SDL_CreateThread(ThreadCapture, "ThreadCapture", (void *)NULL);
-	
-	IplImage* img = NULL;
+	pthread = SDL_CreateThread(ThreadProcess, "ThreadProcess", &k);
+
+
 	char msg[64];
 	sprintf(msg, "symptom 3.0 %s", argv[1]);	
-	module->InitModule(&params);
 	gquit = false;
-	printf("start processing\n");
+	printf("Start main.\n");
 	int count = 0;
 	while (true)
 	{
 		if (gquit == true)
 			break;
-		IplImage* frame = NULL;
-		if (gframe == NULL)
+		if (SDL_LockMutex(mutex) == 0)
 		{
-			//printf("continue\n");
-			continue;
+			module->DrawResult((unsigned char*)todraw->imageData, img->width, img->height, 3);
+			DrawStatus(todraw);
+			cvShowImage(msg, todraw);
+			SDL_UnlockMutex(mutex);
 		}
-
-		SDL_LockMutex(mutex);
-		frame = (IplImage*)cvClone(gframe);
-		gframe = NULL;
-		SDL_UnlockMutex(mutex);
-		if (!frame)
-			break;
-	
-		if (img == NULL)
-		{
-			int height = frame->height * DISPLAY_WIDTH / frame->width;
-			CvSize s;
-			s.width = DISPLAY_WIDTH;
-			s.height = height;
-			img = cvCreateImage(s, IPL_DEPTH_8U, 3);
-		}
-		cvResize(frame, img);
-
-#ifdef WIN32		
-		CPerfomanceCounter perfomance;
-#else
-		double startTime = getCPUTime( );
-#endif 
-		module->ProcessData((unsigned char*)img->imageData,img->width, img->height, 3);
-		double ff;
-#ifdef WIN32 
-		ff = perfomance.GetCounter();
-#else 
-		ff = getCPUTime() - startTime;
-	    ff *= 1000;
-#endif 
-		module->DrawResult((unsigned char*)img->imageData, img->width, img->height, 3);
-		cvShowImage(msg, img);
-		cvReleaseImage(&frame);
-		int a = count % 10;
-		if (a == 0)
-			printf("frame #%i\t%lf fps\t t= %lf\n", count, 1000.f / ff, ff);
 		count++;
 		int c;
 		c = cvWaitKey(10);
 		if ((char)c == 27)
 			gquit = true;
 	}
-	printf("finish processing\n");
+	printf("Stop main.\n");
 	SDL_WaitThread(thread, &threadReturnValue);
+	SDL_WaitThread(pthread, &threadReturnValue);
 
 	cvReleaseImage(&img);
+	cvReleaseImage(&todraw);
 	cvDestroyAllWindows();
 	cvReleaseCapture(&capture);
-	module->ReleaseModule();
 	SDL_DestroyMutex(mutex);
+	SDL_DestroyMutex(pmutex);
 	return 0;
 }

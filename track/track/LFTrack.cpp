@@ -19,7 +19,7 @@ TLFTrackEngine::TLFTrackEngine(int method)
 		d = new TLFForegroundDetector(0);
 			break;
 	case LF_FOREGROUND_DETETCTOR_8:
-		d = new TLFForegroundDetector(0, 9);
+		d = new TLFForegroundDetector(0, 8);
 		break;
 
 	default:
