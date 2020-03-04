@@ -27,12 +27,18 @@
     <ClInclude Include="..\..\..\..\include\package.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LFPackage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="package.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LFPackage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

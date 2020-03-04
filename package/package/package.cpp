@@ -17,6 +17,7 @@ extern "C"
 }
 
 #include "_LF.h"
+#include "LFPackage.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 typedef struct 
@@ -35,7 +36,7 @@ PACKAGE_API HANDLE		packageCreate(TVAInitParams* params, TVAPackageInit* params1
 	memcpy(&p->params, params, sizeof(TVAInitParams));
 	memcpy(&p->params1, params1, sizeof(TVAPackageInit));
 
-	p->e = new TLFPackageEngine();
+	p->e = new TLFPackageEngine(*params);
 	if (p->e == NULL)
 	{
 		delete p;

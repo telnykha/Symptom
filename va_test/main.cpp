@@ -668,8 +668,8 @@ public:
 		}
 	}
 };
-/*
-	counter module test
+
+//	counter module test
 
 class CCounterModule : public IVideoAnalysis
 {
@@ -677,7 +677,9 @@ protected:
 	TVAPoint m_start;
 	TVAPoint m_finish;
 	TVARect  m_sizes;
-
+	double   m_count;
+	double   m_total_in;
+	double   m_total_out;
 	void DrawSettings(IplImage* img)
 	{
 		if (img == NULL)
@@ -702,10 +704,10 @@ protected:
 public:
 	CCounterModule(TVAInitParams* params) : IVideoAnalysis(params)
 	{
-		m_finish.X = 20;
+		m_finish.X = 60;
 		m_finish.Y = 20;
 
-		m_start.X = 60;
+		m_start.X = 20;
 		m_start.Y = 20;
 
 		m_sizes.LeftTop.X = 40;
@@ -713,7 +715,9 @@ public:
 
 		m_sizes.RightBottom.X = 50;
 		m_sizes.RightBottom.Y = 60;
-
+		m_count = 0;
+		m_total_in = 0;
+		m_total_out = 0;
 	}
 
 	virtual void InitModule(TVAInitParams* params)
@@ -738,7 +742,14 @@ public:
 		double result = 0;
 		tcounterProcess(m_module, width, height, bpp, data, result);
 		if (result != 0)
+		{
 			printf("MODULE COUNTER : count = %lf \n", result);
+			m_count = result;
+			if (m_count > 0)
+				m_total_in += m_count;
+			else
+				m_total_out += fabs(m_count);
+		}
 	}
 
 	virtual void DrawResult(unsigned char* data, int width, int height, int bpp)
@@ -749,18 +760,19 @@ public:
 		s.height = height;
 		IplImage* img = cvCreateImageHeader(s, IPL_DEPTH_8U, 3);
 		img->imageData = (char*)data;
-
 		DrawSettings(img);
+		char string1[128];
+		CvFont font;
+		cvInitFont(&font, CV_FONT_HERSHEY_DUPLEX, .5, .5, 0, 1, 8);
+		sprintf_s(string1, "IN = %2.0f", m_total_in);
+		cvPutText(img, string1, cvPoint(10, 80), &font, CV_RGB(255, 255, 255));
+		sprintf_s(string1, "OUT = %2.0f", m_total_out);
+		cvPutText(img, string1, cvPoint(10, 95), &font, CV_RGB(255, 255, 255));
 
-		int num = 0;
-		if (num > 0)
-		{
-			// todo:
-		}
 		cvReleaseImageHeader(&img);
-
 	}
-};*/
+};
+
 class CPackageModule : public IVideoAnalysis
 {
 private:
@@ -952,8 +964,8 @@ IVideoAnalysis* VideoAnalysisFactory(TVAInitParams* params, int VA_MODULE_ID)
 		return new CCrowdModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_TRACK)
 		return new CTrackModule(params);
-//	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
-//		return new CCounterModule(params);
+	else if (VA_MODULE_ID == VA_MODULE_COUNTER)
+		return new CCounterModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_PACKAGE)
 		return new CPackageModule(params);
 	else if (VA_MODULE_ID == VA_MODULE_FACE)
@@ -1041,12 +1053,15 @@ int main(int argc, char** argv)
 
 
 	capture = cvCaptureFromFile(argv[2]);
+	CvVideoWriter* writer = NULL;// cvCreateVideoWriter("out.avi", CV_FOURCC('D', 'I', 'V', 'X'), fps, cvSize(640, floor(_alfa*_img_height + 0.5)));
+
 	if (capture == NULL)
 	{
 		printf("ERROR: Cannot open video source: %s\n", argv[2]);
 		return 0;
 	}
 	num_frames = (int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
+	double fps = cvGetCaptureProperty(capture, CV_CAP_PROP_FPS);
 	if (num_frames < 0)
 		num_frames = 1;
 	frames = 0;
@@ -1071,6 +1086,9 @@ int main(int argc, char** argv)
 			module->DrawResult((unsigned char*)todraw->imageData, img->width, img->height, 3);
 			DrawStatus(todraw);
 			cvShowImage(msg, todraw);
+			if (writer == NULL)
+				writer = cvCreateVideoWriter("out.avi", CV_FOURCC('D', 'I', 'V', 'X'), 20, cvSize(todraw->width, todraw->height));
+			cvWriteFrame(writer, todraw);
 			SDL_UnlockMutex(mutex);
 		}
 		count++;
@@ -1089,5 +1107,7 @@ int main(int argc, char** argv)
 	cvReleaseCapture(&capture);
 	SDL_DestroyMutex(mutex);
 	SDL_DestroyMutex(pmutex);
+	if (writer != NULL)
+		cvReleaseVideoWriter(&writer);
 	return 0;
 }
